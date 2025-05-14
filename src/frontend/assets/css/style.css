@@ -1,0 +1,227 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #111;
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* ===== Header ===== */
+.main-header {
+  background-color: #000;
+  padding: 0px 30px;
+  border-bottom: 1px solid #ff6600;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.main-header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.logo-img {
+  width: 100px;       
+  height: auto;      
+}
+
+.nav-menu {
+  display: flex;
+  gap: 34px;
+  align-items: center;
+  flex: 1;
+  margin-left: 40px;
+}
+.nav-menu a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+.nav-menu a.active,
+.nav-menu a:hover {
+  color: #ff0000;    
+  font-weight: bold;
+}
+
+
+.dropdown {
+  position: relative;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%; left: 0;
+  background: #111;
+  border: 1px solid #333;
+  padding: 8px 0;
+  min-width: 140px;
+}
+.dropdown-content a {
+  display: block;
+  padding: 6px 20px;
+  color: #ccc;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+.dropdown-content a:hover {
+  background: #222;
+  color: #ff0000;     
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #ccc;
+  cursor: pointer;
+  padding: 6px;
+  transition: color 0.2s;
+}
+.icon-btn:hover {
+  color: #ff0000;    
+}
+
+
+.btn-buy {
+  background-color: #ff3c00;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.btn-buy:hover {
+  background-color: #ff0000;  
+}
+.btn-login {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 15px;
+  transition: color 0.2s;
+}
+.btn-login:hover {
+  color: #ff0000;    
+}
+
+
+/* Banner chính */
+.banner {
+  position: relative;
+  width: 1200px;      
+  max-width: 100%;    
+  margin: 0 auto;      
+  height: 650px; 
+  background: url('../images/slide1.jpg') no-repeat center center;
+  background-size: cover;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.banner-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  padding: 20px;
+  max-width: 90%;
+  box-sizing: border-box;
+}
+
+.banner-content h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.banner-content p {
+  font-size: 18px;
+  color: #ddd;
+}
+
+
+
+/* ===== Movie List ===== */
+.movie-list {
+  padding: 30px;
+}
+.movie-list h2 {
+  margin-bottom: 20px;
+  color: #ff3c00;
+}
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+}
+.movie-card {
+  background: #222;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+.movie-card:hover {
+  transform: scale(1.05);
+}
+.movie-card img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+.movie-card .info {
+  padding: 10px;
+}
+.movie-card .info h3 {
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 5px;
+}
+.movie-card .info p {
+  font-size: 14px;
+  color: #bbb;
+}
+
+/* ===== Footer ===== */
+.main-footer {
+  text-align: center;
+  padding: 20px;
+  background: #222;
+  color: #aaa;
+  margin-top: 30px;
+}
