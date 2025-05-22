@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Movie Project</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      color: #333;
+    }
+    #userInfo {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .admin-section {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Dashboard</h2>
+  <div id="userInfo"></div>
+  <div id="adminSection" class="admin-section" style="display: none;">
+    <h3>Admin Panel</h3>
+    <button onclick="window.location.href='manage-movies.html'">Manage Movies</button>
+    <button onclick="window.location.href='manage-users.html'">Manage Users</button>
+  </div>
+  <button onclick="logout()">Logout</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      window.location.href = 'index.html';
+    } else {
+      document.getElementById('userInfo').textContent = `Welcome, ${user.username}! You are logged in as ${user.role}.`;
+      if (user.role === 'admin') {
+        document.getElementById('adminSection').style.display = 'block';
+      }
+    }
+
+    async function logout() {
+      try {
+        await axios.get(
+          'https://a979-171-249-87-93.ngrok-free.app/movie_project/src/backend/server.php?controller=user&method=logout',
+          { withCredentials: true }
+        );
+        localStorage.removeItem('user');
+        window.location.href = 'index.html';
+      } catch (error) {
+        alert('Error logging out: ' + error.message);
+      }
+    }
+  </script>
+</body>
+</html>
