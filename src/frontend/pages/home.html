@@ -2,91 +2,75 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
+    <title>Trang chủ - Movie On</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <title>Trang chủ - Movie Project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/notifications.css" />
   </head>
   <body>
-    <!--Header-->
-    <header class="main-header">
-      <div class="container">
-        <!-- Logo -->
-        <div class="logo">
-          <img
-            src="../assets/images/logo.png"
-            alt="Movie On"
-            class="logo-img"
-          />
-        </div>
-        <nav class="nav-menu">
-          <a href="#" class="active">Trang chủ</a>
-          <a href="#">Phim lẻ</a>
-          <a href="#">Phim bộ</a>
-          <a href="#">Thể Thao</a>
-          <a href="#">Anime</a>
-          <div class="dropdown">
-            <a href="#">Xem thêm ▾</a>
-            <div class="dropdown-content"></div>
-          </div>
-        </nav>
-        <div class="header-actions">
-          <button type="button" class="icon-btn" aria-label="Search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-          <button type="button" class="icon-btn" aria-label="Notifications">
-            <i class="fa-solid fa-bell"></i>
-          </button>
-          <button type="button" class="btn-buy">Mua gói</button>
-          <a href="#" class="btn-login">Đăng nhập</a>
-        </div>
+    <!-- Header -->
+     <div id="header-placeholder"></div>
+     <script src="../assets/js/load-header.js"></script>
+     
+    <!-- Banner -->
+    <div class="banner">
+      <div class="banner-slider">
+        <img src="../assets/images/slide1.jpg" alt="Slide 1" />
+        <img src="../assets/images/slide2.jpg" alt="Slide 2" />
+        <img src="../assets/images/slide3.jpg" alt="Slide 3" />
+        <img src="../assets/images/slide4.jpg" alt="Slide 4" />
       </div>
-    </header>
+      <button class="banner-arrow left">&#10094;</button>
+      <button class="banner-arrow right">&#10095;</button>
+    </div>
 
-    <!--Banner-->
-   <section class="banner">
-  <div class="banner-overlay"></div>
-  <div class="banner-content">
-    <h1>Website xem phim</h1>
-    <p>Phim hay</p>
-  </div>
+    <!-- Danh sách xem phim -->
+<section class="movie-list">
+    <h2>Mới Ra Mắt</h2>
+    <div class="carousel-container">
+        <button class="arrow-btn left-arrow">❮</button>
+        <div class="movie-grid" id="movieGridNewRelease"></div>
+        <button class="arrow-btn right-arrow">❯</button>
+    </div>
+</section>
+
+<section class="movie-list">
+    <h2>History</h2>
+    <div class="carousel-container">
+        <button class="arrow-btn left-arrow">❮</button>
+        <div class="movie-grid" id="movieGridHistory"></div>
+        <button class="arrow-btn right-arrow">❯</button>
+    </div>
+</section>
+
+<section class="movie-list">
+    <h2>Family</h2>
+    <div class="carousel-container">
+        <button class="arrow-btn left-arrow">❮</button>
+        <div class="movie-grid" id="movieGridFamily"></div>
+        <button class="arrow-btn right-arrow">❯</button>
+    </div>
+</section>
+
+<section class="movie-list">
+    <h2>Animation</h2>
+    <div class="carousel-container">
+        <button class="arrow-btn left-arrow">❮</button>
+        <div class="movie-grid" id="movieGridAnimation"></div>
+        <button class="arrow-btn right-arrow">❯</button>
+    </div>
 </section>
 
 
-    <!--Danh sách xem phim-->
-    <section class="movie-list">
-      <h2>Mới Ra Mắt</h2>
-      <div class="movie-grid" id="movieGrid"></div>
-    </section>
-
-    <section class="movie-list">
-      <h2>Phim Lẻ Hot </h2>
-      <div class="movie-grid" id="movieGrid"></div>
-    </section>
-
-    <section class="movie-list">
-      <h2>Phim Bộ Hot</h2>
-      <div class="movie-grid" id="movieGrid"></div>
-    </section>
-
-    <section class="movie-list">
-      <h2>Anime Hot</h2>
-      <div class="movie-grid" id="movieGrid"></div>
-    </section>
-
-    <section class="movie-list">
-      <h2>Sự Kiện Thể Thao</h2>
-      <div class="movie-grid" id="movieGrid"></div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="main-footer">
-      <p>&copy; 2025 MovieOn.</p>
-    </footer>
-
+<!-- Footer -->
+<div id="footer-placeholder"></div>
     <script src="../assets/js/home.js"></script>
+    <script src="../assets/js/load-footer.js"></script>
+    <script src="../assets/js/notifications.js"></script> 
+    <script src="../assets/js/api.js"></script>
   </body>
 </html>
+
+
+

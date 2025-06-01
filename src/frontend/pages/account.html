@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tài khoản người dùng</title>
+  <link rel="stylesheet" href="../assets/css/account.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/section-footer.css"/>
+  <link rel="stylesheet" href="../assets/css/notifications.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+  <!-- Header -->
+  <div id="header-placeholder"></div>
+  <script src="../assets/js/load-header.js"></script>
+
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <nav class="sidebarr">
+      <h2>Tài khoản người dùng</h2>
+      <a href="#info" class="tab-link active" data-target="info">Thông tin tài khoản</a> 
+      <a href="#history" class="tab-link" data-target="history">Lịch sử xem</a>
+      <a href="#favorites" class="tab-link" data-target="favorites">Quản lý yêu thích</a>
+      <a href="logout.html" id="logoutBtn">Đăng xuất</a>
+    </nav>
+
+    <!-- Main content -->
+    <main class="main">
+      <section class="content" id="info">
+        <div class="profile-header">
+          <h1>Thông tin tài khoản</h1>
+          <p>Chưa có thông tin.</p>
+        </div>
+      </section>
+
+      <section class="content hidden" id="history">
+        <h1>Lịch sử xem</h1>
+        <p>Chưa có nội dung nào.</p>
+      </section>
+
+      <section class="content hidden" id="favorites">
+        <h1>Danh sách yêu thích</h1>
+        <p>Chưa có nội dung yêu thích.</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+  <script src="../assets/js/load-footer.js"></script>
+  <script src="../assets/js/section-footer.js"></script>
+  <script src="../assets/js/account.js"></script>
+</body>
+</html>

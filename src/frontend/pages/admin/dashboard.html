@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../assets/css/admin.css" />
+    <link rel="stylesheet" href="../../assets/js/admin.js" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>Admin Dashboard</title>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <aside>
+      <h2>MOVIE ON</h2>
+      <nav>
+        <a href="#" onclick="showPage('dashboard')">Dashboard</a>
+        <a href="#" onclick="showPage('genres')">Genres</a>
+        <a href="#" onclick="showPage('movies')">Movies</a>
+        <a href="#" onclick="showPage('review')">Review</a>
+        <a href="#" onclick="showPage('users')">Users</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+<header>
+  <h1 id="page-title">Trang tổng quan</h1>
+  <div class="user-menu">
+    <span>Xin chào, admin</span>
+    <i class="fas fa-user" id="userIcon" onclick="toggleLogoutMenu()"></i>
+    <div id="logoutMenu" class="logout-menu hidden">
+      <a href="../home.html">Đăng xuất</a>
+    </div>
+  </div>
+</header>
+
+
+
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="page-section">
+        <div class="stats">
+          <div class="card blue">
+            <h2>0</h2>
+            <p>Tổng số phim</p>
+          </div>
+          <div class="card">
+            <h2>0</h2>
+            <p>Người dùng</p>
+          </div>
+          <div class="card yellow">
+            <h2>0</h2>
+            <p>Đánh giá</p>
+          </div>
+          <div class="card red">
+            <h2>0</h2>
+            <p>Thể Loại</p>
+          </div>
+        </div>
+        <section class="chart-section">
+          <div class="chart">Biểu đồ tổng lượng truy cập</div>
+        </section>
+      </section>
+
+      <!-- Genres Section -->
+      <section id="genres" class="page-section hidden">
+        <form id="addGenreForm">
+          <input
+            type="text"
+            id="genreName"
+            placeholder="Tên thể loại"
+            required
+          />
+          <button type="submit">Thêm</button>
+        </form>
+        <ul id="genreList">
+          <!-- danh sách thể loại trống -->
+        </ul>
+      </section>
+
+      <!-- Movies Section -->
+      <section id="movies" class="page-section hidden">
+        <form id="addMovieForm">
+          <input type="text" id="movieTitle" placeholder="Tên phim" required />
+          <input type="text" id="movieGenre" placeholder="Thể loại" required />
+          <button type="submit">Thêm</button>
+        </form>
+        <ul id="movieList">
+          <!-- danh sách phim trống -->
+        </ul>
+      </section>
+
+      <!-- Review Section -->
+      <section id="review" class="page-section">
+        <label for="filterStars">Bình luận:</label>
+        <select id="filterStars">
+          <option value="all">Tất cả</option>
+          <option value="7">1 tuần trước</option>
+          <option value="30">1 tháng trước</option>
+          <option value="60">2 tháng trước</option>
+          <option value="90">3 tháng trước</option>
+        </select>
+        <ul id="reviewList">
+          <!-- danh sách đánh giá trống -->
+        </ul>
+      </section>
+      
+
+<!-- Users Section -->
+<section id="users" class="page-section">
+  <!-- Thống kê nhanh -->
+  <div id="userStats">
+    <span>Tổng người dùng: <b id="totalUsers">0</b></span> |
+    <span>Mới hôm nay: <b id="newToday">0</b></span> |
+    <span>Tài khoản bị khóa: <b id="lockedUsers">0</b></span>
+  </div>
+
+  <!-- Tìm kiếm và lọc -->
+  <div id="filterControls">
+    <input
+      type="text"
+      id="searchUser"
+      placeholder="Tìm kiếm theo tên, email hoặc số điện thoại"
+      autocomplete="off"
+    />
+    <select id="filterRole" autocomplete="off">
+      <option value="all">Tất cả vai trò</option>
+      <option value="admin">Admin</option>
+      <option value="viewer">Viewer</option>
+    </select>
+    <select id="filterStatus" autocomplete="off">
+      <option value="all">Tất cả trạng thái</option>
+      <option value="active">Hoạt động</option>
+      <option value="locked">Bị khóa</option>
+    </select>
+  </div>
+
+  <!-- Bảng danh sách người dùng -->
+  <table id="userTable" border="1" cellpadding="8" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Tên</th>
+        <th>Email</th>
+        <th>Vai trò</th>
+        <th>Trạng thái</th>
+        <th>Ngày tạo</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- bảng người dùng trống -->
+    </tbody>
+  </table>
+
+  <!-- Form thêm / sửa người dùng -->
+  <div id="userFormContainer">
+    <h3 id="formTitle">Thêm Người Dùng Mới</h3>
+    <form id="userForm" autocomplete="off">
+      <input type="hidden" id="editUserId" />
+      <div>
+        <label for="userName">Họ và tên:</label><br />
+        <input type="text" id="userName" required autocomplete="name" />
+      </div>
+      <div>
+        <label for="userEmail">Email:</label><br />
+        <input type="email" id="userEmail" required autocomplete="email" />
+      </div>
+      <div>
+        <label for="userRole">Vai trò:</label><br />
+        <select id="userRole" required autocomplete="off">
+          <option value="">Chọn vai trò</option>
+          <option value="admin">Admin</option>
+          <option value="viewer">Viewer</option>
+        </select>
+      </div>
+      <div>
+        <label for="userStatus">Trạng thái:</label><br />
+        <select id="userStatus" required autocomplete="off">
+          <option value="active">Hoạt động</option>
+          <option value="locked">Bị khóa</option>
+        </select>
+      </div>
+      <div>
+        <label for="userPassword">Mật khẩu:</label><br />
+        <input
+          type="password"
+          id="userPassword"
+          placeholder="Nhập mật khẩu"
+          autocomplete="new-password"
+        />
+      </div>
+      <button type="submit">Lưu</button>
+      <button type="button" id="cancelEdit" style="display: none">Hủy</button>
+    </form>
+  </div>
+</section>
+
+    </div>
+    <script src="../../assets/js/admin.js"></script>
+  </body>
+</html>

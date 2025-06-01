@@ -1,0 +1,93 @@
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wrapper layout */
+.wrapper {
+  display: flex;
+  flex: 1;
+  padding: 40px 20px;
+}
+
+/* Sidebar - không dùng fixed */
+.sidebarr {
+  width: 300px;
+  padding: 40px 30px;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: -120px;
+  margin-left: 130px;
+}
+
+
+.sidebarr h2 {
+  font-size: 22px;
+  color: #fff;
+  margin: 60px 0 30px;
+  
+}
+
+.sidebarr a {
+  color: #aaa;
+  text-decoration: none;
+  padding: 8px 0 8px 12px;
+  border-left: 2px solid transparent;
+  transition: all 0.3s ease;
+  font-size: 16px;
+ 
+}
+
+.sidebarr a:hover,
+.sidebarr a.active {
+  color: #fff;
+  border-left: 1px solid #fff;
+}
+
+.sidebarr a:last-child {
+  border-top: 1px solid #333;
+  width: 180px;
+  padding-top: 15px;
+  margin-top: 15px;
+}
+
+
+/* Main content */
+.main {
+  flex: 1;
+  margin-left: 30px;
+  padding: 40px;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Content section */
+.content {
+  width: 100%;
+}
+
+.content.hidden {
+  display: none;
+}
+
+
+#history p,
+#favorites p,
+.profile-header p {
+  color: #ccc;
+  border-top: 1px solid #333;
+  font-size: 16px;
+  margin-top: 20px;     
+  width: 850px;             
+  text-align: center;
+}

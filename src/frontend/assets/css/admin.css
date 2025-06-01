@@ -1,0 +1,852 @@
+
+    :root {
+      --dark: #2c3e50;
+      --light-dark: #34495e;
+      --blue: #3498db;
+      --yellow: #f1c40f;
+      --red: #e74c3c;
+      --light-gray: #f4f4f4;
+      --white: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      background-color: var(--light-gray);
+      min-height: 100vh;
+    }
+.stats .card {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stats .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card.active {
+  border: 2px solid black;
+}
+
+    /* Sidebar */
+    aside {
+      width: 220px;
+      background-color: var(--dark);
+      color: var(--white);
+      padding: 1rem;
+    }
+
+    aside h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    aside nav a {
+      display: block;
+      padding: 0.75rem;
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    aside nav a:hover {
+      background-color: var(--light-dark);
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--white);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      padding: 1.5rem 2rem;
+    }
+
+    .card {
+      background-color: var(--white);
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: #555;
+    }
+
+    .card.blue {
+      background-color: var(--blue);
+      color: white;
+    }
+
+    .card.yellow {
+      background-color: var(--yellow);
+      color: white;
+    }
+
+    .card.red {
+      background-color: var(--red);
+      color: white;
+    }
+
+    /* Chart placeholder */
+    .chart-section {
+      padding: 1rem 2rem;
+    }
+
+    .chart {
+      height: 450px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-style: italic;
+      color: gray;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      aside {
+        display: none;
+      }
+
+      .main-content {
+        width: 100%;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+   }
+
+
+/* GENRES.CSS*/
+ .hidden { display: none; }
+    .active-link { background-color: #34495e; color: white; border-radius: 5px; }
+    aside nav a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: white;
+    }
+    aside nav a:hover {
+      background-color: #2c3e50;
+    }
+
+    
+
+/* --- Genres Section --- */
+#genres {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 90%;
+  width: 100%;
+  margin: 0;
+}
+
+#genres h2 {
+  margin-bottom: 16px;
+  color: #333;
+  font-size: 28px;
+  text-align: left;
+}
+
+/* Form thêm thể loại */
+#addGenreForm {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#addGenreForm input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  min-width: 400px;
+  max-width: 100%;
+}
+
+#addGenreForm button {
+  padding: 12px 24px;
+  background-color: #2980b9;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#addGenreForm button:hover {
+  background-color: #1c6691;
+}
+
+/* Danh sách thể loại */
+#genreList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#genreList li {
+  background-color: #fff;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  font-size: 16px;
+}
+
+#genreList li:hover {
+  transform: scale(1.01);
+}
+
+#genreList li button {
+  margin-left: 10px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#genreList li * {
+  font-weight: normal !important;
+}
+
+
+/* Nút Sửa */
+#genreList li button:first-of-type {
+  background-color: #f39c12;
+  color: white;
+}
+
+#genreList li button:first-of-type:hover {
+  background-color: #d68910;
+}
+
+/* Nút Xoá */
+#genreList li button:last-of-type {
+  background-color: #e74c3c;
+  color: white;
+}
+
+#genreList li button:last-of-type:hover {
+  background-color: #c0392b;
+}
+
+
+
+/* --- Movies Section --- */
+#movies {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 90%;
+  width: 100%;
+  margin: 0;
+}
+
+#movies h2 {
+  margin-bottom: 16px;
+  color: #333;
+  font-size: 28px;
+  text-align: left;
+}
+
+/* Form thêm phim */
+#addMovieForm {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#addMovieForm input {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  min-width: 300px;
+  max-width: 100%;
+}
+
+#addMovieForm button {
+  padding: 12px 24px;
+  background-color: var(--blue);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#addMovieForm button:hover {
+  background-color: #2471a3;
+}
+
+/* Danh sách phim */
+#movieList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#movieList li {
+  background-color: #fff;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  font-size: 16px;
+}
+#movieList li * {
+  font-weight: normal !important;
+}
+
+#movieList li:hover {
+  transform: scale(1.01);
+}
+
+#movieList li span {
+  flex: 1;
+  font-weight: bold;
+}
+
+#movieList li .genre-tag {
+  margin-left: 12px;
+  font-size: 14px;
+  background-color: var(--light-dark);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Nút Sửa/Xóa phim */
+#movieList li button {
+  margin-left:10px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.editMovieBtn {
+  background-color: #f39c12;
+  color: white;
+}
+
+.editMovieBtn:hover {
+  background-color: #d68910;
+}
+
+.deleteMovieBtn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.deleteMovieBtn:hover {
+  background-color: #c0392b;
+}
+
+
+/* --- Review Section --- */
+#review {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 90%;
+  width: 100%;
+  margin: 0 0 40px 0; 
+  font-family: Arial, sans-serif;
+  color: #333;
+  text-align: left; 
+}
+
+#review label[for="filterStars"] {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#filterStars {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  min-width: 160px;
+  cursor: pointer;
+}
+
+/* Danh sách đánh giá */
+#reviewList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#reviewList li {
+  background-color: #fff;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease;
+}
+
+#reviewList li:hover {
+  transform: scale(1.02);
+}
+
+/* Header đánh giá: tên người + số sao */
+.review-header {
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #222;
+}
+
+.review-rating {
+  color: #f39c12; /* màu vàng sao */
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+/* Nội dung đánh giá */
+.review-content {
+  font-weight: normal !important;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* Trạng thái phê duyệt (nếu có) */
+.review-status {
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* Nhóm nút Sửa, Xóa, Phê duyệt */
+.button-group {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Các nút hành động */
+.button-group button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  color: white;
+}
+
+/* Nút Sửa */
+.editReviewBtn {
+  background-color: #f39c12;
+}
+
+.editReviewBtn:hover {
+  background-color: #d68910;
+}
+
+/* Nút Xóa */
+.deleteReviewBtn {
+  background-color: #e74c3c;
+}
+
+.deleteReviewBtn:hover {
+  background-color: #c0392b;
+}
+
+/* Nút Phê duyệt */
+.approveReviewBtn {
+  background-color: #27ae60;
+}
+
+.approveReviewBtn:hover {
+  background-color: #1e8449;
+}
+/* Nút Lưu */
+.saveReviewBtn {
+  background-color: #2980b9;
+}
+
+.saveReviewBtn:hover {
+  background-color: #1c6691;
+}
+
+
+/*USER*/
+
+#users {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 90%;      /* chiều rộng tối đa 90% */
+  width: 100%;         /* chiều rộng mặc định 100% */
+  margin: 0 0 40px 0;  /* trên 0, phải 0, dưới 40px, trái 0 (sát trái) */
+  font-family: Arial, sans-serif;
+  color: #333;
+  text-align: left;
+  box-sizing: border-box; /* tính padding vào kích thước */
+}
+
+/* Thống kê nhanh */
+#userStats {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+#userStats b {
+  color: #2c3e50;
+}
+
+
+/* Khung tìm kiếm và lọc */
+#filterControls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+#filterControls input[type="text"],
+#filterControls select {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  min-width: 180px;
+  max-width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+#searchUser {
+  width: 450px;
+  flex: none;
+}
+
+
+#filterControls input[type="text"],
+#filterControls select {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  min-width: 180px;
+  max-width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Bảng danh sách người dùng */
+#userTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+#userTable thead {
+  background-color: #34495e;
+  color: white;
+}
+
+#userTable th, #userTable td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+
+#userTable tbody tr:hover {
+  background-color: #ecf0f1;
+}
+
+/* Nút hành động */
+.action-btn {
+  margin-right: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.editBtn {
+  background-color: #f39c12;
+}
+
+.editBtn:hover {
+  background-color: #d68910;
+}
+
+.deleteBtn {
+  background-color: #e74c3c;
+}
+
+.deleteBtn:hover {
+  background-color: #c0392b;
+}
+
+/* Container form */
+#userFormContainer {
+  margin-top: 40px;
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  max-width: 800px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  color: #2c3e50;
+}
+
+/* Tiêu đề form */
+#userFormContainer h3 {
+  margin-bottom: 30px;
+  color: #34495e;
+  font-weight: 700;
+  font-size: 22px;
+  text-align: center;
+}
+
+/* Bố cục 2 cột */
+#userForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 40px; /* dòng, cột */
+}
+
+/* Một form group */
+#userForm div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label */
+#userForm label {
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* Input và select */
+#userForm input[type="text"],
+#userForm input[type="email"],
+#userForm input[type="password"],
+#userForm select {
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  min-width: 100px;
+  margin-top: -15px;
+}
+
+#userForm input:focus,
+#userForm select:focus {
+  border-color: #2980b9;
+  outline: none;
+}
+
+/* Nút Lưu */
+#userForm button[type="submit"] {
+  margin-top: 5px;
+  margin-right: 270px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #2980b9;
+  transition: background-color 0.3s ease;
+  width: fit-content;
+   height: 40px !important;        
+  line-height: 40px !important;   
+  padding: 0 16px !important;      
+  font-size: 14px !important;
+  display: inline-block !important;
+  box-sizing: border-box !important;
+  
+}
+
+#userForm button[type="submit"]:hover {
+  background-color: #1c5980;
+}
+
+/* Nút Hủy */
+#userForm button#cancelEdit {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #95a5a6;
+  transition: background-color 0.3s ease;
+  width: fit-content;
+}
+
+#userForm button#cancelEdit:hover {
+  background-color: #7f8c8d;
+}
+
+
+
+/* Nút Hủy */
+#cancelEdit {
+  background-color: #95a5a6 !important;
+}
+
+#cancelEdit:hover {
+  background-color: #7f8c8d !important;
+}
+
+#userForm button:hover {
+  background-color: #1c5980;
+}
+
+/* Responsive: chuyển thành 1 cột trên màn nhỏ */
+@media (max-width: 700px) {
+  #userForm {
+    grid-template-columns: 1fr;
+  }
+
+  #userForm button[type="submit"],
+  #userForm button[type="button"] {
+    grid-column: span 1;
+  }
+}
+
+
+.user-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.logout-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: none; /* Ẩn mặc định */
+}
+
+.user-menu:hover .logout-menu {
+  display: block; /* Hover sẽ hiện menu */
+}
+
+.user-menu:hover #userIcon {
+  color: red; /* Hover sẽ đổi màu đỏ */
+}
+
+.logout-menu a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+
+.logout-menu.hidden {
+  display: none;
+}
+
+.logout-menu a:hover {
+  color: #ff0000;
+}
+/* Mặc định màu xám */
+#userIcon {
+  color: #555;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+/* Khi hover vào icon */
+#userIcon:hover {
+  color: #ff0000;
+}
+
+
+#userIcon.active {
+  color: black;
+}

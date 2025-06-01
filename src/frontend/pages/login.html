@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng nhập - Movie On</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2>Đăng Nhập</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Số điện thoại hoặc Email</label>
+        <input type="text" id="username" name="username" autocomplete="username"/>
+        <div class="error-message" id="username-error"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <div class="input-with-icon">
+          <input type="password" id="password" name="password" autocomplete="current-password" />
+          <i class="fa-solid fa-eye toggle-password"></i>
+        </div>
+        <div class="error-message" id="password-error"></div>
+      </div>
+
+      <div class="form-group horizontal-options">
+        <label>
+          <input type="checkbox" id="rememberMe" name="rememberMe" />
+          Nhớ mật khẩu
+        </label>
+        <a href="forgot-password.html" class="forgot-password-link">Quên mật khẩu?</a>
+      </div>
+
+      <button type="submit" class="login-button">Đăng nhập</button>
+    </form>
+    <div class="login-footer">
+      <p>Chưa có tài khoản? <a href="register.html">Đăng ký</a></p>
+    </div>
+  </div>
+
+  <script src="../assets/js/login.js"></script>
+  
+</body>
+</html>

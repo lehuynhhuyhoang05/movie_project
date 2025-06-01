@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phim theo thể loại</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/genre.css" />
+    <link rel="stylesheet" href="../assets/css/notifications.css" />
+</head>
+<body>
+     <!-- Header -->
+     <div id="header-placeholder"></div>
+     <script src="../assets/js/load-header.js"></script>
+
+
+  <h1 id="genreTitle">Đang tải thể loại...</h1>
+  <div id="genre-movies"></div>
+
+  <script>
+    async function getAllMovies() {
+      const res = await fetch("http://movieon.atwebpages.com/src/backend/server.php?controller=movie&method=index");
+      const data = await res.json();
+      return data;
+    }
+
+    async function getMoviesByGenre(id) {
+      const allMovies = await getAllMovies();
+      if (allMovies.status !== "success") return [];
+      return allMovies.data.filter(movie => movie.genre_id == id);
+    }
+
+    function renderMoviesByGenre(movies, genreName) {
+      document.getElementById("genreTitle").textContent = `Thể loại: ${genreName || 'Không rõ'}`;
+      const container = document.getElementById("genre-movies");
+
+      if (!movies || movies.length === 0) {
+        container.innerHTML = "<p>Không có phim nào thuộc thể loại này.</p>";
+        return;
+      }
+
+container.innerHTML = movies.map(movie => `
+  <div class="movie-card">
+    <a href="details.html?id=${movie.id}">
+      <img src="${movie.poster_url || '../assets/images/default-poster.jpg'}" alt="${movie.title}" />
+    </a>
+    <div class="movie-info">
+      <h3>${movie.title || 'Không có tiêu đề'}</h3>
+      <p class="description">${movie.description ? movie.description.substring(0, 50) + '...' : 'Không có mô tả'}</p>
+      <p class="movie-genre">Thể loại: ${movie.genre_name || movie.genre || 'Không rõ'}</p>
+      <p class="rating">${movie.imdb_rating || 'N/A'}</p>
+    </div>
+    <button onclick="location.href='details.html?id=${movie.id}'" class="movie-btn">Xem ngay</button>
+  </div>
+`).join('');
+
+
+    }
+
+    window.onload = async function () {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      if (!id) {
+        document.getElementById("genreTitle").textContent = "Không có ID thể loại.";
+        return;
+      }
+
+      // Tạm thời lấy tên thể loại từ param hoặc bạn có thể fetch thêm API genre để lấy tên
+      const genreMap = {
+  28: "Action",
+  12: "Adventure",
+  16: "Animation",
+  35: "Comedy",
+  80: "Crime",
+  99: "Documentary",
+  36: "History",
+  10751: "Family",
+  14: "Fantasy",
+  18: "Drama",
+  // Thêm các ID khác nếu cần
+};
+
+const genreName = genreMap[id] || `ID ${id}`;
+
+
+      const movies = await getMoviesByGenre(id);
+      renderMoviesByGenre(movies, genreName);
+    };
+  </script>
+  <!-- Footer -->
+<div id="footer-placeholder"></div>
+    <script src="../assets/js/load-footer.js"></script>
+    <script src="../assets/js/notifications.js"></script> 
+</body>
+</html>

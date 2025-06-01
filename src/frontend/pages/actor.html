@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thông Tin Diễn Viên</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/notifications.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .actor-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .actor-photo {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .actor-name {
+      font-size: 24px;
+      margin-top: 10px;
+    }
+
+    .movie-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .movie-card {
+      width: 160px;
+      text-align: center;
+    }
+
+    .movie-card img {
+      width: 100%;
+      border-radius: 8px;
+      transition: transform 0.2s;
+    }
+
+    .movie-card img:hover {
+      transform: scale(1.05);
+    }
+
+    .movie-title {
+      margin-top: 8px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div id="header-placeholder"></div>
+  <script src="../assets/js/load-header.js"></script>
+
+  <!-- Thông tin diễn viên -->
+  <div class="actor-header">
+    <img id="actor-photo" class="actor-photo" alt="Ảnh diễn viên" />
+    <h1 id="actor-name" class="actor-name"></h1>
+  </div>
+
+  <!-- Danh sách phim -->
+  <div id="movie-list" class="movie-list">
+    <!-- Phim sẽ được render bằng JS -->
+  </div>
+
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+  <script src="../assets/js/home.js"></script>
+  <script src="../assets/js/actor.js"></script>
+  <script src="../assets/js/load-footer.js"></script>
+  <script src="../assets/js/notifications.js"></script>
+
+</body>
+</html>
