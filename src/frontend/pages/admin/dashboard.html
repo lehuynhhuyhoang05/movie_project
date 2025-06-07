@@ -14,14 +14,16 @@
   <body>
     <!-- Sidebar -->
     <aside>
-      <h2>MOVIE ON</h2>
+      <h2>
+       <a href="/src/frontend/pages/home.html" onclick="showPage('home')" style="text-decoration: none; color: inherit;">MOVIE ON</a>
+     </h2>
       <nav>
-        <a href="#" onclick="showPage('dashboard')">Dashboard</a>
-        <a href="#" onclick="showPage('genres')">Genres</a>
-        <a href="#" onclick="showPage('movies')">Movies</a>
-        <a href="#" onclick="showPage('review')">Review</a>
-        <a href="#" onclick="showPage('users')">Users</a>
+        <a href="#" onclick="showPage('dashboard')">Trang tổng quan</a>
+        <a href="#" onclick="showPage('genres')">Quản lý thể loại</a>
+        <a href="#" onclick="showPage('movies')">Quản lý phim</a>
+        <a href="#" onclick="showPage('users')">Quản lý người dùng</a>
       </nav>
+       <button id="backToAdminBtn" style="display:none; margin-top: 10px;" onclick="showPage('dashboard'); toggleBackToAdmin(false)">Trở về trang Admin
     </aside>
 
     <!-- Main Content -->
@@ -32,13 +34,10 @@
     <span>Xin chào, admin</span>
     <i class="fas fa-user" id="userIcon" onclick="toggleLogoutMenu()"></i>
     <div id="logoutMenu" class="logout-menu hidden">
-      <a href="../home.html">Đăng xuất</a>
+      <a href="../logout.html">Đăng xuất</a>
     </div>
   </div>
 </header>
-
-
-
       <!-- Dashboard Section -->
       <section id="dashboard" class="page-section">
         <div class="stats">
@@ -50,17 +49,13 @@
             <h2>0</h2>
             <p>Người dùng</p>
           </div>
-          <div class="card yellow">
-            <h2>0</h2>
-            <p>Đánh giá</p>
-          </div>
           <div class="card red">
             <h2>0</h2>
             <p>Thể Loại</p>
           </div>
         </div>
         <section class="chart-section">
-          <div class="chart">Biểu đồ tổng lượng truy cập</div>
+          <div class="chart">Biểu đồ tổng quát</div>
         </section>
       </section>
 
@@ -80,33 +75,27 @@
         </ul>
       </section>
 
-      <!-- Movies Section -->
-      <section id="movies" class="page-section hidden">
-        <form id="addMovieForm">
-          <input type="text" id="movieTitle" placeholder="Tên phim" required />
-          <input type="text" id="movieGenre" placeholder="Thể loại" required />
-          <button type="submit">Thêm</button>
-        </form>
-        <ul id="movieList">
-          <!-- danh sách phim trống -->
-        </ul>
-      </section>
+<!-- Movies Section -->
+<section id="movies" class="page-section hidden">
+  <form id="addMovieForm">
+    <input type="text" id="movieTitle" placeholder="Tên phim" required />
+    <input type="text" id="movieGenre" placeholder="Thể loại" required />
+    <button type="submit">Thêm</button>
+  </form>
 
-      <!-- Review Section -->
-      <section id="review" class="page-section">
-        <label for="filterStars">Bình luận:</label>
-        <select id="filterStars">
-          <option value="all">Tất cả</option>
-          <option value="7">1 tuần trước</option>
-          <option value="30">1 tháng trước</option>
-          <option value="60">2 tháng trước</option>
-          <option value="90">3 tháng trước</option>
-        </select>
-        <ul id="reviewList">
-          <!-- danh sách đánh giá trống -->
-        </ul>
-      </section>
-      
+  <!-- Ô input tìm kiếm và nút tìm kiếm -->
+  <div style="margin: 10px 0; display: flex; gap: 8px; max-width: 400px;">
+    <input
+      type="text"
+      id="searchMoviesInput" placeholder="Tìm kiếm phim theo tên" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"/>
+    <button id="searchMoviesBtn" type="button" style="padding: 10px 16px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer;">Tìm kiếm</button>
+  </div>
+  <ul id="movieList">
+    <!-- danh sách phim trống -->
+  </ul>
+</section>
+
+
 
 <!-- Users Section -->
 <section id="users" class="page-section">
@@ -114,7 +103,6 @@
   <div id="userStats">
     <span>Tổng người dùng: <b id="totalUsers">0</b></span> |
     <span>Mới hôm nay: <b id="newToday">0</b></span> |
-    <span>Tài khoản bị khóa: <b id="lockedUsers">0</b></span>
   </div>
 
   <!-- Tìm kiếm và lọc -->
@@ -128,12 +116,7 @@
     <select id="filterRole" autocomplete="off">
       <option value="all">Tất cả vai trò</option>
       <option value="admin">Admin</option>
-      <option value="viewer">Viewer</option>
-    </select>
-    <select id="filterStatus" autocomplete="off">
-      <option value="all">Tất cả trạng thái</option>
-      <option value="active">Hoạt động</option>
-      <option value="locked">Bị khóa</option>
+      <option value="user">User</option>
     </select>
   </div>
 
@@ -144,7 +127,6 @@
         <th>Tên</th>
         <th>Email</th>
         <th>Vai trò</th>
-        <th>Trạng thái</th>
         <th>Ngày tạo</th>
         <th>Hành động</th>
       </tr>
@@ -172,14 +154,7 @@
         <select id="userRole" required autocomplete="off">
           <option value="">Chọn vai trò</option>
           <option value="admin">Admin</option>
-          <option value="viewer">Viewer</option>
-        </select>
-      </div>
-      <div>
-        <label for="userStatus">Trạng thái:</label><br />
-        <select id="userStatus" required autocomplete="off">
-          <option value="active">Hoạt động</option>
-          <option value="locked">Bị khóa</option>
+          <option value="user">User</option>
         </select>
       </div>
       <div>
@@ -192,12 +167,16 @@
         />
       </div>
       <button type="submit">Lưu</button>
-      <button type="button" id="cancelEdit" style="display: none">Hủy</button>
+      <button type="button" id="cancelEdit" style="display: none;">Hủy</button>
     </form>
   </div>
 </section>
 
     </div>
     <script src="../../assets/js/admin.js"></script>
+    <script src="../../assets/js/user-admin.js"></script>
+    <script src="../../assets/js/movie-admin.js"></script>
+    <script src="../../assets/js/genres-admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </body>
 </html>
