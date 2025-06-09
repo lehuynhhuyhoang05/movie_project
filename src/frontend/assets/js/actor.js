@@ -1,49 +1,43 @@
-async function getMoviesByActor(actorId) {
-  const res = await fetch(`http://movieon.atwebpages.com/src/backend/server.php?controller=movie&method=getByActor&actor_id=${actorId}`);
-  if (!res.ok) return [];
-  const result = await res.json();
-  return result.data || [];
-}
+document.addEventListener('DOMContentLoaded', () => {
+  loadAllActors();
+});
 
-async function getActorsWithMovies() {
+async function loadAllActors() {
+  const url = `http://movieon.atwebpages.com/src/backend/server.php?controller=actor&method=index`;
+
   try {
-    const res = await fetch('http://movieon.atwebpages.com/src/backend/server.php?controller=actor&method=index');
-    if (!res.ok) throw new Error('HTTP error ' + res.status);
-    const data = await res.json();
-    const actors = data.data || [];
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Lỗi khi gọi API');
 
-    for (const actor of actors) {
-      actor.movies = await getMoviesByActor(actor.id);
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      renderActorList(data.data); // danh sách diễn viên
+    } else {
+      console.error('Lỗi từ server:', data.message);
     }
-
-    return actors;
-  } catch (e) {
-    console.error(e);
-    return [];
+  } catch (error) {
+    console.error('Lỗi khi fetch danh sách diễn viên:', error.message);
   }
 }
 
-// Hiển thị danh sách diễn viên và phim
-function renderActors(actors) {
-  const container = document.getElementById('actors-list');
+function renderActorList(actors) {
+  const container = document.getElementById('movie-list');
   if (!container) return;
 
-  container.innerHTML = actors.map(actor => `
-    <div class="actor-card" style="border: 1px solid #ddd; padding: 10px; border-radius: 8px; width: 200px; margin: 10px;">
-      <img src="${actor.profile_url || '../assets/images/default-actor.jpg'}" alt="${actor.name}" style="width: 100%; height: auto; border-radius: 8px;">
-      <h3 style="margin: 10px 0 5px;">${actor.name}</h3>
-      <p><strong>Phim đã đóng:</strong></p>
-      <ul style="padding-left: 20px; font-size: 14px;">
-        ${actor.movies && actor.movies.length > 0
-          ? actor.movies.map(m => `<li><a href="movie-detail.html?id=${m.id}" style="color: #e50914;">${m.title}</a></li>`).join('')
-          : '<li>Chưa có phim</li>'}
-      </ul>
+  // Lọc ra những diễn viên có ảnh
+  const filteredActors = actors.filter(actor => actor.profile_url && actor.profile_url.trim() !== '');
+
+  if (filteredActors.length === 0) {
+    container.innerHTML = `<p>Không có diễn viên nào có ảnh để hiển thị.</p>`;
+    return;
+  }
+
+  container.innerHTML = filteredActors.map(actor => `
+    <div class="actor-card">
+      <img src="${actor.profile_url}" alt="${actor.name}" />
+      <h3>${actor.name}</h3>
+      <button onclick="location.href='actor-details.html?actor_id=${actor.id}'">Xem chi tiết</button>
     </div>
   `).join('');
 }
-
-// Khi load trang
-window.onload = async function () {
-  const actors = await getActorsWithMovies();
-  renderActors(actors);
-};
