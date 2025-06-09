@@ -21,11 +21,15 @@
       background-color: var(--light-gray);
       min-height: 100vh;
     }
+
 .stats .card {
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-
+.card:nth-child(2) { 
+  background: #f1c40f; 
+  color: white;
+}
 .stats .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
@@ -35,8 +39,14 @@
   border: 2px solid black;
 }
 
-    /* Sidebar */
-    aside {
+.card p {
+  font-size: 16px;    
+  font-weight: 400;    
+  color: white ;           
+}
+
+/* Sidebar */
+aside {
       width: 220px;
       background-color: var(--dark);
       color: var(--white);
@@ -99,11 +109,7 @@
       font-size: 1.8rem;
       margin-bottom: 0.5rem;
     }
-
-    .card p {
-      color: #555;
-    }
-
+    
     .card.blue {
       background-color: var(--blue);
       color: white;
@@ -401,6 +407,9 @@
   background-color: #c0392b;
 }
 
+  #searchMoviesBtn:hover {
+    background-color: #ccc;
+  }
 
 /* --- Review Section --- */
 #review {
@@ -566,7 +575,6 @@
   color: #2c3e50;
 }
 
-
 /* Khung tìm kiếm và lọc */
 #filterControls {
   display: flex;
@@ -590,19 +598,6 @@
 #searchUser {
   width: 450px;
   flex: none;
-}
-
-
-#filterControls input[type="text"],
-#filterControls select {
-  padding: 8px 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  min-width: 180px;
-  max-width: 100%;
-  cursor: pointer;
-  box-sizing: border-box;
 }
 
 /* Bảng danh sách người dùng */
@@ -726,9 +721,9 @@
 /* Nút Lưu */
 #userForm button[type="submit"] {
   margin-top: 5px;
-  margin-right: 270px;
-  padding: 10px 20px;
-  font-size: 14px;
+  margin-right: 10px; /* giảm từ 270px xuống 10px */
+  padding: 0 16px !important;
+  font-size: 14px !important;
   font-weight: 600;
   border: none;
   border-radius: 8px;
@@ -737,13 +732,10 @@
   background-color: #2980b9;
   transition: background-color 0.3s ease;
   width: fit-content;
-   height: 40px !important;        
-  line-height: 40px !important;   
-  padding: 0 16px !important;      
-  font-size: 14px !important;
+  height: 40px !important;
+  line-height: 40px !important;
   display: inline-block !important;
   box-sizing: border-box !important;
-  
 }
 
 #userForm button[type="submit"]:hover {
@@ -751,7 +743,8 @@
 }
 
 /* Nút Hủy */
-#userForm button#cancelEdit {
+#userForm button#cancelEdit,
+#cancelEdit {
   padding: 10px 20px;
   font-size: 14px;
   font-weight: 600;
@@ -759,29 +752,18 @@
   border-radius: 8px;
   cursor: pointer;
   color: #fff;
-  background-color: #95a5a6;
+  background-color: #95a5a6 !important;
   transition: background-color 0.3s ease;
   width: fit-content;
+  display: inline-block;
+  margin-top: 5px; /* đồng bộ với nút Lưu */
 }
 
-#userForm button#cancelEdit:hover {
-  background-color: #7f8c8d;
-}
-
-
-
-/* Nút Hủy */
-#cancelEdit {
-  background-color: #95a5a6 !important;
-}
-
+#userForm button#cancelEdit:hover,
 #cancelEdit:hover {
   background-color: #7f8c8d !important;
 }
 
-#userForm button:hover {
-  background-color: #1c5980;
-}
 
 /* Responsive: chuyển thành 1 cột trên màn nhỏ */
 @media (max-width: 700px) {
@@ -795,7 +777,7 @@
   }
 }
 
-
+/* User menu */
 .user-menu {
   position: relative;
   display: inline-block;
@@ -827,13 +809,10 @@
   display: block;
 }
 
-.logout-menu.hidden {
-  display: none;
+.logout-menu a:hover {
+  color: #b20710;
 }
 
-.logout-menu a:hover {
-  color: #ff0000;
-}
 /* Mặc định màu xám */
 #userIcon {
   color: #555;
@@ -843,10 +822,11 @@
 
 /* Khi hover vào icon */
 #userIcon:hover {
-  color: #ff0000;
+  color: #b20710;
 }
-
 
 #userIcon.active {
   color: black;
 }
+
+
