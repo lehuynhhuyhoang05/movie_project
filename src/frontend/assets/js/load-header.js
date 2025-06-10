@@ -81,6 +81,30 @@ function fetchGenres() {
       }
       const genres = result.data;
 
+      // Map tên thể loại tiếng Anh sang tiếng Việt
+const genreNameMapVi = {
+  "Action": "Hành động",
+  "Adventure": "Phiêu lưu",
+  "Animation": "Hoạt hình",
+  "Comedy": "Hài",
+  "Crime": "Tội phạm",
+  "Documentary": "Tài liệu",
+  "History": "Lịch sử",
+  "Family": "Gia đình",
+  "Fantasy": "Giả tưởng",
+  "Drama": "Chính kịch",
+  "Horror": "Kinh dị",
+  "Music": "Âm nhạc",
+  "Mystery": "Bí ẩn",
+  "Romance": "Lãng mạn",
+  "Science Fiction": "Khoa học viễn tưởng",
+  "Thriller": "Gây cấn",
+  "War": "Chiến tranh",
+  "Western": "Cao bồi viễn tây",
+  "TV Movie": "Phim truyền hình"
+};
+
+
       const columns = [[], []];
       genres.forEach((genre, index) => {
         columns[index % 2].push(genre);
@@ -95,7 +119,10 @@ function fetchGenres() {
           colGenres.forEach(genre => {
             const a = document.createElement("a");
             a.href = `genre.html?id=${genre.id}`;
-            a.textContent = genre.name;
+
+            // Đổi tên tiếng Anh sang tiếng Việt nếu có
+            a.textContent = genreNameMapVi[genre.name] || genre.name || "Không rõ";
+
             colDiv.appendChild(a);
           });
           dropdownContent.appendChild(colDiv);
@@ -107,22 +134,22 @@ function fetchGenres() {
     });
 }
 
+
 // Highlight menu tương ứng với trang hiện tại (bao gồm cả nút search)
 function highlightMenu() {
   const currentPath = window.location.pathname.split("/").pop();
 
-  // Lấy param URL (nếu có)
   const urlParams = new URLSearchParams(window.location.search);
 
-  // Highlight các link trong nav-menu
   document.querySelectorAll(".nav-menu a").forEach(link => {
     const href = link.getAttribute("href");
-    const hrefPath = href.split("?")[0]; // Lấy phần path trước dấu hỏi
+    const hrefPath = href.split("?")[0];
 
-    // Nếu đang ở trang details.html và link là genre.html thì vẫn highlight nếu có id param
+    // Highlight "Diễn viên" khi vào actor.html hoặc actor-detail.html
     if (
       (currentPath === hrefPath) ||
-      (currentPath === "details.html" && hrefPath === "genre.html" && urlParams.has("id"))
+      (currentPath === "details.html" && hrefPath === "genre.html" && urlParams.has("id")) ||
+      ( (currentPath === "actor-detail.html" || currentPath === "actor.html") && hrefPath === "actor.html")
     ) {
       link.classList.add("active");
     } else {
@@ -140,3 +167,4 @@ function highlightMenu() {
     }
   });
 }
+
