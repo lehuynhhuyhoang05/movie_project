@@ -10,6 +10,29 @@ const movieListContainer = document.querySelector(".left .movie-list"); // vùng
 const topSearchContainer = document.querySelector(".right");
 const suggestionBox = document.querySelector(".suggestion-box");
 
+const genreTranslation = {
+  "Action": "Hành động",
+  "Adventure": "Phiêu lưu",
+  "Animation": "Hoạt hình",
+  "Comedy": "Hài",
+  "Crime": "Tội phạm",
+  "Documentary": "Tài liệu",
+  "Drama": "Chính kịch",
+  "Family": "Gia đình",
+  "Fantasy": "Giả tưởng",
+  "History": "Lịch sử",
+  "Horror": "Kinh dị",
+  "Music": "Âm nhạc",
+  "Mystery": "Bí ẩn",
+  "Romance": "Lãng mạn",
+  "Science Fiction": "Khoa học viễn tưởng",
+  "Thriller": "Gây cấn",
+  "War": "Chiến tranh",
+  "Western": "Cao bồi viễn tây",
+  "TV Movie": "Phim truyền hình"
+};
+
+
 // Hàm gọi API lấy phim xu hướng (index)
 async function loadTrendingMovies() {
   try {
@@ -28,6 +51,7 @@ async function loadTrendingMovies() {
     console.error(error);
   }
 }
+
 
 // Hàm gọi API tìm kiếm phim theo từ khóa
 async function searchMovies(keyword) {
@@ -93,7 +117,7 @@ function renderMovies(movies) {
       />
       <div class="movie-info" style="margin-left: 15px;">
         <h3>${movie.title}</h3>
-        <p>${movie.release_date || "N/A"} • ${movie.genre_name || "N/A"}</p>
+        <p>${movie.release_date || "N/A"} • ${ genreTranslation[movie.genre_name] || movie.genre_name || "N/A"}</p>
       </div>
     </div>
   `
@@ -124,7 +148,7 @@ function renderSearchResults(movies) {
         />
         <div class="movie-info" style="margin-left: 15px;">
           <h3>${movie.title}</h3>
-          <p>${movie.release_date || "N/A"} • ${movie.genre_name || "N/A"}</p>
+          <p>${movie.release_date || "N/A"} • ${genreTranslation[movie.genre_name] || movie.genre_name || "N/A"}</p>
         </div>
       </div>
     `
@@ -132,6 +156,7 @@ function renderSearchResults(movies) {
       .join("");
   }
 }
+
 
 // Hàm gọi API để hiển thị tiêu đề phim ở phần "Tìm kiếm hàng đầu"
 async function loadTopSearchKeywords() {
@@ -146,7 +171,7 @@ async function loadTopSearchKeywords() {
         id: movie.id || movie.movie_id,
         title: movie.title,
       }));
-      renderTopKeywords(movieTitles.slice(0, 8));
+      renderTopKeywords(movieTitles.slice(1, 9));
     } else {
       topSearchContainer.innerHTML += `<p>Không có từ khóa nổi bật.</p>`;
     }
