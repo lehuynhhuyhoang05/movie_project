@@ -21,8 +21,43 @@ body {
   z-index: 999;
   background-color: #000;
   padding: 0 30px;
-  border-bottom: 1px solid #e50914;
+  border-bottom: 2px solid #e50914;
 }
+
+/* highlight*/
+.nav-link.active, 
+.icon-btn.nav-link.active {
+  color: #ff0000;
+  font-weight: bold;
+
+}
+
+/* Nút Admin*/
+#adminBackBtnContainer {
+  position: fixed;
+  top: 20px;
+  right: 310px;
+  z-index: 1000;
+}
+
+#adminBackBtnContainer .admin-back-button {
+  padding: 4px 8px;
+  background-color: #e50914;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s;
+}
+
+
+#adminBackBtnContainer .admin-back-button:hover {
+  background-color: #b20710;
+}
+
 
 .main-header .container {
   max-width: 1200px;
@@ -369,7 +404,7 @@ body {
 }
 
 .movie-btn:hover {
-  background-color: #cc0000;
+  background-color: #b20710;
 }
 
 .arrow-btn {
@@ -449,7 +484,7 @@ body {
 
 .footer-col ul li a:hover,
 .footer-col a:hover {
-  color: #e50914;
+  color: #b20710;
   text-decoration: underline;
 }
 
@@ -475,7 +510,7 @@ body {
 
 .social-icons a:hover,
 .social-icons a:hover i {
-  color: #e50914 ;
+  color: #b20710 ;
 }
 
 .company-info {
@@ -547,14 +582,3 @@ body {
   object-fit: contain;
 }
 
-
-
-
-
-/* TEST */  
-.nav-link.active, 
-.icon-btn.nav-link.active {
-  color: #ff0000;
-  font-weight: bold;
-
-}
