@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tài khoản người dùng</title>
+  <title>Tài khoản người dùng</title>
   <link rel="stylesheet" href="../assets/css/account.css" />
   <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="../assets/css/section-footer.css"/>
+  <link rel="stylesheet" href="../assets/css/section-footer.css" />
   <link rel="stylesheet" href="../assets/css/notifications.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
@@ -29,19 +29,53 @@
     <main class="main">
       <section class="content" id="info">
         <div class="profile-header">
-          <h1>Thông tin tài khoản</h1>
-          <p>Chưa có thông tin.</p>
+          <h1 class="section-title">Thông tin tài khoản</h1>
+          <!-- Hiển thị thông tin user -->
+          <div id="userInfo"></div>
+          <!-- Nút hiển thị form cập nhật -->
+          <button id="showUpdateFormBtn">Cập nhật thông tin</button>
+          <!-- Container chứa 2 form -->
+          <div id="updateForms" style="display: none; margin-top: 20px;">
+            <div class="form-container">
+              <!-- Form cập nhật hồ sơ -->
+              <form id="updateProfileForm" class="form-box">
+                <h2>Cập nhật hồ sơ</h2>
+                <label for="fullName">Tên đăng nhập mới:</label><br />
+                <input type="text" id="fullName" name="fullName" required /><br /><br />
+                <button type="submit">Cập nhật hồ sơ</button>
+              </form>
+              <!-- Form đổi mật khẩu -->
+              <form id="changePasswordForm" class="form-box">
+                <h2>Đổi mật khẩu</h2>
+
+                <label for="currentPassword">Mật khẩu hiện tại:</label><br />
+                <div class="password-field">
+                  <input type="password" id="currentPassword" name="currentPassword" required />
+                  <i class="fas fa-eye toggle-password" toggle="#currentPassword"></i>
+                </div>
+
+                <label for="newPassword">Mật khẩu mới:</label><br />
+                <div class="password-field">
+                  <input type="password" id="newPassword" name="newPassword" required />
+                  <i class="fas fa-eye toggle-password" toggle="#newPassword"></i>
+                </div>
+                <button type="submit">Đổi mật khẩu</button>
+              </form>
+            </div>
+          </div>
         </div>
       </section>
 
       <section class="content hidden" id="history">
-        <h1>Lịch sử xem</h1>
-        <p>Chưa có nội dung nào.</p>
+        <h1 class="section-title">Lịch sử xem</h1>
+        <div id="watch-history" class="movie-grid">Đang tải lịch sử xem...</div>
+        <!--lịch sử xem hiện ở đây-->
       </section>
 
       <section class="content hidden" id="favorites">
-        <h1>Danh sách yêu thích</h1>
-        <p>Chưa có nội dung yêu thích.</p>
+        <h1 class="favorite-title">Danh sách yêu thích</h1>
+        <!-- danh sách yêu thích hiện ở đây -->
+         <div id="favorite-movies" style="display: flex; flex-wrap: wrap; gap: 20px 10px; margin-top: 15px; bottom: 10px;"></div>
       </section>
     </main>
   </div>
@@ -50,6 +84,7 @@
   <div id="footer-placeholder"></div>
   <script src="../assets/js/load-footer.js"></script>
   <script src="../assets/js/section-footer.js"></script>
+  <script src="../assets/js/details.js"></script>
   <script src="../assets/js/account.js"></script>
 </body>
 </html>
