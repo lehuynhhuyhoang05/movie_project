@@ -172,8 +172,6 @@ aside {
       background-color: #2c3e50;
     }
 
-    
-
 /* --- Genres Section --- */
 #genres {
   padding: 20px;
@@ -411,158 +409,19 @@ aside {
     background-color: #ccc;
   }
 
-/* --- Review Section --- */
-#review {
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  max-width: 90%;
-  width: 100%;
-  margin: 0 0 40px 0; 
-  font-family: Arial, sans-serif;
-  color: #333;
-  text-align: left; 
-}
-
-#review label[for="filterStars"] {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-#filterStars {
-  padding: 8px 12px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  min-width: 160px;
-  cursor: pointer;
-}
-
-/* Danh sách đánh giá */
-#reviewList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#reviewList li {
-  background-color: #fff;
-  padding: 16px 20px;
-  margin-bottom: 14px;
-  border-radius: 6px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  font-size: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: transform 0.2s ease;
-}
-
-#reviewList li:hover {
-  transform: scale(1.02);
-}
-
-/* Header đánh giá: tên người + số sao */
-.review-header {
-  font-weight: bold;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #222;
-}
-
-.review-rating {
-  color: #f39c12; /* màu vàng sao */
-  font-size: 20px;
-  margin-left: 10px;
-}
-
-/* Nội dung đánh giá */
-.review-content {
-  font-weight: normal !important;
-  color: #555;
-  line-height: 1.4;
-}
-
-/* Trạng thái phê duyệt (nếu có) */
-.review-status {
-  font-size: 14px;
-  font-weight: 600;
-  color: #888;
-  margin-top: 4px;
-}
-
-/* Nhóm nút Sửa, Xóa, Phê duyệt */
-.button-group {
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-}
-
-/* Các nút hành động */
-.button-group button {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  color: white;
-}
-
-/* Nút Sửa */
-.editReviewBtn {
-  background-color: #f39c12;
-}
-
-.editReviewBtn:hover {
-  background-color: #d68910;
-}
-
-/* Nút Xóa */
-.deleteReviewBtn {
-  background-color: #e74c3c;
-}
-
-.deleteReviewBtn:hover {
-  background-color: #c0392b;
-}
-
-/* Nút Phê duyệt */
-.approveReviewBtn {
-  background-color: #27ae60;
-}
-
-.approveReviewBtn:hover {
-  background-color: #1e8449;
-}
-/* Nút Lưu */
-.saveReviewBtn {
-  background-color: #2980b9;
-}
-
-.saveReviewBtn:hover {
-  background-color: #1c6691;
-}
-
-
 /*USER*/
 
 #users {
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
-  max-width: 90%;      /* chiều rộng tối đa 90% */
-  width: 100%;         /* chiều rộng mặc định 100% */
-  margin: 0 0 40px 0;  /* trên 0, phải 0, dưới 40px, trái 0 (sát trái) */
+  max-width: 90%;      
+  width: 100%;         
+  margin: 0 0 40px 0;  
   font-family: Arial, sans-serif;
   color: #333;
   text-align: left;
-  box-sizing: border-box; /* tính padding vào kích thước */
+  box-sizing: border-box;
 }
 
 /* Thống kê nhanh */
@@ -796,11 +655,11 @@ aside {
 }
 
 .user-menu:hover .logout-menu {
-  display: block; /* Hover sẽ hiện menu */
+  display: block; 
 }
 
 .user-menu:hover #userIcon {
-  color: red; /* Hover sẽ đổi màu đỏ */
+  color: red; 
 }
 
 .logout-menu a {
