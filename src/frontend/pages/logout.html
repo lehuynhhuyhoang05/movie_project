@@ -10,9 +10,10 @@
 </body>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-  localStorage.removeItem("user");
-  window.location.href = "home.html";
-});
-
+    localStorage.removeItem("user");
+    localStorage.removeItem("token"); 
+    window.location.href = "home.html"; 
+  });
 </script>
+
 </html>
