@@ -1,3 +1,27 @@
+// Map thể loại tiếng Anh sang tiếng Việt
+const genreNameMapVi = {
+  "Action": "Hành động",
+  "Adventure": "Phiêu lưu",
+  "Animation": "Hoạt hình",
+  "Comedy": "Hài",
+  "Crime": "Tội phạm",
+  "Documentary": "Tài liệu",
+  "History": "Lịch sử",
+  "Family": "Gia đình",
+  "Fantasy": "Giả tưởng",
+  "Drama": "Chính kịch",
+  "Horror": "Kinh dị",
+  "Music": "Âm nhạc",
+  "Mystery": "Bí ẩn",
+  "Romance": "Lãng mạn",
+  "Science Fiction": "Khoa học viễn tưởng",
+  "Thriller": "Gây cấn",
+  "War": "Chiến tranh",
+  "Western": "Cao bồi viễn tây",
+  "TV Movie": "Phim truyền hình"
+};
+
+
 // Lấy danh sách phim từ API
 async function getAllMovies() {
   try {
@@ -10,7 +34,7 @@ async function getAllMovies() {
   }
 }
 
-// Lấy danh sách thể loại từ API
+// Lấy danh sách thể loại từ API (nếu cần dùng)
 async function getAllGenres() {
   try {
     const response = await fetch('http://movieon.atwebpages.com/src/backend/server.php?controller=genre&method=index');
@@ -22,7 +46,7 @@ async function getAllGenres() {
   }
 }
 
-// Hiển thị phim trong lưới
+// Hiển thị phim trong lưới với tên thể loại tiếng Việt
 function renderMovies(movies, gridId) {
   const grid = document.getElementById(gridId);
   if (!grid) {
@@ -31,30 +55,44 @@ function renderMovies(movies, gridId) {
   }
   grid.innerHTML = ''; // Xóa nội dung cũ
 
-  if (movies.length === 0) {
+  if (!movies || movies.length === 0) {
     grid.innerHTML = '<p>Không có phim nào</p>';
     return;
   }
 
-movies.forEach(movie => {
-  const movieCard = document.createElement('div');
-  movieCard.classList.add('movie-card');
-  movieCard.innerHTML = `
-    <div class="movie-poster">
-      <img src="${movie.poster_url || movie.poster || '../assets/images/default-poster.jpg'}" alt="${movie.title || 'Phim không tên'}">
-    </div>
-    <div class="info">
-      <h3>${movie.title || 'Không có tiêu đề'}</h3>
-      <p>${movie.description ? movie.description.substring(0, 50) + '...' : 'Không có mô tả'}</p>
-      <p class="movie-genre">Thể loại: ${movie.genre_name || movie.genre || 'Không rõ'}</p>
-      <p class="movie-rating"> ${movie.imdb_rating || 'N/A'}</p>
-      <button class="movie-btn" onclick="location.href='details.html?id=${movie.id || ''}'">Xem ngay</button>
-    </div>
-  `;
-  grid.appendChild(movieCard);
-});
+  movies.forEach(movie => {
+    const movieCard = document.createElement('div');
+    movieCard.classList.add('movie-card');
 
+    // Lấy thể loại tiếng Anh, chuyển sang tiếng Việt nếu có
+    const genreEn = movie.genre_name || movie.genre || 'Không rõ';
+    const genreVi = genreNameMapVi[genreEn] || genreEn;
+
+    movieCard.innerHTML = `
+      <div class="movie-poster">
+        <img src="${movie.poster_url || movie.poster || '../assets/images/default-poster.jpg'}" alt="${movie.title || 'Phim không tên'}">
+      </div>
+      <div class="info">
+        <h3>${movie.title || 'Không có tiêu đề'}</h3>
+        <p>${movie.description ? movie.description.substring(0, 50) + '...' : 'Không có mô tả'}</p>
+        <p class="movie-genre">Thể loại: ${genreVi}</p>
+        <p class="movie-rating">${movie.imdb_rating || 'N/A'}</p>
+        <button class="movie-btn" onclick="handleWatchAndRedirect(${movie.id})">Xem ngay</button>
+      </div>
+    `;
+    grid.appendChild(movieCard);
+  });
 }
+
+// Ví dụ dùng
+window.onload = async () => {
+  const allMoviesRes = await getAllMovies();
+  if (allMoviesRes.status === 'success' && allMoviesRes.data) {
+    renderMovies(allMoviesRes.data, 'movieGrid'); // 'movieGrid' là id của container bạn muốn đổ phim vào
+  } else {
+    console.error('Không tải được dữ liệu phim');
+  }
+};
 
 // Thiết lập carousel cho từng danh mục phim
 function setupCarousel(category) {
