@@ -10,95 +10,84 @@ async function getMovieDetail(id) {
   }
 }
 
-// Hiển thị thông tin chi tiết phim ra HTML
-function renderMovieDetail(movie) {
-  const container = document.getElementById('movie-details');
-  if (!container) return;
-
- const defaultTrailers = [
-  'https://www.youtube.com/embed/yQCpGW7bZyo', 
-  'https://www.youtube.com/embed/xY-qRGC6Yu0', 
-  'https://www.youtube.com/embed/6txjTWLoSc8'  
-];
-
 function getEmbedUrl(url) {
   if (!url) return null;
   const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?/]+)/);
-  if (youtubeMatch && youtubeMatch[1]) {
-    return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
-  }
-  return url;
+  return youtubeMatch && youtubeMatch[1] ? `https://www.youtube.com/embed/${youtubeMatch[1]}` : url;
 }
 
 function getRandomDefaultTrailer() {
+  const defaultTrailers = [
+    'https://www.youtube.com/embed/yQCpGW7bZyo',
+    'https://www.youtube.com/embed/xY-qRGC6Yu0',
+    'https://www.youtube.com/embed/6txjTWLoSc8'
+  ];
   const randomIndex = Math.floor(Math.random() * defaultTrailers.length);
   return defaultTrailers[randomIndex];
 }
 
-const trailerEmbedUrl = getEmbedUrl(movie.trailer_url) || getRandomDefaultTrailer();
+function renderMovieDetail(movie) {
+  const container = document.getElementById('movie-details');
+  if (!container) return;
 
-
-container.innerHTML = `
-  <button onclick="history.back()" style="
-    padding: 5px 10px;
-    background-color: #e50914;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    user-select: none;
-    display: inline-block;
-  " onmouseover="this.style.backgroundColor='#cc0000'" onmouseout="this.style.backgroundColor='#e50914'">
-    ← Quay lại
-  </button>
-
-  <div class="movie-detail-content" style="display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap;">
-    <div class="video-container" style="width: 100%; margin-bottom: 20px;">
+  const trailerEmbedUrl = getEmbedUrl(movie.trailer_url) || getRandomDefaultTrailer();
+const genreNameMapVi = {
+  Action: 'Hành động', Adventure: 'Phiêu lưu', Animation: 'Hoạt hình',
+  Comedy: 'Hài', Crime: 'Tội phạm', Documentary: 'Tài liệu', History: 'Lịch sử',
+  Family: 'Gia đình', Fantasy: 'Giả tưởng', Drama: 'Chính kịch', Horror: 'Kinh dị',
+  Music: 'Âm nhạc', Mystery: 'Bí ẩn', Romance: 'Lãng mạn',
+  'Science Fiction': 'Khoa học viễn tưởng', Thriller: 'Gây cấn', War: 'Chiến tranh',
+  Western: 'Cao bồi viễn tây', 'TV Movie': 'Phim truyền hình'
+};
+  const user = JSON.parse(localStorage.getItem('user'));
+  const isLoggedIn = !!localStorage.getItem('token');
+  container.innerHTML = `
+  <button onclick="history.back()" style="padding: 5px 10px; background-color: #e50914; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 16px;">← Quay lại</button>
+  <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+    <div style="width: 100%; margin-bottom: 20px;">
       <iframe width="100%" height="400" src="${trailerEmbedUrl}" frameborder="0" allowfullscreen></iframe>
     </div>
-
-    <div class="poster-container" style="max-width: 200px;">
-      <img src="${movie.poster_url || movie.poster || '../assets/images/default-poster.jpg'}" alt="${movie.title}" class="movie-poster" style="width: 100%; height: auto;" />
+    <div style="max-width: 200px;">
+      <img src="${movie.poster_url || movie.poster || '../assets/images/default-poster.jpg'}" alt="${movie.title}" style="width: 100%;" />
     </div>
-
-    <div class="info-container" style="flex: 1; min-width: 300px;">
-      <h1 class="movie-title">${movie.title || 'Không có tiêu đề'}</h1>
-      <p><strong>Thể loại:</strong> ${movie.genre_name || 'Không rõ'}</p>
+    <div style="flex: 1; min-width: 300px;">
+      <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+        <h1 style="margin: 0; font-size: 2rem;">${movie.title || 'Không có tiêu đề'}</h1>
+        ${isLoggedIn ? `
+          <button id="favoriteBtn" onclick="toggleFavorite(${movie.id})"
+            style="display: flex; align-items: center; gap: 6px; background: transparent; border: none; cursor: pointer; font-weight: 600; color: #aaa; font-size: 16px; padding: 6px 10px; border-radius: 6px; transition: color 0.3s;">
+            <i class="fas fa-heart"></i>
+            <span>Yêu thích</span>
+          </button>
+        ` : ''}
+      </div>
+      <p><strong>Thể loại:</strong> ${genreNameMapVi[movie.genre_name] || movie.genre_name || 'Không rõ'}</p>
       <p class="rating"><strong>IMDb: </strong>${movie.imdb_rating || 'N/A'}</p>
       <p><strong>Ngày phát hành:</strong> ${movie.release_date || 'Không rõ'}</p>
-      <p><strong>Mô tả:</strong></p>
-      <p class="movie-description">${movie.description || 'Không có mô tả'}</p>
-
+      <p><strong>Mô tả:</strong> ${movie.description || 'Không có mô tả'}</p>
       <h3>Diễn viên:</h3>
-      <div class="actors-list" style="display: flex; flex-wrap: wrap; gap: 15px; font-size: 16px">
-        ${movie.actors && movie.actors.length > 0 ? movie.actors.map(actor => `
-          <div class="actor-card" style="width: 120px; text-align: center;">
+      <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+        ${movie.actors?.length ? movie.actors.map(actor => `
+          <div style="width: 120px; text-align: center;">
             <img src="${actor.profile_url}" alt="${actor.name}" style="width: 100%; border-radius: 8px;" />
             <p><strong>${actor.name}</strong></p>
             <p style="font-size: 0.9em; color: #999;">${actor.role}</p>
           </div>
-        `).join('') : '<p>Không có thông tin diễn viên.</p>'}
+        `).join('') : '<p>Không có diễn viên.</p>'}
       </div>
-
       <h3 style="margin-top: 25px;">Bình luận:</h3>
-      <div id="comment-list" style="margin-bottom: 10px;">
-        <!-- Danh sách bình luận sẽ được hiển thị ở đây -->
-      </div>
-
-      <div id="comment-form" style="margin-top: 10px;">
-        <textarea id="comment-text" rows="4" placeholder="Nhập bình luận..." style="width: 90%; padding: 5px; border-radius: 6px; border: 1px solid #ccc; "></textarea>
-        <button onclick="submitComment()" style="margin-top: 10px; background-color: #e50914; color: white; padding: 8px 10px; border: none; border-radius: 6px; cursor: pointer;">Gửi bình luận</button>
-      </div>
+      ${isLoggedIn ? `
+        <div style="margin-top: 10px;">
+          <textarea id="comment-text" rows="4" placeholder="Nhập bình luận..." style="width: 90%; padding: 5px; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+          <button onclick="submitComment()" style="margin-top: 10px; background-color: #e50914; color: white; padding: 8px 10px; border: none; border-radius: 6px; cursor: pointer; margin-bottom: 15px">Gửi bình luận</button>
+        </div>
+      ` : `<p>Bạn cần <a href="/src/frontend/pages/login.html" style="color: #e50914;">đăng nhập</a> để bình luận.</p>`}
+      <div id="comment-list"></div>
     </div>
   </div>
 `;
-
 }
 
-// Lấy ID từ URL và gọi API
 window.onload = async function () {
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
@@ -109,7 +98,6 @@ window.onload = async function () {
   }
 
   const result = await getMovieDetail(id);
-
   if (result.status === 'success' && result.data) {
     renderMovieDetail(result.data);
     loadComments(result.data.id);
@@ -118,138 +106,183 @@ window.onload = async function () {
   }
 };
 
-
-// Gọi API để lấy bình luận theo phim
 function loadComments(movieId) {
-  console.log("Movie ID để tải bình luận:", movieId);
-
   fetch(`http://movieon.atwebpages.com/src/backend/server.php?controller=review&method=getByMovie&movie_id=${movieId}`)
-    .then(res => {
-      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      return res.json();
-    })
+    .then(res => res.json())
     .then(result => {
-      console.log('Dữ liệu bình luận từ API:', result);
-
       const commentList = document.getElementById('comment-list');
-      if (!commentList) {
-        console.error('Không tìm thấy phần tử comment-list');
+      if (!Array.isArray(result.data) || result.data.length === 0) {
+        commentList.innerHTML = '<p>Chưa có bình luận.</p>';
         return;
       }
-
-      const comments = result.data;
-
-      if (!Array.isArray(comments) || comments.length === 0) {
-        commentList.innerHTML = '<p>Chưa có bình luận.</p>';
-      } else {
-        commentList.innerHTML = comments.map(c => `
-          <div style="border-bottom: 1px solid #ddd; padding: 10px 0;">
-            <p>${c.comment}</p>
-          </div>
-        `).join('');
-      }
+      
+      const user = JSON.parse(localStorage.getItem('user'));
+      commentList.innerHTML = result.data.map(c => `
+        <div class="comment-item">
+          <p><strong>${c.username}:</strong> ${c.comment || ''}</p>
+          ${user && user.username === c.username ? `
+            <button class="btn-delete" data-id="${c.id}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer; margin-bottom: 15px">Xoá</button>
+            <button class="btn-edit" data-id="${c.id}" data-comment="${c.comment ? c.comment.replace(/"/g, '&quot;') : ''}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer;margin-bottom: 15px">Sửa</button>
+          ` : ''}
+        </div>
+      `).join('');
+      
+      // Thêm event listener cho nút xoá
+      commentList.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.onclick = () => deleteComment(btn.dataset.id);
+      });
+      // Thêm event listener cho nút sửa
+      commentList.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.onclick = () => editComment(btn.dataset.id, btn.dataset.comment);
+      });
     })
-    .catch(error => {
-      console.error('Lỗi khi tải bình luận:', error);
-      const commentList = document.getElementById('comment-list');
-      if (commentList) commentList.innerHTML = '<p>Không thể tải bình luận.</p>';
+    .catch(err => {
+      console.error('Lỗi khi tải bình luận:', err);
+      document.getElementById('comment-list').innerHTML = '<p>Không thể tải bình luận.</p>';
     });
 }
 
 
-// Hàm lấy dữ liệu từ textarea rồi gọi API tạo bình luận
 function submitComment() {
   const commentText = document.getElementById('comment-text').value.trim();
-  const params = new URLSearchParams(window.location.search);
-  const movieId = params.get('id'); // lấy ID phim từ URL
-
-  if (!commentText) {
-    alert('Vui lòng nhập bình luận!');
-    return;
-  }
-  if (!movieId) {
-    alert('Không tìm thấy ID phim!');
-    return;
-  }
-
-  // Gọi hàm tạo đánh giá mới (POST)
-  createReview(movieId, 5, commentText); // ví dụ rating là 5 luôn
-
-  // Sau khi gửi xong, bạn có thể xóa textarea hoặc disable nút...
+  const movieId = new URLSearchParams(window.location.search).get('id');
+  if (!commentText) return alert('Vui lòng nhập bình luận!');
+  if (!movieId) return alert('Không tìm thấy ID phim!');
+  createReview(movieId, 5, commentText);
   document.getElementById('comment-text').value = '';
 }
 
-// Tạo đánh giá mới (POST) – yêu cầu đã đăng nhập
 function createReview(movieId, rating, comment) {
   const token = localStorage.getItem('token');
-  if (!token) {
-    alert('Bạn cần đăng nhập để gửi đánh giá.');
-    return;
-  }
-
-  fetch(`http://movieon.atwebpages.com/src/backend/server.php?controller=review&method=create`, {
+  if (!token) return alert('Bạn cần đăng nhập để gửi đánh giá.');
+  fetch(`http://movieon.atwebpages.com/src/backend/server.php?controller=review&method=create&token=Bearer%20${token}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token  // Gửi token trong header
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ movie_id: movieId, rating, comment })
   })
   .then(res => res.json())
   .then(data => {
-    console.log('Đánh giá mới:', data);
-    if (data.status === 'success') {
-      const commentList = document.getElementById('comment-list');
-      const newCommentHtml = `
-        <div style="border-bottom: 1px solid #ddd; padding: 10px 0;">
-          <p>${comment}</p>
-        </div>
-      `;
-      if (commentList.innerHTML.includes('Chưa có bình luận')) {
-        commentList.innerHTML = newCommentHtml;
+    if (data.status === 'success') loadComments(movieId);
+    else alert('Gửi bình luận thất bại: ' + (data.message || 'Lỗi server'));
+  })
+  .catch(() => alert('Lỗi kết nối server.'));
+}
+
+function deleteComment(commentId) {
+  const token = localStorage.getItem('token');
+  const movieId = new URLSearchParams(window.location.search).get('id');
+
+  if (!token || !commentId) {
+    alert('Không đủ quyền hoặc thiếu ID.');
+    return;
+  }
+
+  console.log('Comment ID cần xoá:', commentId);
+
+  const url = `http://movieon.atwebpages.com/src/backend/server.php?controller=review&method=delete&id=${commentId}&token=Bearer%20${token}`;
+
+  fetch(url, {
+    method: 'DELETE'
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'success') {
+        alert('Đã xoá thành công');
+        loadComments(movieId);
       } else {
-        commentList.insertAdjacentHTML('beforeend', newCommentHtml);
+        alert('Xoá thất bại: ' + (data.message || 'Lỗi server'));
       }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Lỗi kết nối server.');
+    });
+}
+
+function deleteComment(commentId) {
+  const token = localStorage.getItem('token');
+  const movieId = new URLSearchParams(window.location.search).get('id');
+  if (!token || !commentId) return alert('Không đủ quyền hoặc thiếu ID.');
+
+  fetch(`http://movieon.atwebpages.com/src/backend/server.php?controller=review&method=delete&id=${commentId}&token=Bearer%20${token}`, {
+    method: 'DELETE'
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === 'success') {
+      alert('Đã xoá thành công');
+      loadComments(movieId);
     } else {
-      alert('Gửi bình luận thất bại: ' + (data.message || 'Lỗi server'));
+      alert('Xoá thất bại: ' + (data.message || 'Lỗi server'));
     }
   })
   .catch(err => {
-    console.error('Lỗi gửi bình luận:', err);
-    alert('Không thể gửi bình luận, vui lòng thử lại sau.');
+    console.error(err);
+    alert('Lỗi kết nối server.');
   });
 }
 
-// Hàm cập nhật đánh giá
-function updateReview(reviewId, rating, comment) {
-  fetch(`http://movieon.atwebpages.com/src/backend/server.php?controller=review&method=update&id=${reviewId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      // 'Authorization': 'Bearer ' + token, nếu có
-    },
-    body: JSON.stringify({ rating, comment })
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Đã cập nhật đánh giá:', data);
-    // Có thể gọi lại loadComments để load lại bình luận
-  })
-  .catch(error => console.error('Lỗi cập nhật đánh giá:', error));
+function editComment(commentId, oldComment) {
+  const newComment = prompt('Chỉnh sửa bình luận:', oldComment);
+  if (newComment === null || newComment.trim() === '') return;
+  const movieId = new URLSearchParams(window.location.search).get('id');
+  updateComment(commentId, 5, newComment.trim(), movieId);
 }
 
-// Hàm xóa đánh giá
-function deleteReview(reviewId) {
-  fetch(`http://movieon.atwebpages.com/src/backend/server.php?controller=review&method=delete&id=${reviewId}`, {
-    method: 'DELETE',
-    headers: {
-      // 'Authorization': 'Bearer ' + token, nếu có
+function updateComment(commentId, rating, comment, movieId) {
+  const token = localStorage.getItem('token');
+  if (!token || !commentId) return alert('Thiếu token hoặc comment ID');
+
+  fetch(`http://movieon.atwebpages.com/src/backend/server.php?controller=review&method=update&id=${commentId}&token=Bearer%20${token}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rating, comment })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === 'success') {
+      alert('Cập nhật thành công');
+      loadComments(movieId);
+    } else {
+      alert('Cập nhật thất bại: ' + (data.message || 'Lỗi server'));
     }
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Đã xóa đánh giá:', data);
-    // Có thể gọi lại loadComments để load lại bình luận
-  })
-  .catch(error => console.error('Lỗi xóa đánh giá:', error));
+  .catch(() => alert('Lỗi kết nối server.'));
+}
+
+
+// danh sách yêu thích
+async function toggleFavorite(movie_id) {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    alert('Vui lòng đăng nhập để thêm vào yêu thích!');
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://movieon.atwebpages.com/src/backend/server.php?controller=movie&method=addFavorite&movie_id=${movie_id}&token=Bearer%20${token}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      alert('Đã thêm vào danh sách yêu thích!');
+      // Đổi màu trái tim
+      const favoriteBtn = document.getElementById('favoriteBtn');
+      if (favoriteBtn) {
+        favoriteBtn.querySelector('i').style.color = 'red';
+        favoriteBtn.querySelector('span').innerText = 'Đã yêu thích';
+      }
+    } else {
+      alert('Lỗi: ' + data.message);
+    }
+  } catch (error) {
+    console.error('Lỗi thêm vào yêu thích:', error);
+    alert('Đã xảy ra lỗi, vui lòng thử lại sau.');
+  }
 }

@@ -80,18 +80,64 @@ body {
   display: none;
 }
 
+.section-title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #333;
+  width: 840px;
+}
+
 
 #history p,
-#favorites p,
 .profile-header p {
   color: #ccc;
-  border-top: 1px solid #333;
   font-size: 16px;
   padding-top: 10px;
   margin-top: 10px;     
   width: 840px;             
   text-align: left;
 }
+
+/* Danh sách yêu thích: hiệu ứng hover */
+#favorite-movies > div {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#favorite-movies > div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Tiêu đề danh sách yêu thích */
+.favorite-title {
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  width: 840px;
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 0px;
+}
+
+
+/* Nút xóa khỏi yêu thích */
+.remove-btn {
+  display: block;
+  width: 100%;
+  padding: 4px 0;
+  margin-top: 5px;
+  background-color: #e50914;
+  color: white;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.remove-btn:hover {
+  background-color: #b20710;
+}
+
 
 /* phần cập nhật thông tin*/
 #showUpdateFormBtn {
@@ -136,7 +182,7 @@ body {
   min-width: 200px;
   max-width: 40%;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #aaa;
   border-radius: 12px;
   background-color: black;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -194,3 +240,61 @@ body {
 .toggle-password:hover {
   color: #b20710 ;
 }
+
+/* Lịch sử xem của user */
+.section-title {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #333;
+  width: 840px;
+}
+
+#watch-history {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+
+.movie-itemm {
+  background-color: #111;
+  border-radius: 12px;
+  padding: 10px;
+  margin-top: 15px;
+  width: calc(25% - 35px); 
+  color: white;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-itemm h4 {
+  white-space: nowrap;        
+  overflow: hidden;           
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+.movie-itemm:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+/* nút xem ngay */
+.watch-now-btn {
+  display: block;
+  width: 100%;
+  padding: 4px 0;
+  margin-top: 5px;
+  background-color: #e50914;
+  color: white;
+  text-align: center;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.watch-now-btn:hover {
+  background-color: #b20710;
+}
+

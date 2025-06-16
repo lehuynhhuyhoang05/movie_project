@@ -86,7 +86,7 @@ body::before {
 }
 
 .toggle-password:hover {
-  color: #e50914 ;
+  color: #b20710 ;
 }
 
 /* Gộp Nhớ mật khẩu và Quên mật khẩu trên 1 dòng */
@@ -114,7 +114,7 @@ body::before {
 }
 
 .horizontal-options .forgot-password-link:hover {
-  color: #e50914 ;
+  color: #b20710 ;
   text-decoration: underline;
 }
 
@@ -134,7 +134,7 @@ body::before {
 }
 
 .login-button:hover {
-  background-color: #cc0000;
+  background-color: #b20710;
 }
 
 /* Footer */
@@ -150,7 +150,7 @@ body::before {
 }
 
 .login-footer a:hover {
-  color: #e50914 ;
+  color: #b20710 ;
   text-decoration: underline;
 }
 

@@ -4,10 +4,11 @@
   flex-wrap: wrap;
   gap: 20px;
   margin: 20px auto 0;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   max-width: 1200px;
   margin-bottom: 20px;
+  padding-left: 20px;
 }
 
 #genreTitle {
@@ -109,5 +110,5 @@
 }
 
 .movie-btn:hover {
-  background-color: #cc0000;
+  background-color: #b20710;
 }

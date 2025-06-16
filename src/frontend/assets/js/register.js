@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registerForm");
   const fullnameInput = document.getElementById("fullname");
   const emailInput = document.getElementById("email");
@@ -6,25 +6,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const confirmPasswordInput = document.getElementById("confirm-password");
   const togglePasswordIcons = document.querySelectorAll(".toggle-password");
 
-  function showError(input, message) {
-    let formGroup = input.closest(".form-group");
-    if (!formGroup) return;
-    const errorDiv = formGroup.querySelector(".error-message");
-    if (!errorDiv) return;
-    errorDiv.textContent = message;
-    errorDiv.style.color = "red";
+  if (!form || !fullnameInput || !emailInput || !passwordInput || !confirmPasswordInput) {
+    console.error("Không tìm thấy các phần tử cần thiết cho đăng ký");
+    return;
   }
 
-  function clearError(input) {
-    let formGroup = input.closest(".form-group");
-    if (!formGroup) return;
-    const errorDiv = formGroup.querySelector(".error-message");
-    if (!errorDiv) return;
-    errorDiv.textContent = "";
-  }
-
-  togglePasswordIcons.forEach(function (icon) {
-    icon.addEventListener("click", function () {
+  // Hiện/ẩn mật khẩu
+  togglePasswordIcons.forEach(icon => {
+    icon.addEventListener("click", () => {
       const targetId = icon.getAttribute("data-target");
       const passwordField = document.getElementById(targetId);
       if (!passwordField) return;
@@ -41,24 +30,42 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  form.addEventListener("submit", function (e) {
+  function showError(input, message) {
+    const formGroup = input.closest(".form-group");
+    if (!formGroup) return;
+    const errorDiv = formGroup.querySelector(".error-message");
+    if (!errorDiv) return;
+    errorDiv.textContent = message;
+    errorDiv.style.color = "red";
+  }
+
+  function clearError(input) {
+    const formGroup = input.closest(".form-group");
+    if (!formGroup) return;
+    const errorDiv = formGroup.querySelector(".error-message");
+    if (!errorDiv) return;
+    errorDiv.textContent = "";
+  }
+
+  form.addEventListener("submit", async e => {
     e.preventDefault();
 
-    [fullnameInput, emailInput, passwordInput, confirmPasswordInput].forEach(input => clearError(input));
+    [fullnameInput, emailInput, passwordInput, confirmPasswordInput].forEach(clearError);
 
     let hasError = false;
 
-    const fullname = fullnameInput.value.trim();
+    const username = fullnameInput.value.trim();
     const email = emailInput.value.trim();
     const password = passwordInput.value;
     const confirmPassword = confirmPasswordInput.value;
 
-    if (!fullname) {
-      showError(fullnameInput, "Vui lòng nhập họ và tên.");
+    if (!username) {
+      showError(fullnameInput, "Vui lòng nhập tên đăng ký.");
       hasError = true;
     }
+
     if (!email) {
-      showError(emailInput, "Vui lòng nhập email hoặc số điện thoại.");
+      showError(emailInput, "Vui lòng nhập email.");
       hasError = true;
     } else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
         hasError = true;
       }
     }
+
     if (!password) {
       showError(passwordInput, "Vui lòng nhập mật khẩu.");
       hasError = true;
@@ -75,6 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
       showError(passwordInput, "Mật khẩu phải có ít nhất 6 ký tự.");
       hasError = true;
     }
+
     if (!confirmPassword) {
       showError(confirmPasswordInput, "Vui lòng nhập xác nhận mật khẩu.");
       hasError = true;
@@ -83,32 +92,51 @@ document.addEventListener("DOMContentLoaded", function () {
       hasError = true;
     }
 
-    if (!hasError) {
-      // Gửi dữ liệu lên server qua API bằng fetch
-      fetch("http://movieon.atwebpages.com/src/backend/server.php?controller=user&method=register", {
+    if (hasError) return;
+
+    try {
+      const response = await fetch("http://movieon.atwebpages.com/src/backend/server.php?controller=user&method=register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: fullname, 
+          username: username,
           email: email,
-          password: password,
+          password: password
         }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === "success") {
-          alert("Đăng ký thành công! Bạn có thể đăng nhập.");
-          window.location.href = "login.html";
-        } else {
-          alert(data.message || "Đăng ký thất bại.");
-        }
-      })
-      .catch(error => {
-        console.error("Lỗi đăng ký:", error);
-        alert("Có lỗi xảy ra. Vui lòng thử lại.");
       });
+
+      const text = await response.text();
+
+      // Tách JSON trong trường hợp server trả kèm log lỗi trước JSON
+      const jsonStart = text.lastIndexOf('{');
+      if (jsonStart === -1) {
+        alert("Server trả về dữ liệu không hợp lệ.");
+        return;
+      }
+      const jsonString = text.substring(jsonStart);
+      let data;
+      try {
+        data = JSON.parse(jsonString);
+      } catch (err) {
+        console.error("Lỗi parse JSON:", err);
+        console.error("Response trả về:", text);
+        alert("Server trả về dữ liệu JSON không hợp lệ.");
+        return;
+      }
+
+      if (data.status === "success") {
+        alert("Đăng ký thành công! Vui lòng kiểm tra email để xác minh tài khoản.");
+        sessionStorage.setItem("registeredEmail", email);
+        sessionStorage.setItem("registeredPassword", password);
+        window.location.href = "/src/frontend/pages/login.html";
+      } else if (data.message === "Username already exists") {
+        showError(fullnameInput, "Tên người dùng đã tồn tại. Vui lòng chọn tên khác.");
+      } else {
+        alert(data.message || "Đăng ký thất bại.");
+      }
+    } catch (error) {
+      console.error("Lỗi khi đăng ký:", error);
+      alert("Có lỗi xảy ra. Vui lòng thử lại sau.");
     }
   });
 });

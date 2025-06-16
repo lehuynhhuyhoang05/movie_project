@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("loginForm");
   const usernameInput = document.getElementById("username");
   const passwordInput = document.getElementById("password");
@@ -7,37 +7,40 @@ document.addEventListener("DOMContentLoaded", function () {
   const passwordError = document.getElementById("password-error");
 
   if (!form || !usernameInput || !passwordInput || !usernameError || !passwordError) {
-    console.error("One or more login elements not found");
+    console.error("Không tìm thấy các phần tử cần thiết cho login");
     return;
   }
 
+  // Toggle hiển thị/mật khẩu
   if (toggleIcon) {
-    toggleIcon.addEventListener("click", function () {
-      const isHidden = passwordInput.type === "password";
-      passwordInput.type = isHidden ? "text" : "password";
-      toggleIcon.classList.remove("fa-eye", "fa-eye-slash");
-      toggleIcon.classList.add(isHidden ? "fa-eye-slash" : "fa-eye");
+    toggleIcon.addEventListener("click", () => {
+      const isPasswordHidden = passwordInput.type === "password";
+      passwordInput.type = isPasswordHidden ? "text" : "password";
+      toggleIcon.classList.toggle("fa-eye");
+      toggleIcon.classList.toggle("fa-eye-slash");
     });
   }
 
-  form.addEventListener("submit", async function (e) {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Reset lỗi
     usernameError.textContent = "";
     passwordError.textContent = "";
 
     const username = usernameInput.value.trim();
     const password = passwordInput.value.trim();
     const rememberMe = document.getElementById("rememberMe")?.checked || false;
+
     let isValid = true;
 
-    if (username === "") {
+    if (!username) {
       usernameError.textContent = "Vui lòng nhập số điện thoại hoặc email.";
       usernameInput.focus();
       isValid = false;
     }
 
-    if (password === "") {
+    if (!password) {
       passwordError.textContent = "Vui lòng nhập mật khẩu.";
       if (isValid) passwordInput.focus();
       isValid = false;
@@ -45,18 +48,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!isValid) return;
 
-    const formData = {
-      username,
-      password,
-      rememberMe
-    };
+    const formData = { username, password, rememberMe };
 
     try {
       const response = await fetch("http://movieon.atwebpages.com/src/backend/server.php?controller=user&method=login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
@@ -66,9 +63,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const contentType = response.headers.get("Content-Type");
-      if (!contentType || !contentType.includes("application/json")) {
+      if (!contentType?.includes("application/json")) {
         const text = await response.text();
-        console.error("Invalid response format:", text);
+        console.error("Phản hồi không phải JSON:", text);
         passwordError.textContent = "Lỗi server: Phản hồi không đúng định dạng.";
         return;
       }
@@ -76,19 +73,21 @@ document.addEventListener("DOMContentLoaded", function () {
       const result = await response.json();
 
       if (result.status === "success") {
-        const user = result.user;
+        // Lưu user, token và role vào localStorage
+        localStorage.setItem("user", JSON.stringify(result.user));
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("role", result.user.role); // <--- lưu role riêng
 
-        // Lưu thông tin người dùng vào localStorage
-        localStorage.setItem("user", JSON.stringify(user));
-        alert("Đăng nhập thành công!");
-
-        // Phân quyền chuyển trang
-        if (user.role === "admin") {
-          window.location.href = "admin/dashboard.html";
-        } else if (user.role === "user") {
+        // Điều hướng theo role
+        switch (result.user.role) {
+          case "admin":
+            window.location.href = "admin/dashboard.html";
+            break;
+          case "user":
             window.location.href = "/src/frontend/pages/home.html";
-        } else {
-          passwordError.textContent = "Vai trò người dùng không xác định.";
+            break;
+          default:
+            passwordError.textContent = "Vai trò người dùng không xác định.";
         }
       } else {
         if (result.errors) {
@@ -100,9 +99,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("Lỗi khi đăng nhập:", error);
       if (error.message.includes("Failed to fetch")) {
-        passwordError.textContent = "Không thể kết nối đến server. Vui lòng kiểm tra server.";
+        passwordError.textContent = "Không thể kết nối đến server. Vui lòng kiểm tra kết nối.";
       } else {
         passwordError.textContent = "Có lỗi xảy ra. Vui lòng thử lại sau.";
       }

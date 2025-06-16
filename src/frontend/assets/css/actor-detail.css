@@ -57,23 +57,33 @@
 
 /* Thẻ phim riêng từng phim */
 .movie-card {
-  background-color: #1e1e1e;
-  border-radius: 10px;
+  background-color: #111; 
+  border-radius: 12px;   
+  padding: 10px;
   margin-top: -30px;
   margin-bottom: 40px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  padding: 10px;
-  width: 160px;
-  text-align: center;
+  width: calc(25% - 35px); 
+  color: white;
+  text-align: left;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   cursor: pointer;
-  flex: 0 0 calc((100% - 3 * 5px) / 4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 0 0 calc((100% - 4 * 55px) / 4); /* nếu dùng flex layout */
+}
+
+.movie-card h4 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 5px;
+  font-size: 16px;
 }
 
 .movie-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
+
 
 .movie-card h4 {
   font-size: 16px;
@@ -111,7 +121,7 @@
 .watch-button {
   background-color: #e50914;
   color: white;
-  padding: 6px 4px;
+  padding: 4px 6px;
   border: none;
   border-radius: 6px;
   text-align: center;
