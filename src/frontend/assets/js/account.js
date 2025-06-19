@@ -147,7 +147,7 @@ async function loadFavoriteMovies() {
 
     if (data.status === "success" && Array.isArray(data.data) && data.data.length > 0) {
       favoriteContainer.innerHTML = data.data.map(movie => `
-        <div onclick="location.href='details.html?id=${movie.id}'" 
+        <div onclick="handleWatchAndRedirect(${movie.id})"
              style="width: 200px; background: #111; color: #fff; padding: 10px; border-radius: 8px; cursor: pointer;">
           <img src="${movie.poster_url || movie.poster || '../assets/images/default-poster.jpg'}" alt="${movie.title}" style="width: 100%; border-radius: 6px;">
           <h4 style="white-space: nowrap; overflow: hidden;">${movie.title}</h4>
@@ -166,6 +166,7 @@ async function loadFavoriteMovies() {
     favoriteContainer.innerHTML = "<p>Không thể tải danh sách phim yêu thích.</p>";
   }
 }
+
 
 // Xóa khỏi yêu thích
 async function removeFavorite(movieId) {
