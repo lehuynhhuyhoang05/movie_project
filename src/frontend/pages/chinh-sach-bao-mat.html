@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chính sách bảo mật của Movie On</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e50914; /* Netflix Red */
+            --secondary-color: #b2070a; /* Darker Red */
+            --dark-bg: #0a0a0a; /* Very Dark Background */
+            --card-bg: #1a1a1a; /* Darker Card Background */
+            --text-color: #e0e0e0; /* Light Grey Text */
+            --light-text-color: #ffffff; /* Pure White Text */
+            --heading-color: #ffffff; /* White Headings */
+            --border-radius: 12px; /* Slightly more rounded */
+            --box-shadow-light: 0 4px 15px rgba(0, 0, 0, 0.5); /* Enhanced light shadow */
+            --box-shadow-heavy: 0 10px 30px rgba(0, 0, 0, 0.8); /* Heavier shadow */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #000000 0%, #1a0000 100%); /* Subtle red gradient for body */
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 60px 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            filter: brightness(0.1) grayscale(0.7); /* Even darker, more grayscale */
+            opacity: 0.7;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, var(--dark-bg) 100%); /* Stronger gradient */
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-heavy);
+            animation: fadeIn 1.2s ease-out forwards;
+            position: relative;
+            z-index: 1;
+            border: 2px solid rgba(255, 255, 255, 0.15); /* More visible border */
+            border-bottom: 5px solid var(--primary-color); /* Strong accent border */
+            backdrop-filter: blur(8px); /* Glassmorphism effect */
+            -webkit-backdrop-filter: blur(8px); /* For Safari */
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, border-bottom-color 0.4s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-10px); /* More pronounced lift */
+            border-color: rgba(255, 255, 255, 0.3);
+            border-bottom-color: var(--secondary-color); /* Accent on hover */
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 1.2); /* Even heavier shadow */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 3.8em;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.9); /* Sharper shadow */
+            border-bottom: 4px solid var(--secondary-color); /* Thicker border */
+            padding-bottom: 18px;
+            display: inline-block;
+            animation: bounceIn 1s ease-out;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            60% { opacity: 1; transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--heading-color);
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-size: 2.4em;
+            font-weight: 700;
+            border-left: 6px solid var(--primary-color); /* Thicker accent */
+            padding-left: 20px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            letter-spacing: 0.8px;
+            position: relative;
+            padding-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        h2:hover {
+            transform: translateX(5px);
+            color: var(--primary-color);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 70px; /* Wider initial width */
+            height: 4px; /* Thicker accent */
+            background-color: var(--secondary-color);
+            border-radius: 2px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        
+        h2:hover::after {
+            width: 120px; /* Expand more on hover */
+            background-color: var(--primary-color); /* Red glow */
+        }
+
+        h3 {
+            font-family: 'Roboto', sans-serif;
+            color: var(--heading-color);
+            font-size: 1.35em;
+            font-weight: 700;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 22px;
+            font-size: 1.15em;
+            line-height: 1.9;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            text-align: justify; /* Ensure text is aligned nicely */
+        }
+
+        strong {
+            color: var(--light-text-color);
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease, text-decoration 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+            text-shadow: 0 0 10px var(--primary-color); /* More intense glow */
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        ul li {
+            background-color: #1e1e1e; /* Slightly darker item background */
+            padding: 20px 25px; /* More horizontal padding */
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start; /* Align icon and text at the top */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4); /* Softer initial shadow */
+            border-left: 8px solid transparent; /* Thicker initial border */
+            transition: transform 0.4s ease, background-color 0.4s ease, border-left-color 0.4s ease, box-shadow 0.4s ease;
+            font-size: 1.1em;
+            line-height: 1.6; /* Tighter line height for lists */
+        }
+
+        ul li:hover {
+            transform: translateX(12px); /* More pronounced slide */
+            background-color: #282828; /* Lighter on hover */
+            border-left-color: var(--primary-color); /* Highlight border on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); /* Stronger shadow */
+        }
+
+        ul li i {
+            color: var(--primary-color); /* Red icons */
+            font-size: 2.2em; /* Slightly larger icons */
+            margin-right: 25px; /* More space */
+            width: 45px; /* Ensure fixed width for alignment */
+            text-align: center;
+            flex-shrink: 0; /* Prevent icon from shrinking on wrapping text */
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Subtle glow for icons */
+            transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+        }
+        
+        ul li:hover i {
+            transform: scale(1.1) rotate(5deg); /* Bounce and rotate slightly */
+            color: var(--light-text-color); /* Change icon color on hover */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Stronger glow on hover */
+        }
+
+        .back-home-button {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.3em;
+            padding: 12px 35px; /* More horizontal padding */
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, text-shadow 0.3s ease;
+            font-weight: 700;
+            letter-spacing: 1px; /* Slightly more letter spacing */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            display: inline-flex;
+            align-items: center;
+            text-transform: uppercase;
+            margin-top: 60px; /* More space above */
+            border-top: 1px solid #333; /* Keep divider */
+            padding-top: 25px; /* Keep padding */
+            text-align: center;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .back-home-button:hover {
+            background-color: var(--secondary-color);
+            text-decoration: none;
+            transform: translateY(-8px); /* More pronounced lift */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 1); /* Intense glow for text */
+        }
+
+        .back-home-button i {
+            margin-right: 12px; /* More space */
+            font-size: 1.15em; /* Slightly larger icon */
+            transition: transform 0.3s ease;
+        }
+        
+        .back-home-button:hover i {
+            transform: translateX(-8px) scale(1.1); /* Icon slides and grows slightly */
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2.8em;
+                letter-spacing: 1.5px;
+            }
+            h2 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 1em;
+            }
+            ul li {
+                padding: 15px 20px;
+                font-size: 1em;
+                margin-bottom: 12px;
+                line-height: 1.5;
+            }
+            ul li i {
+                font-size: 1.8em;
+                margin-right: 18px;
+                width: 35px;
+            }
+            .back-home-button {
+                font-size: 1.1em;
+                padding: 10px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2.2em;
+                letter-spacing: 1px;
+                padding-bottom: 12px;
+            }
+            h2 {
+                font-size: 1.7em;
+                padding-left: 15px;
+            }
+            h2::after {
+                width: 50px;
+                height: 3px;
+            }
+            h2:hover::after {
+                width: 80px;
+            }
+            p {
+                font-size: 0.95em;
+            }
+            ul li {
+                padding: 12px 15px;
+                font-size: 0.95em;
+                margin-bottom: 10px;
+            }
+            ul li i {
+                font-size: 1.5em;
+                margin-right: 15px;
+                width: 30px;
+            }
+            .back-home-button {
+                font-size: 1em;
+                padding: 8px 20px;
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop class="background-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-popcorn-and-drinks-10904-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <h1>Chính sách bảo mật của Movie On</h1>
+        <p>Tại Movie On, chúng tôi cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của bạn. Chính sách này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ thông tin của bạn.</p>
+        <h2>1. Thông tin chúng tôi thu thập</h2>
+        <ul>
+            <li><strong>Thông tin bạn cung cấp:</strong> Tên, địa chỉ email, thông tin thanh toán (khi đăng ký gói dịch vụ).</li>
+            <li><strong>Thông tin sử dụng dịch vụ:</strong> Lịch sử xem phim, sở thích, thiết bị sử dụng, địa chỉ IP, thời gian truy cập.</li>
+            <li><strong>Thông tin từ bên thứ ba:</strong> Có thể nhận thông tin từ các đối tác hoặc mạng xã hội nếu bạn kết nối tài khoản.</li>
+        </ul>
+        <h2>2. Cách chúng tôi sử dụng thông tin</h2>
+        <p>Chúng tôi sử dụng thông tin của bạn để:</p>
+        <ul>
+            <li>Cung cấp và quản lý dịch vụ, xử lý thanh toán.</li>
+            <li>Cá nhân hóa trải nghiệm xem phim của bạn.</li>
+            <li>Gửi thông báo, cập nhật dịch vụ, ưu đãi đặc biệt.</li>
+            <li>Phân tích và cải thiện dịch vụ của chúng tôi.</li>
+            <li>Ngăn chặn các hoạt động gian lận hoặc bất hợp pháp.</li>
+        </ul>
+        <h2>3. Chia sẻ thông tin</h2>
+        <p>Chúng tôi không bán hoặc cho thuê thông tin cá nhân của bạn cho bên thứ ba. Chúng tôi chỉ chia sẻ thông tin trong các trường hợp sau:</p>
+        <ul>
+            <li>Với các đối tác cung cấp dịch vụ (ví dụ: xử lý thanh toán) theo thỏa thuận bảo mật nghiêm ngặt.</li>
+            <li>Khi có yêu cầu của pháp luật hoặc cơ quan nhà nước có thẩm quyền.</li>
+            <li>Để bảo vệ quyền lợi, tài sản hoặc sự an toàn của Movie On và người dùng.</li>
+        </ul>
+        <h2>4. Bảo mật dữ liệu</h2>
+        <p>Chúng tôi áp dụng các biện pháp bảo mật vật lý, kỹ thuật và quản lý để bảo vệ thông tin cá nhân của bạn khỏi truy cập, sử dụng hoặc tiết lộ trái phép.</p>
+        <p>Nếu có bất kỳ câu hỏi nào về chính sách bảo mật, vui lòng liên hệ với chúng tôi.</p>
+        
+        <a href="home.html" class="back-home-button"><i class="fas fa-home"></i> Quay lại trang chủ</a>
+    </div>
+</body>
+</html>

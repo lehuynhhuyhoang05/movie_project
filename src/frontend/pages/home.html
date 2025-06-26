@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trang chủ - Movie On</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/notifications.css" />
+  </head>
+  <body>
+    <!-- Header -->
+     <div id="header-placeholder"></div>
+     <script src="../assets/js/load-header.js"></script>
+     
+    <!-- Banner -->
+    <div class="banner">
+      <div class="banner-slider">
+        <img src="../assets/images/slide1.jpg" alt="Slide 1" />
+        <img src="../assets/images/slide2.jpg" alt="Slide 2" />
+        <img src="../assets/images/slide3.jpg" alt="Slide 3" />
+        <img src="../assets/images/slide4.jpg" alt="Slide 4" />
+      </div>
+      <button class="banner-arrow left">&#10094;</button>
+      <button class="banner-arrow right">&#10095;</button>
+    </div>
+    <div id="adminBackBtnContainer"></div>
+
+
+    <!-- Danh sách xem phim -->
+<section class="movie-list">
+    <h2>Mới Ra Mắt</h2>
+    <div class="carousel-container">
+        <button class="arrow-btn left-arrow">❮</button>
+        <div class="movie-grid" id="movieGridNewRelease"></div>
+        <button class="arrow-btn right-arrow">❯</button>
+    </div>
+</section>
+
+<section class="movie-list">
+    <h2>Lịch sử</h2>
+    <div class="carousel-container">
+        <button class="arrow-btn left-arrow">❮</button>
+        <div class="movie-grid" id="movieGridHistory"></div>
+        <button class="arrow-btn right-arrow">❯</button>
+    </div>
+</section>
+
+<section class="movie-list">
+    <h2>Gia đình</h2>
+    <div class="carousel-container">
+        <button class="arrow-btn left-arrow">❮</button>
+        <div class="movie-grid" id="movieGridFamily"></div>
+        <button class="arrow-btn right-arrow">❯</button>
+    </div>
+</section>
+
+<section class="movie-list">
+    <h2>Hoạt hình</h2>
+    <div class="carousel-container">
+        <button class="arrow-btn left-arrow">❮</button>
+        <div class="movie-grid" id="movieGridAnimation"></div>
+        <button class="arrow-btn right-arrow">❯</button>
+    </div>
+</section>
+
+
+<!-- Footer -->
+<div id="footer-placeholder"></div>
+    <script src="../assets/js/home.js"></script>
+    <script src="../assets/js/account.js"></script>
+    <script src="../assets/js/load-footer.js"></script>
+    <script src="../assets/js/notifications.js"></script> 
+    <script src="../assets/js/api.js"></script>
+  </body>
+</html>
+
+
+

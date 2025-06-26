@@ -1,0 +1,73 @@
+<!-- Header khi user chưa đăng nhập -->
+<header class="main-header" id="header-guest">
+  <div class="container">
+    <div class="logo">
+      <img src="../assets/images/logo.png" alt="Movie On" class="logo-img" />
+    </div>
+    <nav class="nav-menu">
+      <a href="home.html" class="nav-link">Trang chủ</a>
+      <a href="actor.html" class="nav-link">Diễn viên</a>
+      <div class="dropdown">
+        <a href="genre.html" class="nav-link genreLink">Thể loại ▾</a>
+        <div class="dropdown-content dropdownContent"></div>
+      </div>
+    </nav>
+
+    <div class="header-actions">
+      <!-- Dùng <a> để highlight dễ hơn -->
+      <a href="search.html" class="icon-btn nav-link" aria-label="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </a>
+      <button type="button" class="icon-btn" aria-label="Notifications" id="notificationBtnGuest">
+        <i class="fa-solid fa-bell"></i>
+        <span class="badge" id="notificationCountGuest">0</span>
+      </button>
+      <a href="login.html" class="btn-login">Đăng Nhập</a>
+      <a href="register.html" class="btn-login">Đăng Ký</a>
+    </div>
+
+    <div class="notification-popup" id="notificationPopupGuest" hidden>
+      <h3>Thông Báo</h3>
+      <ul>
+        <!--Thông báo xuất hiện ở đây-->
+      </ul>
+      <button type="button" id="closePopupBtnGuest">Đóng</button>
+    </div>
+  </div>
+</header>
+
+<!-- Header khi user đăng nhập -->
+<header class="main-header" id="header-user" hidden>
+  <div class="container">
+    <div class="logo">
+      <img src="../assets/images/logo.png" alt="Movie On" class="logo-img" />
+    </div>
+    <nav class="nav-menu">
+      <a href="home.html" class="nav-link">Trang chủ</a>
+      <a href="actor.html" class="nav-link">Diễn viên</a>
+      <div class="dropdown">
+        <a href="genre.html" class="nav-link genreLink">Thể loại ▾</a>
+        <div class="dropdown-content dropdownContent"></div>
+      </div>
+    </nav>
+    <div class="header-actions">
+      <a href="search.html" class="icon-btn nav-link" aria-label="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </a>
+      <button type="button" class="icon-btn" aria-label="Notifications" id="notificationBtnUser">
+        <i class="fa-solid fa-bell"></i>
+        <span class="badge" id="notificationCountUser">1</span>
+      </button>
+      <a href="account.html" class="icon-btn nav-link" aria-label="Account">
+        <i class="fa-solid fa-user"></i>
+      </a>
+    </div>
+    <div class="notification-popup" id="notificationPopupUser" hidden>
+      <h3>Thông Báo</h3>
+      <ul>
+        <li>Chào mừng bạn đã đăng nhập Moie On!</li>
+      </ul>
+      <button type="button" id="closePopupBtnUser">Đóng</button>
+    </div>
+  </div>
+</header>

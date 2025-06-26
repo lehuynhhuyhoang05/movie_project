@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới thiệu về Movie On - Trải nghiệm điện ảnh đỉnh cao</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e50914; /* Netflix Red */
+            --secondary-color: #b2070a;
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+            --text-color: #e0e0e0;
+            --light-text-color: #f5f5f5;
+            --heading-color: #ffffff;
+            --border-radius: 10px;
+            --box-shadow-light: 0 4px 10px rgba(0, 0, 0, 0.4);
+            --box-shadow-heavy: 0 8px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 60px 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background Video */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            filter: brightness(0.2) grayscale(0.5); /* Darken and desaturate */
+            opacity: 0.7;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, var(--dark-bg) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-heavy);
+            animation: fadeIn 1.2s ease-out forwards;
+            position: relative;
+            z-index: 1; /* Ensure content is above overlay */
+            border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 3.5em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 15px;
+            display: inline-block;
+            animation: bounceIn 1s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            60% { opacity: 1; transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--heading-color);
+            margin-top: 45px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            font-weight: 700;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.15em;
+            line-height: 1.9;
+        }
+
+        strong {
+            color: var(--light-text-color);
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        .intro-text {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: #222;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-light);
+            text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease;
+            border-top: 4px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%);
+            z-index: 0;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--box-shadow-heavy);
+            background-color: #2b2b2b;
+        }
+
+        .card h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card p {
+            font-size: 1.05em;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .features-list li {
+            background-color: #222;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--box-shadow-light);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .features-list li:hover {
+            transform: translateX(5px);
+            background-color: #2b2b2b;
+        }
+
+        .features-list li i {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-right: 15px;
+            width: 40px; /* Fixed width for icon */
+            text-align: center;
+        }
+
+        .features-list li span {
+            font-size: 1.1em;
+            font-weight: 400;
+        }
+
+        .contact-info {
+            list-style: none;
+            padding: 0;
+            margin-top: 25px;
+        }
+
+        .contact-info li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 1.15em;
+        }
+
+        .contact-info li i {
+            color: var(--primary-color);
+            font-size: 1.5em;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 25px;
+            border-top: 1px solid #333;
+        }
+
+        .back-link a {
+            font-size: 1.3em;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .back-link a:hover {
+            background-color: var(--secondary-color);
+            text-decoration: none;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .mission-vision-grid {
+                grid-template-columns: 1fr;
+            }
+            .features-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            .card {
+                padding: 20px;
+            }
+            .card h3 {
+                font-size: 1.5em;
+            }
+            .features-list li {
+                padding: 15px;
+            }
+            .features-list li i {
+                font-size: 1.5em;
+            }
+            .back-link a {
+                font-size: 1.1em;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop class="background-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-popcorn-and-drinks-10904-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <h1>Giới thiệu về Movie On</h1>
+
+        <p class="intro-text">Nền tảng giải trí điện ảnh đỉnh cao, mang cả thế giới phim ảnh đến ngôi nhà của bạn!</p>
+
+        <p><strong>Movie On</strong> là điểm đến lý tưởng cho những người yêu điện ảnh. Chúng tôi mang đến một thư viện khổng lồ với hàng ngàn bộ phim bom tấn, các series truyền hình độc quyền và những tác phẩm kinh điển vượt thời gian. Mọi thứ bạn cần để đắm chìm vào thế giới giải trí đều có tại đây.</p>
+
+        <p>Với Movie On, trải nghiệm xem phim của bạn sẽ được nâng tầm với <strong>chất lượng hình ảnh 4K Ultra HD sắc nét</strong>, <strong>âm thanh vòm sống động như rạp chiếu</strong> và <strong>giao diện người dùng trực quan, dễ dàng khám phá</strong>. Chúng tôi cam kết mang đến những giờ phút thư giãn tuyệt vời nhất cho mọi thành viên trong gia đình bạn.</p>
+
+        <h2>Sứ mệnh & Tầm nhìn của chúng tôi</h2>
+        <div class="mission-vision-grid">
+            <div class="card">
+                <h3><i class="fas fa-bullseye"></i> Sứ mệnh</h3>
+                <p>Cung cấp trải nghiệm giải trí điện ảnh **chất lượng cao, đa dạng và dễ tiếp cận** nhất cho mọi khán giả, khơi gợi niềm đam mê phim ảnh bất tận.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-eye"></i> Tầm nhìn</h3>
+                <p>Trở thành **nền tảng xem phim trực tuyến hàng đầu** tại Việt Nam, là lựa chọn số một cho gia đình và cộng đồng yêu phim.</p>
+            </div>
+        </div>
+
+        <h2><i class="fas fa-star-half-alt"></i> Tại sao chọn Movie On?</h2>
+        <p>Chúng tôi không ngừng đổi mới và phát triển để mang lại những giá trị tốt nhất cho bạn. Dưới đây là những lý do bạn sẽ yêu thích Movie On:</p>
+        <ul class="features-list">
+            <li><i class="fas fa-film"></i> <span><strong>Thư viện nội dung phong phú:</strong> Hàng ngàn bộ phim và series từ mọi thể loại, luôn được cập nhật.</span></li>
+            <li><i class="fas fa-video"></i> <span><strong>Chất lượng đỉnh cao:</strong> Trải nghiệm xem phim với độ phân giải lên tới 4K và âm thanh vòm sống động.</span></li>
+            <li><i class="fas fa-tv"></i> <span><strong>Tương thích đa thiết bị:</strong> Xem mọi lúc, mọi nơi trên Smart TV, điện thoại, máy tính bảng và laptop.</span></li>
+            <li><i class="fas fa-lock"></i> <span><strong>Nội dung độc quyền:</strong> Các bộ phim và chương trình chỉ có duy nhất trên Movie On.</span></li>
+            <li><i class="fas fa-search"></i> <span><strong>Giao diện thông minh:</strong> Dễ dàng tìm kiếm, khám phá và cá nhân hóa trải nghiệm của bạn.</span></li>
+            <li><i class="fas fa-headset"></i> <span><strong>Hỗ trợ 24/7:</strong> Đội ngũ chăm sóc khách hàng luôn sẵn sàng hỗ trợ bạn bất cứ lúc nào.</span></li>
+        </ul>
+
+        <h2><i class="fas fa-address-book"></i> Liên hệ với chúng tôi</h2>
+        <p>Đừng ngần ngại liên hệ với Movie On nếu bạn có bất kỳ câu hỏi, góp ý hay yêu cầu hỗ trợ nào. Chúng tôi luôn lắng nghe để phục vụ bạn tốt hơn:</p>
+        <ul class="contact-info">
+            <li><i class="fas fa-envelope"></i> Email: <a href="mailto:support@movieon.vn">support@movieon.vn</a></li>
+            <li><i class="fas fa-phone"></i> Điện thoại: 1900 1234 (Hỗ trợ 24/7)</li>
+            <li><i class="fas fa-map-marker-alt"></i> Địa chỉ: 123 Đại Lộ Điện Ảnh, Quận Phim Ảnh, TP.HCM</li>
+        </ul>
+
+        <div class="back-link">
+    <a href="home.html">
+        <i class="fas fa-home"></i> Quay lại trang chủ
+    </a>
+</div>
+    </div>
+</body>
+</html>

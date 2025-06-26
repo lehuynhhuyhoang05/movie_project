@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Đăng xuất...</title>
+  <script src="../assets/js/logout.js"></script>
+</head>
+<body>
+  <p>Đang đăng xuất...</p>
+</body>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token"); 
+    window.location.href = "home.html"; 
+  });
+</script>
+
+</html>

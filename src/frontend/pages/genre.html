@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Phim theo thể loại</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/genre.css" />
+  <link rel="stylesheet" href="../assets/css/notifications.css" />
+</head>
+<body>
+  <!-- Header -->
+  <div id="header-placeholder"></div>
+  <script src="../assets/js/load-header.js"></script>
+
+  <h1 id="genreTitle">Đang tải thể loại...</h1>
+  <div id="genre-movies"></div>
+
+  <script>
+    // Map tên thể loại tiếng Anh sang tiếng Việt
+    const genreNameMapVi = {
+      "Action": "Hành động",
+      "Adventure": "Phiêu lưu",
+      "Animation": "Hoạt hình",
+      "Comedy": "Hài",
+      "Crime": "Tội phạm",
+      "Documentary": "Tài liệu",
+      "History": "Lịch sử",
+      "Family": "Gia đình",
+      "Fantasy": "Giả tưởng",
+      "Drama": "Chính kịch",
+      "Horror": "Kinh dị",
+      "Music": "Âm nhạc",
+      "Mystery": "Bí ẩn",
+      "Romance": "Lãng mạn",
+      "Science Fiction": "Khoa học viễn tưởng",
+      "Thriller": "Gây cấn",
+      "War": "Chiến tranh",
+      "Western": "Cao bồi viễn tây",
+      "TV Movie": "Phim truyền hình"
+    };
+
+    async function getAllMovies() {
+      const res = await fetch("http://localhost/movie_project/src/backend/server.php?controller=movie&method=index");
+      const data = await res.json();
+      return data;
+    }
+
+    async function getMoviesByGenre(id) {
+      const allMovies = await getAllMovies();
+      if (allMovies.status !== "success") return [];
+      return allMovies.data.filter(movie => movie.genre_id == id);
+    }
+
+    function renderMoviesByGenre(movies, genreName) {
+      document.getElementById("genreTitle").textContent = `Thể loại: ${genreName || 'Không rõ'}`;
+      const container = document.getElementById("genre-movies");
+
+      if (!movies || movies.length === 0) {
+        container.innerHTML = "<p>Không có phim nào thuộc thể loại này.</p>";
+        return;
+      }
+
+      container.innerHTML = movies.map(movie => {
+        const genreEn = movie.genre_name || movie.genre || 'Không rõ';
+        const genreVi = genreNameMapVi[genreEn] || genreEn;
+        const duration = movie.duration ? `${movie.duration} phút` : 'Chưa rõ';
+        const director = movie.director || 'Chưa rõ';
+
+        return `
+          <div class="movie-card">
+            <a href="details.html?id=${movie.id}">
+              <img src="${movie.poster_url || '../assets/images/default-poster.jpg'}" alt="${movie.title}" />
+            </a>
+            <div class="movie-info">
+              <h3>${movie.title || 'Không có tiêu đề'}</h3>
+              <p class="description">${movie.description ? movie.description.substring(0, 50) + '...' : 'Không có mô tả'}</p>
+              <p class="movie-genre">Thể loại: ${genreVi}</p>
+              <p><strong>Thời lượng:</strong> ${duration}</p>
+              <p><strong>Đạo diễn:</strong> ${director}</p>
+              <p class="rating">Đánh giá IMDb: ${movie.imdb_rating || 'N/A'}</p>
+            </div>
+            <button onclick="handleWatchAndRedirect(${movie.id})" class="movie-btn">Xem ngay</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.onload = async function () {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      if (!id) {
+        document.getElementById("genreTitle").textContent = "Không có ID thể loại.";
+        return;
+      }
+
+      // Dự phòng nếu ID là số, nhưng tên genre lại là tiếng Anh
+      const genreNameFromMap = {
+        28: "Hành động",
+        12: "Phiêu lưu",
+        16: "Hoạt hình",
+        35: "Hài",
+        80: "Tội phạm",
+        99: "Tài liệu",
+        36: "Lịch sử",
+        10751: "Gia đình",
+        14: "Giả tưởng",
+        18: "Chính kịch",
+        27: "Kinh dị",
+        37: "Cao bồi viễn tây",
+        53: "Gây cấn",
+        878: "Khoa học viễn tưởng",
+        9648: "Bí ẩn",
+        10402: "Âm nhạc",
+        10749: "Lãng mạn",
+        10752: "Chiến tranh",
+        10770: "Phim truyền hình"
+      };
+
+      const genreNameVi = genreNameFromMap[id] || `ID ${id}`;
+      const movies = await getMoviesByGenre(id);
+      renderMoviesByGenre(movies, genreNameVi);
+    };
+
+    async function addToWatchHistory(movieId) {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        await fetch(`http://localhost/movie_project/src/backend/server.php?controller=movie&method=addWatchHistory&movie_id=${movieId}&token=Bearer%20${token}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ movie_id: movieId })
+        });
+      } catch (error) {
+        console.error("Lỗi khi lưu lịch sử xem:", error);
+      }
+    }
+
+    async function handleWatchAndRedirect(movieId) {
+      try {
+        await addToWatchHistory(movieId);
+      } catch (e) {
+        console.warn("Không thể lưu lịch sử, chuyển hướng vẫn tiếp tục");
+      } finally {
+        location.href = `details.html?id=${movieId}`;
+      }
+    }
+  </script>
+
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+  <script src="../assets/js/load-footer.js"></script>
+  <script src="../assets/js/notifications.js"></script>
+</body>
+</html>

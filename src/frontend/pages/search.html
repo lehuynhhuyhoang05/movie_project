@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="../assets/css/search.css" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/notifications.css" />
+  <title>Tìm kiếm phim</title>
+</head>
+<body>
+  <!-- Header -->
+  <div id="header-placeholder"></div>
+  <script src="../assets/js/load-header.js"></script>
+
+  <div class="search-container">
+    <div class="search-box-wrapper"></div>
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input type="text" class="search-box" placeholder="Nhập tên phim, kênh, sự kiện..." />
+    <button class="search-button">Tìm kiếm</button>
+    <div class="suggestion-box"></div>
+  </div>
+
+  <div class="content" id="main-content">
+    <div class="left" id="trend-section">
+      <h2>Xu hướng gần đây</h2>
+      <div class="movie-list"></div> <!-- Hiển thị phim tìm kiếm -->
+    </div>
+
+    <div class="right" id="top-search-section">
+      <h2>Tìm kiếm hàng đầu</h2>
+      <!-- Có thể thêm tag ở đây hoặc để trống -->
+    </div>
+  </div>
+
+  <!-- Thêm vùng kết quả tìm kiếm -->
+  <div class="search-results" id="search-results" style="display: none;">
+    <h2>Kết quả tìm kiếm</h2>
+    <div class="movie-list" id="search-movie-list"></div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer-placeholder"></div>
+  <script src="../assets/js/load-footer.js"></script>
+  <script src="../assets/js/notifications.js"></script>
+  <script src="../assets/js/search.js"></script>
+</body>
+</html>

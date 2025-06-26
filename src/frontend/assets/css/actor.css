@@ -1,0 +1,81 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 22px;
+  color: #fff;
+  margin-bottom: -10px;
+  text-align: center;
+  user-select: none;
+}
+
+
+.actor-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Ảnh đại diện diễn viên - ảnh tròn */
+.actor-photo {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Danh sách phim trong phần diễn viên */
+.movie-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Card phim */
+.movie-card {
+  width: 160px;
+  text-align: center;
+}
+
+.movie-card img {
+  width: 100%;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+.movie-card img:hover {
+  transform: scale(1.05);
+}
+
+.movie-title {
+  margin-top: 8px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Ảnh trong card diễn viên (ảnh vuông bo góc) */
+.actor-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+/* Nút trong card diễn viên */
+.actor-card button {
+  padding: 4px 8px;
+  border: none;
+  background-color: #e50914;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.actor-card button:hover {
+  background-color: #b20710;
+}
