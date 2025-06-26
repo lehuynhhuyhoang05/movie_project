@@ -50,7 +50,7 @@ $movie_id = isset($_GET['movie_id']) ? (int)$_GET['movie_id'] : null;
 $genre_name = isset($_GET['genre_name']) ? $_GET['genre_name'] : null;
 $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : null;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$perPage = isset($_GET['perPage']) ? (int)$_GET['perPage'] : 10; // Đặt mặc định là 10
+$perPage = isset($_GET['perPage']) ? (int)$_GET['perPage'] : 10;
 $actor_id = isset($_GET['actor_id']) ? (int)$_GET['actor_id'] : null;
 
 if (!$controllerName || !array_key_exists($controllerName, $controllers)) {
@@ -146,75 +146,82 @@ try {
             }
             break;
 
-       case 'user':
-    switch ($method) {
-        case 'index':
-            $controller->index();
-            break;
-        case 'register':
-            error_log("Calling UserController::register()");
-            $controller->register();
-            break;
-        case 'login':
-            $controller->login();
-            break;
-        case 'logout':
-            $controller->logout();
-            break;
-        case 'delete':
-            if (!$id) throw new Exception("ID is required");
-            $controller->delete($id);
-            break;
-        case 'updateProfile':
-            $controller->updateProfile();
-            break;
-        case 'changePassword':
-            $controller->changePassword();
-            break;
-        case 'update':
-            $controller->update();
-            break;
-        case 'create': 
-            $controller->create();
-            break;
-        case 'verify':   // ✅ Thêm dòng này
-            $controller->verify();  // ✅ Gọi hàm verify
-            break;
-        case 'getProfile':
-            $controller->getProfile();
-            break;
-        case 'forgotPassword': // Thêm xử lý cho forgotPassword
-             $controller->forgotPassword();
-             break;
-        case 'resetPassword':
-            $controller->resetPassword();
-            break;
-        default:
-            throw new Exception("Method not found");
-    }
-    break;
-
-    
-    break;
-        case 'review':
+        case 'user':
             switch ($method) {
-                case 'getByMovie':
-                    if (!$movie_id) throw new Exception("movie_id is required");
-                    $controller->getByMovie($movie_id);
+                case 'index':
+                    $controller->index();
                     break;
-                case 'create':
-                    $controller->create();
+                case 'register':
+                    error_log("Calling UserController::register()");
+                    $controller->register();
                     break;
-                case 'update':
-                    if (!$id) throw new Exception("ID is required");
-                    $controller->update($id);
+                case 'login':
+                    $controller->login();
+                    break;
+                case 'logout':
+                    $controller->logout();
                     break;
                 case 'delete':
                     if (!$id) throw new Exception("ID is required");
                     $controller->delete($id);
                     break;
+                case 'updateProfile':
+                    $controller->updateProfile();
+                    break;
+                case 'changePassword':
+                    $controller->changePassword();
+                    break;
+                case 'update':
+                    $controller->update();
+                    break;
+                case 'create':
+                    $controller->create();
+                    break;
+                case 'verify':
+                    $controller->verify();
+                    break;
+                case 'getProfile':
+                    $controller->getProfile();
+                    break;
+                case 'forgotPassword':
+                    $controller->forgotPassword();
+                    break;
+                case 'resetPassword':
+                    $controller->resetPassword();
+                    break;
                 default:
                     throw new Exception("Method not found");
+            }
+            break;
+
+        case 'review':
+            switch ($method) {
+                case 'getByMovie':
+                    $controller->getByMovie($id);
+                    break;
+                case 'create':
+                    $controller->create();
+                    break;
+                case 'update':
+                    $controller->update($id);
+                    break;
+                case 'delete':
+                    $controller->delete($id);
+                    break;
+                case 'createComment':
+                    $controller->createComment();
+                    break;
+                case 'getComments':
+                    $controller->getComments($id);
+                    break;
+                case 'updateComment':
+                    $controller->updateComment($id);
+                    break;
+                case 'deleteComment':
+                    $controller->deleteComment($id);
+                    break;
+                default:
+                    throw new Exception("Invalid method");
             }
             break;
 
