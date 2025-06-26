@@ -126,6 +126,21 @@ try {
                 case 'index':
                     $controller->index();
                     break;
+                case 'create':
+                    $controller->create();
+                    break;
+                case 'update':
+                    if (!$id) throw new Exception("ID is required");
+                    $controller->update($id);
+                    break;
+                case 'delete':
+                    if (!$id) throw new Exception("ID is required");
+                    $controller->delete($id);
+                    break;
+                case 'checkGenreMovies':
+                    if (!$id) throw new Exception("ID is required");
+                    $controller->checkGenreMovies($id);
+                    break;
                 default:
                     throw new Exception("Method not found");
             }
