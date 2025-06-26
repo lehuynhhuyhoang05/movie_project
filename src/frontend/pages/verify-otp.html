@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Xác thực OTP - Movie On</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/verify-otp.css" />
+</head>
+<body>
+  <div class="otp-container">
+    <h2>Xác thực mã OTP</h2>
+    <p>Vui lòng nhập mã OTP đã được gửi đến email hoặc số điện thoại của bạn.</p>
+
+    <form id="otpForm">
+      <div class="otp-inputs">
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input" autofocus />
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input" />
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input" />
+        <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="otp-input" />
+      </div>
+      <div id="otp-error" class="error-message"></div>
+      <div id="otp-success" class="success-message"></div>
+      <button type="submit" class="otp-verify-btn">Xác nhận</button>
+    </form>
+
+    <p class="resend-text">
+      Không nhận được mã? 
+      <button type="button" id="resendOtpBtn" class="resend-btn">Gửi lại OTP</button>
+    </p>
+  </div>
+
+  <script src="../assets/js/verify-otp.js"></script>
+</body>
+</html>

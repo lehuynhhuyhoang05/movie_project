@@ -1,0 +1,4 @@
+node_modules/
+.htaccess_backup.txt
+*.log
+.env

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin liên hệ Movie On</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e50914;
+            --secondary-color: #b2070a;
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+            --text-color: #e0e0e0;
+            --light-text-color: #f5f5f5;
+            --heading-color: #ffffff;
+            --border-radius: 10px;
+            --box-shadow-light: 0 4px 10px rgba(0, 0, 0, 0.4);
+            --box-shadow-heavy: 0 8px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 60px 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            filter: brightness(0.2) grayscale(0.5);
+            opacity: 0.7;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, var(--dark-bg) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-heavy);
+            animation: fadeIn 1.2s ease-out forwards;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 3.5em;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 15px;
+            display: inline-block;
+            animation: bounceIn 1s ease-out;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            60% { opacity: 1; transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--heading-color);
+            margin-top: 45px;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            font-weight: 700;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        h3 {
+            font-family: 'Roboto', sans-serif;
+            color: var(--heading-color);
+            font-size: 1.25em;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.15em;
+            line-height: 1.9;
+        }
+
+        strong {
+            color: var(--light-text-color);
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        ul li {
+            background-color: #222;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--box-shadow-light);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        ul li:hover {
+            transform: translateX(5px);
+            background-color: #2b2b2b;
+        }
+
+        ul li i {
+            color: var(--primary-color);
+            font-size: 1.8em;
+            margin-right: 15px;
+            width: 40px;
+            text-align: center;
+        }
+
+        .contact-address p {
+            margin-bottom: 15px;
+            padding-left: 55px;
+            position: relative;
+            font-size: 1.1em;
+        }
+
+        .contact-address p strong {
+            display: inline-block;
+            min-width: 120px;
+            color: var(--text-muted);
+        }
+
+        .contact-address p i {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 1.5em;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 25px;
+            border-top: 1px solid #333;
+        }
+
+        .back-link a {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.3em;
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            display: inline-flex;
+            align-items: center;
+            text-transform: uppercase;
+        }
+
+        .back-link a:hover {
+            background-color: var(--secondary-color);
+            text-decoration: none;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        .back-link a i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+            p {
+                font-size: 1em;
+            }
+            ul li {
+                padding: 15px;
+                font-size: 1em;
+            }
+            ul li i {
+                font-size: 1.5em;
+                margin-right: 10px;
+                width: 30px;
+            }
+            .contact-address p {
+                padding-left: 0;
+            }
+            .contact-address p strong {
+                display: block;
+                min-width: unset;
+                margin-bottom: 5px;
+            }
+            .contact-address p i {
+                display: none;
+            }
+            .back-link a {
+                font-size: 1.1em;
+                padding: 10px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            .container {
+                padding: 20px;
+            }
+            ul li {
+                padding: 10px;
+                font-size: 0.95em;
+            }
+            ul li i {
+                font-size: 1.3em;
+                margin-right: 8px;
+                width: 25px;
+            }
+            .back-link a {
+                font-size: 1em;
+                padding: 8px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop class="background-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-popcorn-and-drinks-10904-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <h1>Liên hệ với Movie On</h1>
+
+        <p>Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ quý khách hàng. Vui lòng liên hệ với chúng tôi qua các kênh sau để nhận được sự trợ giúp nhanh nhất.</p>
+
+        <h2><i class="fas fa-headset"></i> Hỗ trợ khách hàng</h2>
+        <ul>
+            <li><i class="fas fa-phone-alt"></i> <strong>Điện thoại:</strong> <a href="tel:19006600">1900 6600</a> (Hoạt động từ 8:00 - 22:00 hàng ngày)</li>
+            <li><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:support@movieon.com">support@movieon.com</a> (Phản hồi trong vòng 24 giờ)</li>
+            <li><i class="fas fa-comments"></i> <strong>Chat trực tuyến:</strong> Có mặt trên website (trong giờ hành chính)</li>
+        </ul>
+
+        <h2><i class="fas fa-building"></i> Văn phòng đại diện</h2>
+        <div class="contact-address">
+            <p><i class="fas fa-building"></i> <strong>Tên công ty:</strong> Công ty Cổ phần Viễn Thông Movie On</p>
+            <p><i class="fas fa-user"></i> <strong>Người đại diện:</strong> Ông Nguyễn Thành Chiến</p>
+            <p><i class="fas fa-map-marker-alt"></i> <strong>Địa chỉ:</strong> Tầng 5, Tòa nhà Movie On, Số 72 Lê Thánh Tôn, Phường Phù Nhuận, Quận 2, TP. Hồ Chí Minh</p>
+            <p><i class="fas fa-barcode"></i> <strong>Mã số thuế:</strong> 03123456789</p>
+        </div>
+
+        <h2><i class="fas fa-share-alt"></i> Theo dõi chúng tôi trên mạng xã hội</h2>
+        <p>Để không bỏ lỡ các thông tin, ưu đãi và sự kiện mới nhất:</p>
+        <ul>
+            <li><i class="fab fa-facebook-f"></i> <a href="https://www.facebook.com/movieon.hello" target="_blank">Facebook</a></li>
+            <li><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/movieon.hello" target="_blank">Instagram</a></li>
+            <li><i class="fab fa-youtube"></i> <a href="https://www.youtube.com/c/MovieOnOfficial" target="_blank">YouTube</a></li>
+        </ul>
+        <p>Cảm ơn quý khách đã tin tưởng và sử dụng dịch vụ của Movie On!</p>
+         <a href="home.html" class="back-home-button"><i class="fas fa-home"></i> Quay lại trang chủ</a>
+    </div>
+</body>
+</html>

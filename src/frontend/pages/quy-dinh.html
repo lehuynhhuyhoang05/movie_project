@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Điều khoản sử dụng dịch vụ Movie On</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e50914;
+            --secondary-color: #b2070a;
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --text-color: #e0e0e0;
+            --light-text-color: #ffffff;
+            --heading-color: #ffffff;
+            --border-radius: 12px;
+            --box-shadow-light: 0 4px 15px rgba(0, 0, 0, 0.5);
+            --box-shadow-heavy: 0 10px 30px rgba(0, 0, 0, 0.8);
+            --gradient-1: linear-gradient(135deg, #2a0000, #1a0000);
+            --gradient-2: linear-gradient(135deg, #333333, #1a1a1a);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #000000 0%, #1a0000 100%);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            filter: brightness(0.1) grayscale(0.7);
+            opacity: 0.7;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, var(--dark-bg) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1080px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-heavy);
+            animation: fadeIn 1.2s ease-out forwards;
+            position: relative;
+            z-index: 1;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 5px solid var(--primary-color);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, border-bottom-color 0.4s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.3);
+            border-bottom-color: var(--secondary-color);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 1.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 3.8em;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.9);
+            border-bottom: 4px solid var(--secondary-color);
+            padding-bottom: 18px;
+            display: inline-block;
+            animation: bounceIn 1s ease-out;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            60% { opacity: 1; transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--heading-color);
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-size: 2.4em;
+            font-weight: 700;
+            border-left: 6px solid var(--primary-color);
+            padding-left: 20px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            letter-spacing: 0.8px;
+            position: relative;
+            padding-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        h2:hover {
+            transform: translateX(5px);
+            color: var(--primary-color);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 70px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            border-radius: 2px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        
+        h2:hover::after {
+            width: 120px;
+            background-color: var(--primary-color);
+        }
+
+        h3 {
+            font-family: 'Roboto', sans-serif;
+            color: var(--light-text-color);
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            margin-bottom: 22px;
+            font-size: 1.15em;
+            line-height: 1.9;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            text-align: justify;
+        }
+
+        strong {
+            color: var(--light-text-color);
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease, text-decoration 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .terms-grid {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 3 cột trên màn hình lớn */
+            gap: 25px; /* Khoảng cách giữa các card */
+            counter-reset: term-counter; /* Đặt lại bộ đếm cho các mục */
+        }
+
+        .terms-grid li {
+            background: var(--gradient-2);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 5px solid var(--primary-color);
+            transition: transform 0.4s ease, background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+            font-size: 1.05em;
+            line-height: 1.7;
+            text-align: center; /* Căn giữa nội dung trong card */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terms-grid li::before {
+            content: counter(term-counter); /* Số tự động */
+            counter-increment: term-counter;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            border-radius: 50%;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2em;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .terms-grid li:hover::before {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .terms-grid li .icon-wrapper {
+            color: var(--primary-color);
+            font-size: 3.5em; /* Kích thước icon lớn hơn */
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+            margin-top: 20px; /* Thêm khoảng cách phía trên icon */
+        }
+        
+        .terms-grid li:hover .icon-wrapper {
+            transform: scale(1.1);
+            color: var(--light-text-color);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+        }
+
+        .terms-grid li:hover {
+            transform: translateY(-15px);
+            background: linear-gradient(135deg, #3a0000, #2a0000);
+            border-top-color: var(--light-text-color);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9);
+        }
+
+        .terms-grid li strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .terms-grid li span {
+            color: var(--text-color);
+            font-size: 1em;
+        }
+
+        .back-home-button {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.3em;
+            padding: 12px 35px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, text-shadow 0.3s ease;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            display: inline-flex;
+            align-items: center;
+            text-transform: uppercase;
+            margin-top: 60px;
+            border-top: 1px solid #333;
+            padding-top: 25px;
+            text-align: center;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .back-home-button:hover {
+            background-color: var(--secondary-color);
+            text-decoration: none;
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+        }
+
+        .back-home-button i {
+            margin-right: 12px;
+            font-size: 1.15em;
+            transition: transform 0.3s ease;
+        }
+        
+        .back-home-button:hover i {
+            transform: translateX(-8px) scale(1.1);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                padding: 40px;
+            }
+            h1 {
+                font-size: 3.2em;
+            }
+            h2 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 1.1em;
+            }
+            .terms-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            .terms-grid li {
+                padding: 25px;
+            }
+            .terms-grid li::before {
+                width: 35px;
+                height: 35px;
+                line-height: 35px;
+                font-size: 1.1em;
+            }
+            .terms-grid li .icon-wrapper {
+                font-size: 3em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2.8em;
+                letter-spacing: 1.5px;
+            }
+            h2 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .terms-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            .terms-grid li {
+                padding: 20px;
+                font-size: 1em;
+            }
+            .terms-grid li::before {
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                font-size: 1em;
+                top: 15px;
+                left: 15px;
+            }
+            .terms-grid li .icon-wrapper {
+                font-size: 2.8em;
+                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+            .terms-grid li strong {
+                font-size: 1.1em;
+            }
+            .back-home-button {
+                font-size: 1.1em;
+                padding: 10px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2.2em;
+                letter-spacing: 1px;
+                padding-bottom: 12px;
+            }
+            h2 {
+                font-size: 1.7em;
+                padding-left: 15px;
+            }
+            h2::after {
+                width: 50px;
+                height: 3px;
+            }
+            h2:hover::after {
+                width: 80px;
+            }
+            p {
+                font-size: 0.95em;
+            }
+            .terms-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .terms-grid li {
+                padding: 15px;
+            }
+            .terms-grid li::before {
+                width: 28px;
+                height: 28px;
+                line-height: 28px;
+                font-size: 0.9em;
+                top: 12px;
+                left: 12px;
+            }
+            .terms-grid li .icon-wrapper {
+                font-size: 2.5em;
+                margin-top: 10px;
+            }
+            .terms-grid li strong {
+                font-size: 1em;
+            }
+            .back-home-button {
+                font-size: 1em;
+                padding: 8px 20px;
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop class="background-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-popcorn-and-drinks-10904-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <h1>Điều khoản sử dụng dịch vụ Movie On</h1>
+        <p>Chào mừng bạn đến với Movie On! Bằng việc truy cập hoặc sử dụng dịch vụ của chúng tôi, bạn đồng ý tuân thủ các điều khoản và điều kiện sau đây:</p>
+        
+        <h2>Các Điều khoản chính</h2>
+        <ul class="terms-grid">
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-handshake"></i></div>
+                <h3>Chấp nhận điều khoản</h3>
+                <span>Bạn xác nhận đã đọc, hiểu và đồng ý với tất cả các điều khoản được quy định tại đây. Việc tiếp tục sử dụng dịch vụ đồng nghĩa với sự chấp thuận của bạn.</span>
+            </li>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-sync-alt"></i></div>
+                <h3>Thay đổi điều khoản</h3>
+                <span>Movie On có quyền cập nhật, thay đổi hoặc chỉnh sửa các điều khoản này bất cứ lúc nào mà không cần thông báo trước. Mọi thay đổi sẽ có hiệu lực ngay khi được đăng tải trên trang này. Bạn có trách nhiệm tự mình kiểm tra các thay đổi định kỳ.</span>
+            </li>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-film"></i></div>
+                <h3>Sử dụng dịch vụ</h3>
+                <span>Dịch vụ chỉ dành cho mục đích sử dụng cá nhân, phi thương mại. Bạn không được phép sao chép, phân phối, truyền tải, hiển thị công khai hoặc tạo ra các tác phẩm phái sinh từ bất kỳ nội dung nào trên Movie On mà không có sự cho phép bằng văn bản từ chúng tôi.</span>
+            </li>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-user-circle"></i></div>
+                <h3>Tài khoản người dùng</h3>
+                <span>Bạn có trách nhiệm bảo mật thông tin tài khoản của mình, bao gồm tên đăng nhập và mật khẩu. Mọi hoạt động phát sinh từ tài khoản của bạn sẽ được coi là do bạn thực hiện và bạn phải chịu trách nhiệm về các hoạt động đó. Vui lòng thông báo ngay cho chúng tôi nếu phát hiện bất kỳ hành vi sử dụng trái phép tài khoản nào.</span>
+            </li>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-copyright"></i></div>
+                <h3>Nội dung & Bản quyền</h3>
+                <span>Tất cả nội dung trên Movie On, bao gồm phim, chương trình truyền hình, hình ảnh, văn bản, đồ họa và các tài liệu khác, là tài sản độc quyền của Movie On hoặc các đối tác cấp phép của chúng tôi và được bảo vệ bởi luật sở hữu trí tuệ.</span>
+            </li>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-gavel"></i></div>
+                <h3>Giới hạn trách nhiệm</h3>
+                <span>Movie On và các đối tác của chúng tôi sẽ không chịu trách nhiệm cho bất kỳ thiệt hại trực tiếp, gián tiếp, ngẫu nhiên, đặc biệt hoặc do hậu quả nào phát sinh từ việc sử dụng hoặc không thể sử dụng dịch vụ của chúng tôi, bao gồm nhưng không giới hạn ở mất dữ liệu, mất lợi nhuận hoặc gián đoạn kinh doanh.</span>
+            </li>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-balance-scale"></i></div>
+                <h3>Luật áp dụng & Giải quyết tranh chấp</h3>
+                <span>Các điều khoản này sẽ được điều chỉnh và giải thích theo luật pháp Việt Nam. Mọi tranh chấp phát sinh từ hoặc liên quan đến các điều khoản này sẽ được giải quyết thông qua đàm phán thiện chí. Nếu không thể giải quyết bằng đàm phán, tranh chấp sẽ được đưa ra Tòa án có thẩm quyền tại Việt Nam.</span>
+            </li>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-cogs"></i></div>
+                <h3>Điều khoản chung</h3>
+                <span>Nếu bất kỳ điều khoản nào trong đây được coi là không hợp lệ hoặc không thể thực thi, điều khoản đó sẽ được tách ra khỏi các điều khoản còn lại và không ảnh hưởng đến hiệu lực và khả năng thực thi của các điều khoản còn lại.</span>
+            </li>
+        </ul>
+
+        <p>Vui lòng đọc kỹ các điều khoản này trước khi sử dụng dịch vụ. Nếu bạn không đồng ý với bất kỳ điều khoản nào, vui lòng không sử dụng dịch vụ của chúng tôi. Việc tiếp tục sử dụng đồng nghĩa với sự chấp thuận của bạn.</p>
+        
+        <div class="back-link">
+    <a href="home.html">
+        <i class="fas fa-home"></i> Quay lại trang chủ
+    </div>
+</body>
+</html>

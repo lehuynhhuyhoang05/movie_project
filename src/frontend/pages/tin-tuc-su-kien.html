@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin tức & Sự kiện Movie On</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e50914;
+            --secondary-color: #b2070a;
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --text-color: #e0e0e0;
+            --light-text-color: #ffffff;
+            --heading-color: #ffffff;
+            --border-radius: 12px;
+            --box-shadow-light: 0 4px 15px rgba(0, 0, 0, 0.5);
+            --box-shadow-heavy: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #000000 0%, #1a0000 100%);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 60px 20px;
+            box-sizing: border-box;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            filter: brightness(0.1) grayscale(0.7);
+            opacity: 0.7;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, var(--dark-bg) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            background-color: var(--card-bg);
+            padding: 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-heavy);
+            animation: fadeIn 1.2s ease-out forwards;
+            position: relative;
+            z-index: 1;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 5px solid var(--primary-color);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, border-bottom-color 0.4s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.3);
+            border-bottom-color: var(--secondary-color);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 1.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(60px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 3.8em;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.9);
+            border-bottom: 4px solid var(--secondary-color);
+            padding-bottom: 18px;
+            display: inline-block;
+            animation: bounceIn 1s ease-out;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            60% { opacity: 1; transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--heading-color);
+            margin-top: 50px;
+            margin-bottom: 25px;
+            font-size: 2.4em;
+            font-weight: 700;
+            border-left: 6px solid var(--primary-color);
+            padding-left: 20px;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+            letter-spacing: 0.8px;
+            position: relative;
+            padding-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        h2:hover {
+            transform: translateX(5px);
+            color: var(--primary-color);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 70px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            border-radius: 2px;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+        
+        h2:hover::after {
+            width: 120px;
+            background-color: var(--primary-color);
+        }
+
+        h3 {
+            font-family: 'Roboto', sans-serif;
+            color: var(--heading-color);
+            font-size: 1.35em;
+            font-weight: 700;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 22px;
+            font-size: 1.15em;
+            line-height: 1.9;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            text-align: justify;
+        }
+
+        strong {
+            color: var(--light-text-color);
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease, text-decoration 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        ul li {
+            background-color: #1e1e1e;
+            padding: 20px 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+            border-left: 8px solid transparent;
+            transition: transform 0.4s ease, background-color 0.4s ease, border-left-color 0.4s ease, box-shadow 0.4s ease;
+            font-size: 1.1em;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        ul li:hover {
+            transform: translateX(12px);
+            background-color: #282828;
+            border-left-color: var(--primary-color);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        ul li .icon-wrapper {
+            color: var(--primary-color);
+            font-size: 2.2em;
+            margin-right: 25px;
+            width: 45px;
+            text-align: center;
+            flex-shrink: 0;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+            transition: transform 0.3s ease, color 0.3s ease, text-shadow 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%; /* Ensure icon wrapper takes full height for vertical alignment */
+        }
+        
+        ul li:hover .icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
+            color: var(--light-text-color);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        ul li .content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        ul li .content-wrapper strong { /* For the date */
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-right: 8px;
+            flex-shrink: 0;
+            margin-bottom: 5px; /* Space between date and text */
+            display: block; /* Ensure date is on its own line */
+        }
+
+        ul li .content-wrapper span { /* For the text content of the list item */
+            flex-grow: 1;
+            padding-top: 2px;
+        }
+
+        .back-home-button {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.3em;
+            padding: 12px 35px;
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, text-shadow 0.3s ease;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            display: inline-flex;
+            align-items: center;
+            text-transform: uppercase;
+            margin-top: 60px;
+            border-top: 1px solid #333;
+            padding-top: 25px;
+            text-align: center;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .back-home-button:hover {
+            background-color: var(--secondary-color);
+            text-decoration: none;
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.8);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 1);
+        }
+
+        .back-home-button i {
+            margin-right: 12px;
+            font-size: 1.15em;
+            transition: transform 0.3s ease;
+        }
+        
+        .back-home-button:hover i {
+            transform: translateX(-8px) scale(1.1);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            h1 {
+                font-size: 2.8em;
+                letter-spacing: 1.5px;
+            }
+            h2 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 1em;
+            }
+            ul li {
+                padding: 15px 20px;
+                font-size: 1em;
+                margin-bottom: 12px;
+                line-height: 1.5;
+            }
+            ul li .icon-wrapper {
+                font-size: 1.8em;
+                margin-right: 18px;
+                width: 35px;
+            }
+            .back-home-button {
+                font-size: 1.1em;
+                padding: 10px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2.2em;
+                letter-spacing: 1px;
+                padding-bottom: 12px;
+            }
+            h2 {
+                font-size: 1.7em;
+                padding-left: 15px;
+            }
+            h2::after {
+                width: 50px;
+                height: 3px;
+            }
+            h2:hover::after {
+                width: 80px;
+            }
+            p {
+                font-size: 0.95em;
+            }
+            ul li {
+                padding: 12px 15px;
+                font-size: 0.95em;
+                margin-bottom: 10px;
+                flex-direction: column; /* Stack icon and text on very small screens */
+                align-items: center;
+                text-align: center;
+            }
+            ul li .icon-wrapper {
+                font-size: 1.5em;
+                margin-right: 0;
+                margin-bottom: 10px;
+                width: auto;
+            }
+            ul li .content-wrapper strong {
+                margin-bottom: 0px; /* Adjust spacing when stacked */
+            }
+            ul li .content-wrapper span {
+                text-align: center;
+            }
+            .back-home-button {
+                font-size: 1em;
+                padding: 8px 20px;
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop class="background-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-popcorn-and-drinks-10904-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <h1>Tin tức & Sự kiện Movie On</h1>
+        <h2>Tin tức nổi bật</h2>
+        <ul>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-star"></i></div>
+                <div class="content-wrapper">
+                    <strong>[15/06/2025]</strong> <span>Ra mắt tính năng xem phim 4K HDR: Trải nghiệm hình ảnh chân thực và sống động hơn bao giờ hết.</span>
+                </div>
+            </li>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-gift"></i></div>
+                <div class="content-wrapper">
+                    <strong>[01/06/2025]</strong> <span>Chương trình "Tháng phim gia đình": Ưu đãi đặc biệt khi đăng ký gói gia đình, xem không giới hạn các bộ phim hoạt hình và phim giải trí.</span>
+                </div>
+            </li>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-handshake"></i></div>
+                <div class="content-wrapper">
+                    <strong>[20/05/2025]</strong> <span>Movie On hợp tác với Studio Ghibli: Độc quyền phát sóng bộ sưu tập phim hoạt hình kinh điển của Nhật Bản.</span>
+                </div>
+            </li>
+        </ul>
+        <h2>Sự kiện sắp tới</h2>
+        <ul>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-calendar-alt"></i></div>
+                <div class="content-wrapper">
+                    <strong>[21/07/2025]</strong> <span>Buổi giao lưu trực tuyến với các diễn viên nổi tiếng: Đăng ký ngay để đặt câu hỏi và tìm hiểu về quá trình làm phim.</span>
+                </div>
+            </li>
+            <li>
+                <div class="icon-wrapper"><i class="fas fa-trophy"></i></div>
+                <div class="content-wrapper">
+                    <strong>[25/11/2025]</strong> <span>Thử thách "Đoán tên phim nhận quà khủng": Tham gia trên fanpage Facebook của Movie On để có cơ hội nhận voucher xem phim miễn phí 1 năm.</span>
+                </div>
+            </li>
+        </ul>
+        <p>Để cập nhật thêm thông tin chi tiết, vui lòng truy cập trang Tin tức của chúng tôi.</p>
+        
+        <a href="home.html" class="back-home-button"><i class="fas fa-home"></i> Quay lại trang chủ</a>
+    </div>
+</body>
+</html>
