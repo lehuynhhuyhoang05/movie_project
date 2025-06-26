@@ -1,4 +1,3 @@
-// genres-admin.js
 document.addEventListener("DOMContentLoaded", function () {
   const API_BASE = 'http://localhost/movie_project/src/backend/server.php';
   const token = localStorage.getItem('token');
@@ -7,6 +6,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const genreInput = document.getElementById("genreName");
   const submitBtn = addGenreForm.querySelector('button[type="submit"]');
   let editingGenre = null;
+
+  if (!submitBtn) {
+    console.error("Button submit not found in form!");
+    alert("Không tìm thấy nút submit trong form!");
+    return;
+  }
 
   const genreTranslation = {
     "Action": "Hành động", "Adventure": "Phiêu lưu", "Animation": "Hoạt hình", "Comedy": "Hài",
@@ -22,6 +27,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function addGenreToList(genre) {
+    if (!genre || !genre.id) {
+      console.error("Genre object is invalid:", genre);
+      alert("Không thể thêm thể loại vào danh sách: Dữ liệu không hợp lệ.");
+      return;
+    }
     const li = document.createElement("li");
     li.dataset.id = genre.id;
     const nameViet = genreTranslation[genre.name] || genre.name;
@@ -44,13 +54,14 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } catch (err) {
       console.error("Lỗi tải thể loại:", err);
+      alert("Đã xảy ra lỗi khi tải thể loại!");
     }
   }
 
   addGenreForm.addEventListener("submit", async function (e) {
     e.preventDefault();
     let newGenreRaw = genreInput.value.trim();
-    if (!newGenreRaw) return;
+    if (!newGenreRaw) return alert("Vui lòng nhập tên thể loại!");
     const newGenre = capitalizeWords(newGenreRaw);
 
     if (editingGenre) {
@@ -70,10 +81,11 @@ document.addEventListener("DOMContentLoaded", function () {
           addGenreForm.reset();
           await loadGenres();
         } else {
-          alert("Lỗi khi sửa thể loại: " + data.message);
+          alert("Lỗi khi sửa thể loại: " + (data.message || "Không thể sửa thể loại."));
         }
       } catch (err) {
         console.error("Lỗi sửa thể loại:", err);
+        alert("Đã xảy ra lỗi khi sửa thể loại!");
       }
     } else {
       try {
@@ -83,16 +95,17 @@ document.addEventListener("DOMContentLoaded", function () {
           body: JSON.stringify({ name: newGenre })
         });
         const data = await res.json();
-        if (data.status === "success") {
+        if (data.status === "success" && data.data) {
           addGenreToList(data.data);
           alert("Đã thêm thể loại mới!");
           addGenreForm.reset();
           await loadGenres();
         } else {
-          alert("Lỗi khi thêm thể loại: " + data.message);
+          alert("Lỗi khi thêm thể loại: " + (data.message || "Dữ liệu trả về không hợp lệ."));
         }
       } catch (err) {
         console.error("Lỗi thêm thể loại:", err);
+        alert("Đã xảy ra lỗi khi thêm thể loại!");
       }
     }
   });
@@ -105,8 +118,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (target.classList.contains("deleteBtn")) {
       if (!id) return alert("Không có ID thể loại để xóa.");
-      if (confirm("Bạn có chắc muốn xóa thể loại này không?")) {
-        try {
+      try {
+        const checkRes = await fetch(`${API_BASE}?controller=genre&method=checkGenreMovies&id=${id}&token=Bearer%20${token}`);
+        const checkData = await checkRes.json();
+        let warningMessage = "Bạn có chắc muốn xóa thể loại này không?";
+        if (checkData.status === "success" && checkData.movieCount > 0) {
+          warningMessage = `Cảnh báo: Thể loại này đang được sử dụng bởi ${checkData.movieCount} phim. Nếu xóa, các phim này sẽ mất thông tin thể loại (genre_id sẽ được đặt thành NULL). Bạn có chắc muốn tiếp tục?`;
+        } else {
+          warningMessage = "Bạn có chắc muốn xóa thể loại này không? Hành động này không thể hoàn tác.";
+        }
+
+        if (confirm(warningMessage)) {
           const res = await fetch(`${API_BASE}?controller=genre&method=delete&id=${id}&token=Bearer%20${token}`, {
             method: "DELETE"
           });
@@ -121,11 +143,12 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             await loadGenres();
           } else {
-            alert("Lỗi khi xóa thể loại: " + data.message);
+            alert("Lỗi khi xóa thể loại: " + (data.message || "Không thể xóa thể loại."));
           }
-        } catch (err) {
-          console.error("Lỗi xóa thể loại:", err);
         }
+      } catch (err) {
+        console.error("Lỗi xóa thể loại:", err);
+        alert("Đã xảy ra lỗi khi xóa thể loại!");
       }
     }
 
