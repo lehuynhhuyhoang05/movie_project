@@ -37,7 +37,7 @@ function renderMovieDetail(movie) {
     Family: 'Gia đình', Fantasy: 'Giả tưởng', Drama: 'Chính kịch', Horror: 'Kinh dị',
     Music: 'Âm nhạc', Mystery: 'Bí ẩn', Romance: 'Lãng mạn',
     'Science Fiction': 'Khoa học viễn tưởng', Thriller: 'Gây cấn', War: 'Chiến tranh',
-    Western: 'Cao bồi viễn tây', 'TV Movie': 'Phim truyền hình'
+    Western: 'Cao bồi viễn tây', 'TV Movie': 'Phim truyền hình'
   };
   const user = JSON.parse(localStorage.getItem('user'));
   const isLoggedIn = !!localStorage.getItem('token');
@@ -45,7 +45,7 @@ function renderMovieDetail(movie) {
   const director = movie.director || 'Chưa rõ';
 
   container.innerHTML = `
-    <button onclick="history.back()" style="padding: 5px 10px; background-color: #e50914; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 16px;">← Quay lại</button>
+    <button onclick="history.back()" class="back-btn">← Quay lại</button>
     <div style="display: flex; gap: 20px; flex-wrap: wrap;">
       <div style="width: 100%; margin-bottom: 20px;">
         <iframe width="100%" height="400" src="${trailerEmbedUrl}" frameborder="0" allowfullscreen></iframe>
@@ -58,9 +58,14 @@ function renderMovieDetail(movie) {
           <h1 style="margin: 0; font-size: 2rem;">${movie.title || 'Không có tiêu đề'}</h1>
           ${isLoggedIn ? `
             <button id="favoriteBtn" onclick="toggleFavorite(${movie.id})"
-              style="display: flex; align-items: center; gap: 6px; background: transparent; border: none; cursor: pointer; font-weight: 600; color: #aaa; font-size: 16px; padding: 6px 10px; border-radius: 6px; transition: color 0.3s;">
+              style="display: flex; align-items: center; gap: 6px;">
               <i class="fas fa-heart"></i>
               <span>Yêu thích</span>
+            </button>
+            <button id="watchlistBtn" onclick="addToWatchlist(${movie.id})"
+              style="display: flex; align-items: center; gap: 6px;">
+              <i class="fas fa-list"></i>
+              <span>Thêm vào xem sau</span>
             </button>
           ` : ''}
         </div>
@@ -94,6 +99,12 @@ function renderMovieDetail(movie) {
 }
 
 window.onload = async function () {
+   // BẮT ĐẦU SỬA
+  const movieDetailsContainer = document.getElementById('movie-details');
+  if (!movieDetailsContainer) {
+    return;
+  }
+  // KẾT THÚC SỬA
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
 
@@ -106,85 +117,75 @@ window.onload = async function () {
   if (result.status === 'success' && result.data) {
     renderMovieDetail(result.data);
     loadComments(result.data.id);
+    checkFavoriteStatus(result.data.id); // Kiểm tra trạng thái yêu thích
+    checkWatchlistStatus(result.data.id); // Kiểm tra trạng thái watchlist
   } else {
     document.getElementById('movie-details').innerHTML = '<p>Không tìm thấy thông tin phim.</p>';
   }
 };
 
 function loadComments(movieId) {
-    fetch(`http://localhost/movie_project/src/backend/server.php?controller=review&method=getComments&id=${movieId}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json(); 
-        })
-        .then(result => {
-            const commentList = document.getElementById('comment-list');
+  fetch(`http://localhost/movie_project/src/backend/server.php?controller=review&method=getComments&id=${movieId}`)
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      return response.json(); 
+    })
+    .then(result => {
+      const commentList = document.getElementById('comment-list');
 
-            if (result.status === 'error') {
-                commentList.innerHTML = `<p>${result.message || 'Không thể tải bình luận.'}</p>`;
-                return;
-            }
-            if (!Array.isArray(result.data) || result.data.length === 0) {
-                commentList.innerHTML = '<p>Chưa có bình luận.</p>';
-                return;
-            }
+      if (result.status === 'error') {
+        commentList.innerHTML = `<p>${result.message || 'Không thể tải bình luận.'}</p>`;
+        return;
+      }
+      if (!Array.isArray(result.data) || result.data.length === 0) {
+        commentList.innerHTML = '<p>Chưa có bình luận.</p>';
+        return;
+      }
 
-            const user = JSON.parse(localStorage.getItem('user'));
+      const user = JSON.parse(localStorage.getItem('user'));
 
-            // ---- BẮT ĐẦU PHẦN CODE MỚI ----
+      const renderCommentTree = (comments) => {
+        return comments.map(comment => {
+          const childrenHtml = (comment.children && comment.children.length > 0)
+            ? `<ul style="padding-left: 25px; border-left: 2px solid #333; margin-top: 10px;">
+                 ${renderCommentTree(comment.children)}
+               </ul>`
+            : '';
 
-            // Hàm đệ quy mới để render cây bình luận đã được lồng sẵn
-            const renderCommentTree = (comments) => {
-                return comments.map(comment => {
-                    // Kiểm tra xem bình luận hiện tại có con không
-                    // Nếu có, gọi đệ quy chính hàm này với mảng con (comment.children)
-                    const childrenHtml = (comment.children && comment.children.length > 0)
-                        ? `<ul style="padding-left: 25px; border-left: 2px solid #333; margin-top: 10px;">
-                               ${renderCommentTree(comment.children)}
-                           </ul>`
-                        : '';
+          return `
+            <li class="comment-item" style="list-style-type: none; margin-top: 15px;">
+              <p><strong>${comment.username}:</strong> ${comment.content || ''}</p>
+              <div>
+                ${user && user.username === comment.username ? `
+                  <button class="btn-delete" data-id="${comment.id}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">Xoá</button>
+                  <button class="btn-edit" data-id="${comment.id}" data-comment="${comment.content ? comment.content.replace(/"/g, '"') : ''}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">Sửa</button>
+                ` : ''}
+                ${user ? `
+                  <button class="btn-reply" data-id="${comment.id}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer;">Trả lời</button>
+                ` : ''}
+              </div>
+              ${childrenHtml}
+            </li>
+          `;
+        }).join('');
+      };
 
-                    // Render HTML cho bình luận hiện tại
-                    return `
-                        <li class="comment-item" style="list-style-type: none; margin-top: 15px;">
-                            <p><strong>${comment.username}:</strong> ${comment.content || ''}</p>
-                            <div>
-                                ${user && user.username === comment.username ? `
-                                    <button class="btn-delete" data-id="${comment.id}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">Xoá</button>
-                                    <button class="btn-edit" data-id="${comment.id}" data-comment="${comment.content ? comment.content.replace(/"/g, '&quot;') : ''}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">Sửa</button>
-                                ` : ''}
-                                ${user ? `
-                                    <button class="btn-reply" data-id="${comment.id}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer;">Trả lời</button>
-                                ` : ''}
-                            </div>
-                            ${childrenHtml}
-                        </li>
-                    `;
-                }).join('');
-            };
+      commentList.innerHTML = `<ul style="padding-left: 0;">${renderCommentTree(result.data)}</ul>`;
 
-            // Bắt đầu quá trình render từ mảng dữ liệu gốc
-            commentList.innerHTML = `<ul style="padding-left: 0;">${renderCommentTree(result.data)}</ul>`;
-
-            // Gắn lại các sự kiện click cho các nút
-            commentList.querySelectorAll('.btn-delete').forEach(btn => {
-                btn.onclick = () => deleteComment(btn.dataset.id);
-            });
-            commentList.querySelectorAll('.btn-edit').forEach(btn => {
-                btn.onclick = () => editComment(btn.dataset.id, btn.dataset.comment);
-            });
-            commentList.querySelectorAll('.btn-reply').forEach(btn => {
-                btn.onclick = () => showReplyForm(btn.dataset.id);
-            });
-
-            // ---- KẾT THÚC PHẦN CODE MỚI ----
-        })
-        .catch(err => {
-            console.error('Lỗi khi tải bình luận:', err);
-            document.getElementById('comment-list').innerHTML = '<p>Không thể tải bình luận.</p>';
-        });
+      commentList.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.onclick = () => deleteComment(btn.dataset.id);
+      });
+      commentList.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.onclick = () => editComment(btn.dataset.id, btn.dataset.comment);
+      });
+      commentList.querySelectorAll('.btn-reply').forEach(btn => {
+        btn.onclick = () => showReplyForm(btn.dataset.id);
+      });
+    })
+    .catch(err => {
+      console.error('Lỗi khi tải bình luận:', err);
+      document.getElementById('comment-list').innerHTML = '<p>Không thể tải bình luận.</p>';
+    });
 }
 
 function submitComment() {
@@ -200,10 +201,9 @@ function showReplyForm(commentId) {
   const commentItem = document.querySelector(`.comment-item [data-id="${commentId}"]`).closest('.comment-item');
   if (!commentItem) return;
 
-  // Kiểm tra xem form reply đã tồn tại chưa
   let replyForm = commentItem.querySelector('.reply-form');
   if (replyForm) {
-    replyForm.remove(); // Xóa form cũ nếu đã có
+    replyForm.remove();
     return;
   }
 
@@ -228,7 +228,6 @@ function submitReply(parentId) {
 
 function createComment(movieId, content, parentId = null) {
   const token = localStorage.getItem('token');
-  console.log('Token from localStorage:', token);
   if (!token) return alert('Bạn cần đăng nhập để gửi bình luận.');
 
   fetch(`http://localhost/movie_project/src/backend/server.php?controller=review&method=createComment&token=Bearer%20${encodeURIComponent(token)}`, {
@@ -238,12 +237,8 @@ function createComment(movieId, content, parentId = null) {
     },
     body: JSON.stringify({ movie_id: movieId, content, parent_id: parentId })
   })
-  .then(res => {
-    console.log('Response status:', res.status);
-    return res.json();
-  })
+  .then(res => res.json())
   .then(data => {
-    console.log('Response data:', data);
     if (data.status === 'success') loadComments(movieId);
     else alert('Gửi bình luận thất bại: ' + (data.message || 'Lỗi server'));
   })
@@ -302,7 +297,7 @@ function updateComment(commentId, content, movieId) {
   .catch(() => alert('Lỗi kết nối server.'));
 }
 
-// danh sách yêu thích
+// Danh sách yêu thích
 async function toggleFavorite(movie_id) {
   const token = localStorage.getItem('token');
   if (!token) {
@@ -335,4 +330,64 @@ async function toggleFavorite(movie_id) {
     console.error('Lỗi thêm vào yêu thích:', error);
     alert('Đã xảy ra lỗi, vui lòng thử lại sau.');
   }
+}
+
+async function checkFavoriteStatus(movieId) {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  try {
+    const response = await fetch(`${API_BASE}?controller=movie&method=getFavorites&token=Bearer%20${token}`);
+    const data = await response.json();
+
+    if (data.status === 'success' && Array.isArray(data.data)) {
+      const isFavorite = data.data.some(movie => movie.id === movieId);
+      const favoriteBtn = document.getElementById('favoriteBtn');
+      if (favoriteBtn) {
+        const icon = favoriteBtn.querySelector('i');
+        const text = favoriteBtn.querySelector('span');
+        if (isFavorite) {
+          icon.style.color = 'red';
+          text.innerText = 'Đã yêu thích';
+        } else {
+          icon.style.color = '#aaa';
+          text.innerText = 'Yêu thích';
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Lỗi kiểm tra trạng thái yêu thích:', error);
+  }
+}
+
+async function checkWatchlistStatus(movieId) {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  try {
+    const response = await fetch(`${API_BASE}?controller=movie&method=getWatchlist&token=Bearer%20${token}`);
+    const data = await response.json();
+
+    if (data.status === 'success' && Array.isArray(data.data)) {
+      const isInWatchlist = data.data.some(item => item.id === movieId);
+      const watchlistBtn = document.getElementById('watchlistBtn');
+      if (watchlistBtn) {
+        const icon = watchlistBtn.querySelector('i');
+        const text = watchlistBtn.querySelector('span');
+        if (isInWatchlist) {
+          icon.style.color = '#e50914';
+          text.innerText = 'Đã thêm xem sau';
+        } else {
+          icon.style.color = '#aaa';
+          text.innerText = 'Thêm vào xem sau';
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Lỗi kiểm tra trạng thái watchlist:', error);
+  }
+
+
+
+  
 }

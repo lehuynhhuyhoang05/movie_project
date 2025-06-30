@@ -59,6 +59,12 @@ body {
   margin-top: 15px;
 }
 
+.list-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* hoặc center nếu muốn đều 2 bên */
+}
 
 /* Main content */
 .main {
@@ -298,3 +304,219 @@ body {
   background-color: #b20710;
 }
 
+.movie-list { display: flex; flex-wrap: wrap; gap: 10px; }
+.movie-item { border: 1px solid #ccc; padding: 10px; text-align: center; width: 150px; }
+.movie-item img { max-width: 100%; }
+#createWatchlistBtn {
+  background: linear-gradient(135deg, #e50914, #ff4757);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin: 15px 0;
+  box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+#createWatchlistBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+#createWatchlistBtn:hover::before {
+  left: 100%;
+}
+
+#createWatchlistBtn:hover {
+  background: linear-gradient(135deg, #b20710, #e50914);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(229, 9, 20, 0.4);
+}
+
+/* Cải thiện các ô watchlist */
+.list-card {
+  position: relative;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  border: 1px solid #333;
+  overflow: hidden;
+}
+
+/* Thêm hiệu ứng gradient border cho từng thời gian */
+.list-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 15px 15px 0 0;
+  transition: height 0.3s ease;
+}
+
+/* Màu gradient cho từng thời gian */
+.list-card[data-time="Sáng"]::before,
+.list-card:nth-child(1)::before {
+  background: linear-gradient(90deg, #ffd93d, #ff9a3d);
+}
+
+.list-card[data-time="Trưa"]::before,
+.list-card:nth-child(2)::before {
+  background: linear-gradient(90deg, #ff6b6b, #e50914);
+}
+
+.list-card[data-time="Chiều"]::before,
+.list-card:nth-child(3)::before {
+  background: linear-gradient(90deg, #ff9a3d, #ff6b6b);
+}
+
+.list-card[data-time="Tối"]::before,
+.list-card:nth-child(4)::before {
+  background: linear-gradient(90deg, #4d9de0, #7209b7);
+}
+
+.list-card[data-time="watch_again"]::before,
+.list-card:nth-child(5)::before {
+  background: linear-gradient(90deg, #6bcf7f, #4d9de0);
+}
+
+.list-card:hover {
+  background: linear-gradient(135deg, #2d2d2d 0%, #404040 100%);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(229, 9, 20, 0.3);
+  border-color: #e50914;
+}
+
+.list-card:hover::before {
+  height: 5px;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.list-card .list-name {
+  font-size: 16px; /* thay vì 18px */
+  gap: 10px;
+}
+
+.list-card {
+  padding: 15px 18px;
+}
+
+/* Thêm icon cho từng thời gian */
+.list-card .list-name::before {
+  content: '';
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* Icon cho từng thời gian */
+.list-card[data-time="Sáng"] .list-name::before,
+.list-card:nth-child(1) .list-name::before {
+  content: '☀️';
+  background: linear-gradient(135deg, #ffd93d, #ff9a3d);
+}
+
+.list-card[data-time="Trưa"] .list-name::before,
+.list-card:nth-child(2) .list-name::before {
+  content: '🌅';
+  background: linear-gradient(135deg, #ff6b6b, #e50914);
+}
+
+.list-card[data-time="Chiều"] .list-name::before,
+.list-card:nth-child(3) .list-name::before {
+  content: '🌇';
+  background: linear-gradient(135deg, #ff9a3d, #ff6b6b);
+}
+
+.list-card[data-time="Tối"] .list-name::before,
+.list-card:nth-child(4) .list-name::before {
+  content: '🌙';
+  background: linear-gradient(135deg, #4d9de0, #7209b7);
+}
+
+.list-card[data-time="watch_again"] .list-name::before,
+.list-card:nth-child(5) .list-name::before {
+  content: '🔄';
+  background: linear-gradient(135deg, #6bcf7f, #4d9de0);
+}
+
+/* Cải thiện list-count */
+.list-count {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.list-card:hover .list-count {
+  background: rgba(229, 9, 20, 0.2);
+  border-color: rgba(229, 9, 20, 0.3);
+  color: #fff;
+}
+
+/* Cải thiện movie-list */
+.movie-list {
+  margin-top: 15px;
+  padding-left: 20px;
+  border-left: 2px solid #333;
+  transition: border-color 0.3s ease;
+}
+
+.list-card:hover .movie-list {
+  border-left-color: #e50914;
+}
+
+/* Nút xóa dạng dấu X - Cập nhật thiết kế */
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  background-color: #e50914;
+  color: white;
+  text-align: center;
+  line-height: 20px;
+  border-radius: 50%; /* Hình tròn */
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background-color: #b20710;
+  transform: scale(1.1); /* Phóng to nhẹ khi hover */
+}

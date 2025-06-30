@@ -21,15 +21,28 @@
       <div id="movie-details" class="movie-details">
         <p>Đang tải dữ liệu phim...</p>
       </div>
+      <!-- Popup chọn danh sách -->
+      <div id="watchlistPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+        <h3>Chọn danh sách</h3>
+        <select id="watchlistSelect"></select>
+        <button onclick="confirmAddToWatchlist()">Xác nhận</button>
+        <button onclick="closeWatchlistPopup()">Hủy</button>
+      </div>
+      <!-- Popup tạo danh sách mới -->
+      <div id="createWatchlistPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+        <h3>Tạo danh sách mới</h3>
+        <input type="text" id="newWatchlistName" placeholder="Nhập tên danh sách" style="width: 100%; padding: 5px; margin-bottom: 10px;">
+        <button onclick="confirmCreateWatchlist()">Tạo</button>
+        <button onclick="closeCreateWatchlistPopup()">Hủy</button>
+      </div>
     </div>
     
-    
-
     <!-- Footer -->
-     <div id="footer-placeholder"></div>
-       <script src="../assets/js/load-footer.js"></script>
-       <script src="../assets/js/account.js"></script>
-       <script src="../assets/js/details.js"></script>
-        <script src="../assets/js/notifications.js"></script>
+    <div id="footer-placeholder"></div>
+    <script src="../assets/js/load-footer.js"></script>
+    <script src="../assets/js/account.js"></script>
+    <script src="../assets/js/details.js"></script>
+    <script src="../assets/js/notifications.js"></script>
   </body>
+  
 </html>

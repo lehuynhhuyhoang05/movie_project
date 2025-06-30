@@ -10,6 +10,11 @@ class Movie {
         $this->conn = $database->getConnection();
     }
 
+    // Thêm phương thức public để truy cập $conn nếu cần (tùy chọn)
+    public function getConnection() {
+        return $this->conn;
+    }
+
     public function getAll($page = 1, $perPage = 0) {
         $query = "SELECT m.*, g.name as genre_name 
                   FROM $this->table m 
@@ -52,8 +57,10 @@ class Movie {
                 $actors[] = $actor;
             }
             $movie['actors'] = $actors;
+            $stmtActors->close();
         }
 
+        $stmt->close();
         return $movie;
     }
 
@@ -62,7 +69,10 @@ class Movie {
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("sssssidss", $title, $description, $release_date, $poster_url, $trailer_url, $duration, $imdb_rating, $director, $genre_id);
-        return $stmt->execute() ? $this->conn->insert_id : false;
+        $success = $stmt->execute();
+        $id = $success ? $this->conn->insert_id : false;
+        $stmt->close();
+        return $id;
     }
 
     public function update($id, $title, $description, $release_date, $poster_url, $trailer_url, $duration, $imdb_rating, $director, $genre_id) {
@@ -71,14 +81,18 @@ class Movie {
                   WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("sssssidssi", $title, $description, $release_date, $poster_url, $trailer_url, $duration, $imdb_rating, $director, $genre_id, $id);
-        return $stmt->execute();
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
     }
 
     public function delete($id) {
         $query = "DELETE FROM $this->table WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $id);
-        return $stmt->execute();
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
     }
 
     public function search($keyword, $page = 1, $perPage = 0) {
@@ -99,7 +113,9 @@ class Movie {
         }
         
         $stmt->execute();
-        return $stmt->get_result();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result;
     }
 
     public function getByGenre($genre_name, $page = 1, $perPage = 0) {
@@ -119,7 +135,9 @@ class Movie {
         }
         
         $stmt->execute();
-        return $stmt->get_result();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result;
     }
 
     public function addFavorite($user_id, $movie_id) {
@@ -128,13 +146,16 @@ class Movie {
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows === 0) {
+            $stmt->close();
             return false;
         }
         $stmt->close();
 
         $stmt = $this->conn->prepare("INSERT INTO favorites (user_id, movie_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE created_at = NOW()");
         $stmt->bind_param("ii", $user_id, $movie_id);
-        return $stmt->execute();
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
     }
 
     public function removeFavorite($user_id, $movie_id) {
@@ -143,13 +164,16 @@ class Movie {
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows === 0) {
+            $stmt->close();
             return false;
         }
         $stmt->close();
 
         $stmt = $this->conn->prepare("DELETE FROM favorites WHERE user_id = ? AND movie_id = ?");
         $stmt->bind_param("ii", $user_id, $movie_id);
-        return $stmt->execute();
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
     }
 
     public function getFavorites($user_id) {
@@ -181,31 +205,35 @@ class Movie {
             }
             $row['actors'] = $actors;
             $favorites[] = $row;
+            $stmtActors->close();
         }
-        return $favorites; // Sửa lại để trả về mảng $favorites
+        $stmt->close();
+        return $favorites;
     }
 
     public function addWatchHistory($user_id, $movie_id) {
-    $stmt = $this->conn->prepare("SELECT id FROM movies WHERE id = ?");
-    $stmt->bind_param("i", $movie_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($result->num_rows === 0) {
-        error_log("Movie ID $movie_id not found for user_id $user_id");
-        return false;
-    }
-    $stmt->close();
+        $stmt = $this->conn->prepare("SELECT id FROM movies WHERE id = ?");
+        $stmt->bind_param("i", $movie_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) {
+            error_log("Movie ID $movie_id not found for user_id $user_id");
+            $stmt->close();
+            return false;
+        }
+        $stmt->close();
 
-    $stmt = $this->conn->prepare("INSERT INTO watch_history (user_id, movie_id) VALUES (?, ?)");
-    $stmt->bind_param("ii", $user_id, $movie_id);
-    $success = $stmt->execute();
-    if (!$success) {
-        error_log("Failed to insert into watch_history for user_id $user_id, movie_id $movie_id: " . $this->conn->error);
-    } else {
-        error_log("Successfully inserted into watch_history for user_id $user_id, movie_id $movie_id");
+        $stmt = $this->conn->prepare("INSERT INTO watch_history (user_id, movie_id) VALUES (?, ?)");
+        $stmt->bind_param("ii", $user_id, $movie_id);
+        $success = $stmt->execute();
+        if (!$success) {
+            error_log("Failed to insert into watch_history for user_id $user_id, movie_id $movie_id: " . $this->conn->error);
+        } else {
+            error_log("Successfully inserted into watch_history for user_id $user_id, movie_id $movie_id");
+        }
+        $stmt->close();
+        return $success;
     }
-    return $success;
-}
 
     public function getWatchHistory($user_id) {
         $stmt = $this->conn->prepare("
@@ -236,8 +264,44 @@ class Movie {
             }
             $row['actors'] = $actors;
             $history[] = $row;
+            $stmtActors->close();
         }
-        return $history; // Sửa lại để trả về mảng $history
+        $stmt->close();
+        return $history;
+    }
+    public function getWatchlistMoviesByType($userId, $listType) {
+    $conn = $this->getConnection();
+    $stmt = $conn->prepare("
+        SELECT m.id, m.title, m.release_date, m.poster_url, m.duration, m.director, m.imdb_rating, g.name AS genre_name
+        FROM watchlist w
+        LEFT JOIN movies m ON w.movie_id = m.id
+        LEFT JOIN genres g ON m.genre_id = g.id
+        WHERE w.user_id = ? AND w.list_type = ? AND m.id IS NOT NULL
+    ");
+    $stmt->bind_param("is", $userId, $listType);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $movies = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    return $movies;
+}
+
+public function removeWatchHistory($user_id, $movie_id) {
+        $stmt = $this->conn->prepare("SELECT id FROM watch_history WHERE user_id = ? AND movie_id = ?");
+        $stmt->bind_param("ii", $user_id, $movie_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) {
+            $stmt->close();
+            return false;
+        }
+        $stmt->close();
+
+        $stmt = $this->conn->prepare("DELETE FROM watch_history WHERE user_id = ? AND movie_id = ?");
+        $stmt->bind_param("ii", $user_id, $movie_id);
+        $success = $stmt->execute();
+        $stmt->close();
+        return $success;
     }
 }
 ?>

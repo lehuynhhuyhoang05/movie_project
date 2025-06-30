@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../assets/css/style.css" />
   <link rel="stylesheet" href="../assets/css/section-footer.css" />
   <link rel="stylesheet" href="../assets/css/notifications.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 <body>
   <!-- Header -->
@@ -19,9 +19,10 @@
     <!-- Sidebar -->
     <nav class="sidebarr">
       <h2>Tài khoản người dùng</h2>
-      <a href="#info" class="tab-link active" data-target="info">Thông tin tài khoản</a> 
+      <a href="#info" class="tab-link active" data-target="info">Thông tin tài khoản</a>
       <a href="#history" class="tab-link" data-target="history">Lịch sử xem</a>
       <a href="#favorites" class="tab-link" data-target="favorites">Quản lý yêu thích</a>
+      <a href="#watchlist" class="tab-link" data-target="watchlist">Danh sách xem sau</a>
       <a href="logout.html" id="logoutBtn">Đăng xuất</a>
     </nav>
 
@@ -30,30 +31,23 @@
       <section class="content" id="info">
         <div class="profile-header">
           <h1 class="section-title">Thông tin tài khoản</h1>
-          <!-- Hiển thị thông tin user -->
           <div id="userInfo"></div>
-          <!-- Nút hiển thị form cập nhật -->
           <button id="showUpdateFormBtn">Cập nhật thông tin</button>
-          <!-- Container chứa 2 form -->
           <div id="updateForms" style="display: none; margin-top: 20px;">
             <div class="form-container">
-              <!-- Form cập nhật hồ sơ -->
               <form id="updateProfileForm" class="form-box">
                 <h2>Cập nhật hồ sơ</h2>
                 <label for="fullName">Tên đăng nhập mới:</label><br />
                 <input type="text" id="fullName" name="fullName" required /><br /><br />
                 <button type="submit">Cập nhật hồ sơ</button>
               </form>
-              <!-- Form đổi mật khẩu -->
               <form id="changePasswordForm" class="form-box">
                 <h2>Đổi mật khẩu</h2>
-
                 <label for="currentPassword">Mật khẩu hiện tại:</label><br />
                 <div class="password-field">
                   <input type="password" id="currentPassword" name="currentPassword" required />
                   <i class="fas fa-eye toggle-password" toggle="#currentPassword"></i>
                 </div>
-
                 <label for="newPassword">Mật khẩu mới:</label><br />
                 <div class="password-field">
                   <input type="password" id="newPassword" name="newPassword" required />
@@ -69,13 +63,31 @@
       <section class="content hidden" id="history">
         <h1 class="section-title">Lịch sử xem</h1>
         <div id="watch-history" class="movie-grid">Đang tải lịch sử xem...</div>
-        <!--lịch sử xem hiện ở đây-->
       </section>
 
       <section class="content hidden" id="favorites">
         <h1 class="favorite-title">Danh sách yêu thích</h1>
-        <!-- danh sách yêu thích hiện ở đây -->
-         <div id="favorite-movies" style="display: flex; flex-wrap: wrap; gap: 20px 10px; margin-top: 15px; bottom: 10px;"></div>
+        <div id="favorite-movies" style="display: flex; flex-wrap: wrap; gap: 20px 10px; margin-top: 15px; bottom: 10px;"></div>
+      </section>
+
+      <section class="content hidden" id="watchlist">
+        <h1 class="section-title">Danh sách xem sau</h1>
+<button id="createWatchlistBtn" style="margin: 10px 0;">Tạo danh sách mới</button>
+<div id="watchlist-movies" style="display: flex; flex-wrap: wrap; gap: 20px 10px; margin-top: 15px;"></div>
+        <!-- Popup tạo danh sách mới -->
+        <div id="createWatchlistPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.5); z-index: 1000;">
+          <h3>Tạo danh sách mới</h3>
+          <input type="text" id="newWatchlistName" placeholder="Nhập tên danh sách" style="width: 100%; padding: 5px; margin-bottom: 10px;">
+          <button onclick="confirmCreateWatchlist()" style="background-color: #e50914; color: white; padding: 5px 10px; border: none; border-radius: 4px;">Tạo</button>
+          <button onclick="closeCreateWatchlistPopup()" style="background-color: #ccc; color: black; padding: 5px 10px; border: none; border-radius: 4px; margin-left: 10px;">Hủy</button>
+        </div>
+        <!-- Popup chọn danh sách -->
+        <div id="watchlistPopup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.5); z-index: 1000;">
+          <h3>Chọn danh sách</h3>
+          <select id="watchlistSelect"></select>
+          <button onclick="confirmAddToWatchlist()" style="background-color: #e50914; color: white; padding: 5px 10px; border: none; border-radius: 4px;">Xác nhận</button>
+          <button onclick="closeWatchlistPopup()" style="background-color: #ccc; color: black; padding: 5px 10px; border: none; border-radius: 4px; margin-left: 10px;">Hủy</button>
+        </div>
       </section>
     </main>
   </div>

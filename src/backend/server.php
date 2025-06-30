@@ -116,6 +116,32 @@ try {
                 case 'getWatchHistory':
                     $controller->getWatchHistory();
                     break;
+
+                case 'addToWatchlist':
+            $controller->addToWatchlist();
+            break;
+        case 'removeFromWatchlist':
+            $controller->removeFromWatchlist();
+            break;
+        case 'getWatchlist':
+            $controller->getWatchlist();
+            break;
+        case 'createWatchlist': // Thêm phương thức này
+                    $controller->createWatchlist();
+                    break;
+                
+        case'getWatchlistOptions':
+            $controller->getWatchlistOptions();
+            break;
+        case 'getWatchlistMoviesByType': // Thêm endpoint mới
+                $controller->getWatchlistMoviesByType();
+                break;
+        case 'removeWatchHistory':
+            $controller->removeWatchHistory();
+            break;
+        case 'deleteWatchlist':
+            $controller->deleteWatchlist();
+            break;
                 default:
                     throw new Exception("Method not found");
             }
@@ -188,6 +214,9 @@ try {
                     break;
                 case 'resetPassword':
                     $controller->resetPassword();
+                    break;
+                case 'getNotifications':
+                    $controller->getNotifications();
                     break;
                 default:
                     throw new Exception("Method not found");

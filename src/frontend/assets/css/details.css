@@ -81,3 +81,208 @@ body {
   font-size: 18px;
 }
 
+/* Thêm style cho nút Watchlist */
+#watchlistBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #aaa;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+#watchlistBtn:hover {
+  color: #e50914;
+  background-color: rgba(229, 9, 20, 0.1);
+}
+
+#watchlistBtn i {
+  transition: color 0.3s;
+}
+
+#favoriteBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #aaa;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: color 0.3s;
+}
+
+#favoriteBtn:hover {
+  color: #e50914;
+  background-color: rgba(229, 9, 20, 0.1);
+}
+
+#favoriteBtn i {
+  transition: color 0.3s;
+}
+
+#watchlistPopup, #createWatchlistPopup {
+  z-index: 1000;
+}
+#watchlistSelect {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+/* --- POPUP MODAL STYLING --- */
+
+/* Lớp nền mờ bao phủ toàn màn hình */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Nền đen mờ */
+    backdrop-filter: blur(5px); /* Hiệu ứng làm mờ nền phía sau */
+    display: none; /* Ẩn đi theo mặc định */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Hộp thoại chính của popup */
+.popup-box {
+    background-color: #1e1e1e; /* Màu nền tối, gần giống màu trang */
+    padding: 25px 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.popup-box h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.popup-box p {
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+/* Tùy chỉnh cho thẻ <select> */
+.popup-box #watchlistSelect {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    border: 1px solid #555;
+    background-color: #333;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Khu vực chứa các nút bấm */
+.popup-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Style chung cho các nút trong popup */
+.popup-btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.popup-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Nút xác nhận màu đỏ */
+.popup-confirm {
+    background-color: #e50914;
+    color: white;
+}
+
+/* Nút hủy màu xám */
+.popup-cancel {
+    background-color: #555;
+    color: white;
+}
+
+#watchlistPopup,
+#createWatchlistPopup {
+  background-color: #1e1e1e !important;
+  color: #fff;
+  padding: 25px 30px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  z-index: 1000;
+}
+
+#watchlistPopup h3,
+#createWatchlistPopup h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+#watchlistPopup select,
+#createWatchlistPopup input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #fff;
+  font-size: 1rem;
+}
+
+#watchlistPopup button,
+#createWatchlistPopup button {
+  padding: 10px 20px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#watchlistPopup button:hover,
+#createWatchlistPopup button:hover {
+  transform: scale(1.05);
+}
+
+#watchlistPopup button:nth-child(2),
+#createWatchlistPopup button:nth-child(2) {
+  background-color: #e50914;
+  color: white;
+}
+
+#watchlistPopup button:nth-child(3),
+#createWatchlistPopup button:nth-child(3) {
+  background-color: #555;
+  color: white;
+}
