@@ -1,25 +1,5 @@
 // Map thể loại tiếng Anh sang tiếng Việt
-const genreNameMapVi = {
-  "Action": "Hành động",
-  "Adventure": "Phiêu lưu",
-  "Animation": "Hoạt hình",
-  "Comedy": "Hài",
-  "Crime": "Tội phạm",
-  "Documentary": "Tài liệu",
-  "History": "Lịch sử",
-  "Family": "Gia đình",
-  "Fantasy": "Giả tưởng",
-  "Drama": "Chính kịch",
-  "Horror": "Kinh dị",
-  "Music": "Âm nhạc",
-  "Mystery": "Bí ẩn",
-  "Romance": "Lãng mạn",
-  "Science Fiction": "Khoa học viễn tưởng",
-  "Thriller": "Gây cấn",
-  "War": "Chiến tranh",
-  "Western": "Cao bồi viễn tây",
-  "TV Movie": "Phim truyền hình"
-};
+
 
 // Lấy danh sách phim từ API
 async function getAllMovies() {

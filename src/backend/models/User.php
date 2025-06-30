@@ -130,6 +130,24 @@ public function findByEmail($email) {
     return $stmt->execute();
 }
 
+public function createNotification($userId, $content, $type = 'welcome') {
+        $query = "INSERT INTO notifications (user_id, content, type) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("iss", $userId, $content, $type);
+        return $stmt->execute();
+    }
+
+    public function getNotifications($userId) {
+        $query = "SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+
+
+
 
 }
 ?>

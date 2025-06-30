@@ -117,8 +117,13 @@ class UserController {
 
         if ($token) {
             $user = $this->userModel->findByUsername($data['username']);
+            if (!$user) {
+                error_log("User not found for username: " . $data['username']);
+                echo json_encode(["status" => "error", "message" => "User not found"]);
+                return;
+            }
             error_log("User data from DB: " . print_r($user, true)); // Debug
-
+            $this->userModel->createNotification($user['id'], "Chào mừng " . $user['username'] . " đã đăng nhập thành công!");
             echo json_encode([
                 "status" => "success",
                 "message" => "Login successful",
@@ -430,5 +435,29 @@ class UserController {
             echo json_encode(["status" => "error", "message" => "Failed to reset password"]);
         }
     }
+
+public function getNotifications() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            http_response_code(405);
+            echo json_encode(["status" => "error", "message" => "Method not allowed"]);
+            return;
+        }
+
+        if (!Auth::check()) {
+            http_response_code(401);
+            echo json_encode(["status" => "error", "message" => "Login required"]);
+            return;
+        }
+
+        $user_id = Auth::getUserId();
+        $notifications = $this->userModel->getNotifications($user_id);
+        $data = [];
+        while ($row = $notifications->fetch_assoc()) {
+            $data[] = $row;
+        }
+        header('Content-Type: application/json');
+        echo json_encode(["status" => "success", "data" => $data]);
+    }
+
 }
 ?>
