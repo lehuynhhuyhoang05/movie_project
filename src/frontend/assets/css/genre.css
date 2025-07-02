@@ -11,37 +11,39 @@
   padding-left: 20px;
 }
 
+/* Tiêu đề thể loại */
 #genreTitle {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 22px;
   font-weight: 700;
-  color: #fff;           /* Màu đỏ nổi bật, cùng tông với nút "Xem ngay" */
+  color: #fff;
   margin: 20px auto 12px;
   max-width: 1200px;
   text-align: center;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.6); /* Bóng đổ nhẹ tạo chiều sâu */
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
   user-select: none;
 }
-
 
 /* Thẻ phim đơn lẻ */
 .movie-card {
   width: 215px;
-  height: 100%;
   background-color: #1e1e1e;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   transition: transform 0.3s ease;
+  height: 100%;
+  min-height: 460px; /* Đảm bảo các card có chiều cao tối thiểu giống nhau */
 }
 
 .movie-card:hover {
   transform: translateY(-6px);
 }
 
-/* Ảnh đại diện của phim */
+/* Ảnh đại diện phim */
 .movie-card img {
   width: 100%;
   height: 300px;
@@ -65,15 +67,26 @@
   font-weight: bold;
   text-align: left;
   color: #fff;
-   white-space: nowrap;           /* Không cho xuống dòng */
-  overflow: hidden;              /* Ẩn phần vượt quá */
-  text-overflow: ellipsis; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Thể loại, IMDb và mô tả */
-.movie-info .genre,
-.movie-info .rating,
+/* Mô tả phim */
 .movie-info .description {
+  font-size: 14px;
+  color: #ccc;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;          /* Hiển thị 2 dòng mô tả */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Các dòng thông tin khác */
+.movie-info .movie-genre,
+.movie-info p {
   font-size: 14px;
   color: #ccc;
   margin: 0;
@@ -85,7 +98,7 @@
   gap: 4px;
 }
 
-/* Biểu tượng sao IMDb */
+/* Đánh giá IMDb */
 .rating::after {
   content: " ★";
   color: #f5c518;
@@ -93,9 +106,9 @@
   margin-left: 2px;
 }
 
-
 /* Nút xem ngay */
 .movie-btn {
+  margin-top: auto;
   margin: 10px 12px 12px;
   background-color: #e50914;
   color: white;
