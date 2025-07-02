@@ -18,7 +18,7 @@ class EmailHelper {
                            <h1 style='color: #333;'>Welcome $username!</h1>
                            <p>Please click the link below to verify your account:</p>
                            <p><a href='$verificationLink' style='color: #1a73e8; text-decoration: underline;'>Verify Account</a></p>
-                           <p>If the link doesn't work, copy and paste this URL:</p>
+                           <p>If the link doesn't work, copy and paste this URL ( Nếu link không hoạt động , hãy copy link dưới và dán để xác thực ):</p>
                            <p>$verificationLink</p>
                            <p>Link will expire in 24 hours.</p>
                        </body>

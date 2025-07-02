@@ -102,28 +102,43 @@ class UserController {
         }
     }
 
+    /**
+     * SỬA LỖI TẠI ĐÂY
+     * 1. Chuyển hàm về non-static: `public function login()`
+     * 2. Xóa các tham số đầu vào.
+     * 3. Lấy dữ liệu từ `php://input`.
+     * 4. Gọi đến `Auth::login()` để xử lý logic.
+     * 5. Trả về response JSON hoàn chỉnh.
+     */
     public function login() {
+        // Lấy dữ liệu từ request body
         $data = json_decode(file_get_contents("php://input"), true);
-        error_log("Login request data: " . print_r($data, true)); // Debug
+        error_log("Login request data: " . print_r($data, true));
 
+        // Kiểm tra dữ liệu đầu vào
         if (!isset($data['username']) || !isset($data['password'])) {
-            error_log("Missing username or password"); // Debug
-            echo json_encode(["status" => "error", "message" => "Missing username or password"]);
+            http_response_code(400); // Bad Request
+            echo json_encode(["status" => "error", "message" => "Username and password are required"]);
             return;
         }
 
+        // Gọi đến lớp Auth để xử lý logic đăng nhập
         $token = Auth::login($data['username'], $data['password']);
-        error_log("Token returned from Auth::login(): " . $token); // Debug
 
+        // Xử lý kết quả trả về từ Auth::login
         if ($token) {
+            // Nếu đăng nhập thành công, lấy thông tin người dùng để trả về
             $user = $this->userModel->findByUsername($data['username']);
             if (!$user) {
-                error_log("User not found for username: " . $data['username']);
-                echo json_encode(["status" => "error", "message" => "User not found"]);
+                http_response_code(404);
+                echo json_encode(["status" => "error", "message" => "User not found after successful login"]);
                 return;
             }
-            error_log("User data from DB: " . print_r($user, true)); // Debug
-            $this->userModel->createNotification($user['id'], "Chào mừng " . $user['username'] . " đã đăng nhập thành công!");
+            
+            // Tạo thông báo chào mừng
+            $this->userModel->createNotification($user['id'], "Chào mừng " . htmlspecialchars($user['username']) . " đã đăng nhập thành công!");
+
+            // Gửi phản hồi thành công
             echo json_encode([
                 "status" => "success",
                 "message" => "Login successful",
@@ -134,11 +149,13 @@ class UserController {
                     "role" => $user['role']
                 ]
             ]);
-            return;
+        } else {
+            // Gửi phản hồi thất bại
+            http_response_code(401); // Unauthorized
+            echo json_encode(["status" => "error", "message" => "Login failed. Please check your credentials or verify your account."]);
         }
-
-        echo json_encode(["status" => "error", "message" => "Login failed"]);
     }
+
 
     public function logout() {
         echo json_encode(["status" => "success", "message" => "Logged out"]);
@@ -349,59 +366,55 @@ class UserController {
     }
 
     public function forgotPassword() {
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        http_response_code(405);
-        header('Content-Type: application/json');
-        echo json_encode(["status" => "error", "message" => "Method not allowed"]);
-        return;
-    }
-
-    $data = json_decode(file_get_contents('php://input'), true);
-    $email = $data['email'] ?? '';
-
-    header('Content-Type: application/json');
-
-    if (empty($email)) {
-        echo json_encode(["status" => "error", "message" => "Email is required"]);
-        return;
-    }
-
-    $user = $this->userModel->findByEmail($email);
-    if (!$user) {
-        echo json_encode(["status" => "error", "message" => "Email not found"]);
-        return;
-    }
-
-    // Tạo mã reset
-    $resetCode = rand(100000, 999999);
-    $expiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));
-
-    try {
-        // Lưu mã vào database
-        if ($this->userModel->saveResetCode($user['id'], $resetCode, $expiresAt)) {
-            error_log("Reset code saved for email: $email, code: $resetCode");
-
-            // Gửi email
-            if (EmailHelper::sendResetCode($email, $resetCode)) {
-                error_log("Email sent successfully for email: $email");
-                echo json_encode(["status" => "success", "message" => "Reset code sent to your email"]);
-                return;
-            } else {
-                error_log("Failed to send email for email: $email");
-                echo json_encode(["status" => "error", "message" => "Failed to send reset code. Try again later."]);
-                return;
-            }
-        } else {
-            error_log("Failed to save reset code for email: $email");
-            echo json_encode(["status" => "error", "message" => "Failed to save reset code"]);
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            header('Content-Type: application/json');
+            echo json_encode(["status" => "error", "message" => "Method not allowed"]);
             return;
         }
-    } catch (Exception $e) {
-        error_log("Exception in forgotPassword: " . $e->getMessage());
-        echo json_encode(["status" => "error", "message" => "An error occurred. Please try again later."]);
-        return;
+
+        $data = json_decode(file_get_contents('php://input'), true);
+        $email = $data['email'] ?? '';
+
+        header('Content-Type: application/json');
+
+        if (empty($email)) {
+            echo json_encode(["status" => "error", "message" => "Email is required"]);
+            return;
+        }
+
+        $user = $this->userModel->findByEmail($email);
+        if (!$user) {
+            echo json_encode(["status" => "error", "message" => "Email not found"]);
+            return;
+        }
+
+        $resetCode = rand(100000, 999999);
+        $expiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+        try {
+            if ($this->userModel->saveResetCode($user['id'], $resetCode, $expiresAt)) {
+                error_log("Reset code saved for email: $email, code: $resetCode");
+                if (EmailHelper::sendResetCode($email, $resetCode)) {
+                    error_log("Email sent successfully for email: $email");
+                    echo json_encode(["status" => "success", "message" => "Reset code sent to your email"]);
+                    return;
+                } else {
+                    error_log("Failed to send email for email: $email");
+                    echo json_encode(["status" => "error", "message" => "Failed to send reset code. Try again later."]);
+                    return;
+                }
+            } else {
+                error_log("Failed to save reset code for email: $email");
+                echo json_encode(["status" => "error", "message" => "Failed to save reset code"]);
+                return;
+            }
+        } catch (Exception $e) {
+            error_log("Exception in forgotPassword: " . $e->getMessage());
+            echo json_encode(["status" => "error", "message" => "An error occurred. Please try again later."]);
+            return;
+        }
     }
-}
 
 
     public function resetPassword() {
@@ -428,7 +441,6 @@ class UserController {
         }
 
         if ($this->userModel->changePassword($user['id'], $newPassword)) {
-            // Xóa reset_code và reset_expires_at sau khi đổi mật khẩu thành công
             $this->userModel->clearResetCode($user['id']);
             echo json_encode(["status" => "success", "message" => "Password reset successfully"]);
         } else {
@@ -436,7 +448,7 @@ class UserController {
         }
     }
 
-public function getNotifications() {
+    public function getNotifications() {
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             http_response_code(405);
             echo json_encode(["status" => "error", "message" => "Method not allowed"]);

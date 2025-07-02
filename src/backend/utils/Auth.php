@@ -113,22 +113,30 @@ class Auth {
         return $tokenData ? $tokenData['user_id'] : null;
     }
 
-    public static function login($username, $password) {
-        self::init();
-        error_log("Attempting login for username: " . $username);
+   public static function login($username, $password) {
+    self::init();  // Đảm bảo khởi tạo User model
 
-        $user = self::$userModel->findByUsername($username);
-        error_log("User found: " . print_r($user, true));
-
-        if ($user && $user['password'] === $password && $user['is_verified'] == 1) {
-            $token = self::generateToken($user['id'], $user['role']);
-            error_log("Token generated successfully: " . $token);
-            return $token;
-        }
-
-        error_log("Login failed for user: " . $username);
+    $user = self::$userModel->findByUsername($username);
+    if (!$user) {
+        error_log("Login failed: User not found");
         return false;
     }
+
+    // Kiểm tra đã xác minh email chưa
+    if (!$user['is_verified']) {
+        error_log("Login failed: Account not verified");
+        return false;
+    }
+
+    // Kiểm tra mật khẩu
+    if (!password_verify($password, $user['password'])) {
+        error_log("Login failed: Incorrect password");
+        return false;
+    }
+
+    // Nếu tất cả đúng thì tạo token
+    return self::generateToken($user['id'], $user['role']);
+}
 
     public static function logout() {
         return true;
