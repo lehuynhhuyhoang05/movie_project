@@ -127,8 +127,8 @@ window.onload = async function () {
 function loadComments(movieId) {
   fetch(`http://localhost/movie_project/src/backend/server.php?controller=review&method=getComments&id=${movieId}`)
     .then(response => {
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      return response.json(); 
+      if (!response.ok) throw new Error(`Lỗi HTTP! trạng thái: ${response.status}`);
+      return response.json();
     })
     .then(result => {
       const commentList = document.getElementById('comment-list');
@@ -144,8 +144,13 @@ function loadComments(movieId) {
 
       const user = JSON.parse(localStorage.getItem('user'));
 
-      const renderCommentTree = (comments) => {
-        return comments.map(comment => {
+      const renderCommentTree = (comments, isFirst = false) => {
+        return comments.map((comment, index) => {
+          // Xác định bình luận đầu tiên (chỉ áp dụng cho bình luận gốc, không phải trả lời)
+          const isFirstComment = isFirst && index === 0 && !comment.parent_id;
+          // Thêm badge cho bình luận đầu tiên
+          const firstCommentBadge = isFirstComment ? '<span style="color:rgb(195, 32, 32); font-size: 0.7em; margin-left: 8px; vertical-align: middle;" title="Bình luận đầu tiên">★</span>' : '';
+
           const childrenHtml = (comment.children && comment.children.length > 0)
             ? `<ul style="padding-left: 25px; border-left: 2px solid #333; margin-top: 10px;">
                  ${renderCommentTree(comment.children)}
@@ -154,11 +159,11 @@ function loadComments(movieId) {
 
           return `
             <li class="comment-item" style="list-style-type: none; margin-top: 15px;">
-              <p><strong>${comment.username}:</strong> ${comment.content || ''}</p>
+              <p><strong>${comment.username}:</strong> ${comment.content || ''}${firstCommentBadge}</p>
               <div>
                 ${user && user.username === comment.username ? `
                   <button class="btn-delete" data-id="${comment.id}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">Xoá</button>
-                  <button class="btn-edit" data-id="${comment.id}" data-comment="${comment.content ? comment.content.replace(/"/g, '"') : ''}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">Sửa</button>
+                  <button class="btn-edit" data-id="${comment.id}" data-comment="${comment.content ? comment.content.replace(/"/g, '&quot;') : ''}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">Sửa</button>
                 ` : ''}
                 ${user ? `
                   <button class="btn-reply" data-id="${comment.id}" style="margin-top: 5px; background-color: #e50914; color: white; padding: 4px 8px; border: none; border-radius: 6px; cursor: pointer;">Trả lời</button>
@@ -170,7 +175,7 @@ function loadComments(movieId) {
         }).join('');
       };
 
-      commentList.innerHTML = `<ul style="padding-left: 0;">${renderCommentTree(result.data)}</ul>`;
+      commentList.innerHTML = `<ul style="padding-left: 0;">${renderCommentTree(result.data, true)}</ul>`;
 
       commentList.querySelectorAll('.btn-delete').forEach(btn => {
         btn.onclick = () => deleteComment(btn.dataset.id);
@@ -187,7 +192,6 @@ function loadComments(movieId) {
       document.getElementById('comment-list').innerHTML = '<p>Không thể tải bình luận.</p>';
     });
 }
-
 function submitComment() {
   const commentText = document.getElementById('comment-text').value.trim();
   const movieId = new URLSearchParams(window.location.search).get('id');
