@@ -34,4 +34,4 @@ C:\xampp\htdocs\movie_project
 
 5.Truy cập:
 
-http://localhost/movie_project/home.html
+http://localhost/movie_project/src/frontend/pages/home.html
