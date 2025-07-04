@@ -1,6 +1,28 @@
+# Bật module Rewrite
 RewriteEngine On
+
+# Đặt thư mục gốc của dự án
 RewriteBase /movie_project/
+
+# Xử lý yêu cầu Preflight CORS (OPTIONS)
+# Nếu phương thức là OPTIONS, trả về mã 204 (No Content) và dừng xử lý
+# Điều này báo cho trình duyệt biết rằng yêu cầu thực tế là an toàn để gửi
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=204,L]
+
+# Thêm các header CORS cần thiết vào PHẢN HỒI của máy chủ
+# Áp dụng cho cả yêu cầu OPTIONS và các yêu cầu thực tế (GET, POST, ...)
+Header set Access-Control-Allow-Origin "http://127.0.0.1:5500"
+Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+Header set Access-Control-Allow-Credentials "true"
+
+# Các quy tắc viết lại cũ của bạn
+# Quy tắc này phải đứng SAU quy tắc xử lý OPTIONS
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^api/(.*)$ src/backend/server.php?url=$1 [QSA,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ src/frontend/pages/$1 [QSA,L]
